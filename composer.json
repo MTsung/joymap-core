@@ -1,0 +1,42 @@
+{
+    "name": "mtsung/joymap-core",
+    "description": "享樂地圖",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MTsung",
+            "email": "MTsung103035@gmail.com",
+            "homepage": "https://me.mtsung.com"
+        }
+    ],
+    "homepage": "https://github.com/mtsung/joymap-core",
+    "keywords": ["Laravel", "JoymapCore"],
+    "require": {
+        "illuminate/support": ">=6.0",
+        "intervention/image": "^2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mtsung\\JoymapCore\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mtsung\\JoymapCore\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mtsung\\JoymapCore\\JoymapCoreServiceProvider"
+            ],
+            "aliases": {
+                "JoymapCore": "Mtsung\\JoymapCore\\Facades\\JoymapCore"
+            }
+        }
+    }
+}
