@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore;
 
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Finder\Finder;
 
 class JoymapCoreServiceProvider extends ServiceProvider
 {
@@ -13,15 +14,6 @@ class JoymapCoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'mtsung');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'mtsung');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
-
-        // Publishing is only necessary when using the CLI.
-        if ($this->app->runningInConsole()) {
-            $this->bootForConsole();
-        }
     }
 
     /**
@@ -31,8 +23,16 @@ class JoymapCoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/joymap-core.php', 'joymap-core');
-        $this->mergeConfigFrom(__DIR__ . '/../config/image.php', 'image');
+        // Load All Config
+        $configPath = __DIR__ . '/../config/';
+        foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
+            $path = $file->getRealPath();
+            $name = 'joymap.' . basename($path, '.php');
+            $this->mergeConfigFrom($path, $name);
+        }
+
+        // Load All Lang
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'joymap');
     }
 
     /**
@@ -43,36 +43,5 @@ class JoymapCoreServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['joymap-core'];
-    }
-
-    /**
-     * Console-specific booting.
-     *
-     * @return void
-     */
-    protected function bootForConsole(): void
-    {
-        // Publishing the configuration file.
-        $this->publishes([
-            __DIR__ . '/../config/joymap-core.php' => config_path('joymap-core.php'),
-        ], 'joymap-core.config');
-
-        // Publishing the views.
-        /*$this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/mtsung'),
-        ], 'joymap-core.views');*/
-
-        // Publishing assets.
-        /*$this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/mtsung'),
-        ], 'joymap-core.assets');*/
-
-        // Publishing the translation files.
-        /*$this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/mtsung'),
-        ], 'joymap-core.lang');*/
-
-        // Registering package commands.
-        // $this->commands([]);
     }
 }
