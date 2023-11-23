@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification title(string $title)
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification body(string $body)
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification badge(int $badge)
+ * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification action(string $action)
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification data(array $data)
  * @method static bool send()
  *

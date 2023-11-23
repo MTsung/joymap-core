@@ -2,9 +2,14 @@
 
 namespace Mtsung\JoymapCore;
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
-use Mtsung\JoymapCore\Exceptions\Handler;
+use Mtsung\JoymapCore\Models\AdminUser;
+use Mtsung\JoymapCore\Models\NotificationMemberWithdraw;
+use Mtsung\JoymapCore\Models\NotificationNewRegister;
+use Mtsung\JoymapCore\Models\NotificationOrder;
+use Mtsung\JoymapCore\Models\NotificationPlatform;
+use Mtsung\JoymapCore\Models\NotificationStorePay;
 use Mtsung\JoymapCore\Providers\EventServiceProvider;
 use Symfony\Component\Finder\Finder;
 
@@ -17,6 +22,14 @@ class JoymapCoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Relation::morphMap([
+            'notification_order' => NotificationOrder::class,
+            'notification_platform' => NotificationPlatform::class,
+            'notification_store_pay' => NotificationStorePay::class,
+            'notification_member_withdraw' => NotificationMemberWithdraw::class,
+            'notification_new_register' => NotificationNewRegister::class,
+            'App\Models\AdminUser' => AdminUser::class,
+        ]);
     }
 
     /**
