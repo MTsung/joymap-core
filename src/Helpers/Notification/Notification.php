@@ -127,6 +127,12 @@ class Notification
         return $this;
     }
 
+    public function action(string $action): Notification
+    {
+        $this->data = array_merge($this->data, ['action' => $action]);
+        return $this;
+    }
+
     public function data(array $data): Notification
     {
         $this->data = $data;
