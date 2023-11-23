@@ -2,7 +2,10 @@
 
 namespace Mtsung\JoymapCore;
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
+use Mtsung\JoymapCore\Exceptions\Handler;
+use Mtsung\JoymapCore\Providers\EventServiceProvider;
 use Symfony\Component\Finder\Finder;
 
 class JoymapCoreServiceProvider extends ServiceProvider
@@ -32,7 +35,11 @@ class JoymapCoreServiceProvider extends ServiceProvider
         }
 
         // Load All Lang
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'joymap');
+        // e.g. __('joymap::xxxxxxxx')
+        $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'joymap');
+
+        // Register Event
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**
@@ -40,8 +47,8 @@ class JoymapCoreServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
-        return ['joymap-core'];
+        return [];
     }
 }
