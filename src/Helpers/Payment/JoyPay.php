@@ -9,18 +9,18 @@ use Mtsung\JoymapCore\Models\Store;
 class JoyPay
 {
     private PayInterface $service;
-    private string $token;
-    private float $amount;
-    private ?Store $store;
-    private ?int $storeId;
-    private string $orderNumber;
-    private string $expiry;
-    private string $cvc;
-    private string $cardNo;
-    private string $phone;
+    private string $token = '';
+    private float $amount = 0;
+    private ?Store $store = null;
+    private ?int $storeId = null;
+    private string $orderNumber = '';
+    private string $expiry = '';
+    private string $cvc = '';
+    private string $cardNo = '';
+    private string $phone = '';
     private ?string $returnUrl = null;
     private ?string $callbackUrl = null;
-    private string $email;
+    private string $email = '';
 
     public function bySpGateway(): JoyPay
     {
@@ -151,6 +151,7 @@ class JoyPay
         ];
 
         $this->reset();
+
         return $this->service->pay($params);
     }
 
@@ -201,6 +202,7 @@ class JoyPay
         ];
 
         $this->reset();
+
         return $this->service->bindCard($params);
     }
 
@@ -228,6 +230,7 @@ class JoyPay
         ];
 
         $this->reset();
+
         return $this->service->cancel($params);
     }
 
@@ -255,6 +258,7 @@ class JoyPay
         ];
 
         $this->reset();
+
         return $this->service->close($params);
     }
 
@@ -280,6 +284,7 @@ class JoyPay
         ];
 
         $this->reset();
+
         return $this->service->query($params);
     }
 }

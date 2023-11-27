@@ -91,11 +91,11 @@ class SpGatewayStore
             return $resBody;
         } catch (ClientException $e) {
             $this->log->error('createStore ClientException', [$e]);
-            return false;
         } catch (Throwable $th) {
             $this->log->error('createStore Error', [$th]);
-            return false;
         }
+
+        return false;
     }
 
     public function updateStore(array $postDataArr = [])
@@ -129,11 +129,11 @@ class SpGatewayStore
             return $resBody;
         } catch (ClientException $e) {
             $this->log->error('updateStore ClientException', [$e]);
-            return false;
         } catch (Throwable $th) {
             $this->log->error('updateStore Error', [$th]);
-            return false;
         }
+
+        return false;
     }
 
     /**

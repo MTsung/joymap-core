@@ -22,7 +22,7 @@ use Mtsung\JoymapCore\Models\Store;
  * @method static mixed bindCard()
  * @method static mixed cancel()
  * @method static mixed close()
- * @method static mixed query()NotificationInterface
+ * @method static mixed query()
  *
  * @see \Mtsung\JoymapCore\Helpers\Payment\JoyPay
  */

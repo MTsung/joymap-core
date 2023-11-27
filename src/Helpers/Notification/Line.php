@@ -15,7 +15,7 @@ class Line
         }
 
         try {
-            $client = new Client();
+            $client = new Client(['timeout' => 30]);
             $url = config('joymap.notification.line_notify.url');
             $params = [
                 'headers' => [

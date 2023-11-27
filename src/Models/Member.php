@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Traits\SerializeDateTrait;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 class Member extends User implements JWTSubject
 {
@@ -403,5 +405,30 @@ class Member extends User implements JWTSubject
         }
 
         return true;
+    }
+
+
+    /**
+     * 取得包含國碼 phone
+     * e.g. +886987086921
+     * full_phone
+     * @return string
+     */
+    public function getFullPhoneAttribute()
+    {
+        $fullPhone = '+' . $this->phone_prefix . $this->phone;
+        try {
+            // +8860987086921 ==> +886987086921
+            $phone = new PhoneNumber($fullPhone);
+
+            return $phone->formatE164();
+        } catch (\Throwable $e) {
+            Log::error('getFullPhoneAttribute new PhoneNumber error', [
+                'data' => $this,
+                'e' => $e,
+            ]);
+        }
+
+        return $fullPhone;
     }
 }

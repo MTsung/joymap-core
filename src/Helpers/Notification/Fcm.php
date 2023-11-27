@@ -27,6 +27,7 @@ class Fcm implements NotificationInterface
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ],
+            'timeout' => 30,
         ]);
 
         $this->log = Log::stack([
@@ -76,8 +77,8 @@ class Fcm implements NotificationInterface
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e->getMessage(), $e]);
-
-            return false;
         }
+
+        return false;
     }
 }

@@ -34,10 +34,16 @@ class JoymapCoreServiceProvider extends ServiceProvider
 
         // 預設 config merge
         $mergeConfigs = [
+            'logging.channels.hitrust-pay',
+            'logging.channels.spgateway-pay',
             'logging.channels.spgateway-store',
+            'logging.channels.fcm',
+            'logging.channels.gorush',
+            'logging.channels.infobip',
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {
+                dump(config('joymap.' . $config));
                 config([$config => config('joymap.' . $config)]);
             }
         }

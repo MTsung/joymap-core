@@ -104,7 +104,7 @@ class Notification
         return $this;
     }
 
-    public function token(array $token): Notification
+    public function token(string $token): Notification
     {
         $this->tokens = [$token];
         return $this;

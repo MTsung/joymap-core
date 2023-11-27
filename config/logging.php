@@ -19,12 +19,17 @@ return [
         ],
         'fcm' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/fcm.log'),
+            'path' => storage_path('logs/notification/fcm.log'),
             'days' => 14,
         ],
         'gorush' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/gorush.log'),
+            'path' => storage_path('logs/notification/gorush.log'),
+            'days' => 14,
+        ],
+        'infobip' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sms/infobip.log'),
             'days' => 14,
         ],
     ],

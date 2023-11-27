@@ -162,4 +162,9 @@ GOOGLE_CLOUD_STORAGE_API_URI='https://storage.googleapis.com/'
 # Error 時是否發送到 LINE NOTIFY
 SEND_ERROR_LOG_LINE=false
 LINE_NOTIFY_TOKEN=
+
+SMS_CHANNEL=infobip
+INFOBIP_URL='https://39wzv.api.infobip.com/sms/2/text/advanced'
+INFOBIP_KEY=
+INFOBIP_FROM=JOYMAP
 ```

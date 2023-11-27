@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Store;
+use Throwable;
 
 class SpGateway implements PayInterface
 {
@@ -227,24 +228,28 @@ class SpGateway implements PayInterface
     private function post($params)
     {
         try {
-            $client = new Client([
-                'timeout' => 30,
+            $client = new Client(['timeout' => 30]);
+
+            $this->log->info('Spgateway send', [
+                'url' => $this->url,
+                'data' => $params,
             ]);
+
             $res = $client->post(
                 $this->url, [
                     'form_params' => $params,
                 ]
-            );
+            )->getBody()->getContents();
 
-            $this->log->info('Spgateway::post', [
+            $this->log->info('Spgateway res', [
                 'url' => $this->url,
                 'res' => $res,
             ]);
 
-            return json_decode($res->getBody()->getContents(), true);
+            return json_decode($res, true);
         } catch (ClientException $e) {
             $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e]);
         }
 

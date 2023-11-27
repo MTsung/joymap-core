@@ -34,6 +34,7 @@ class Gorush implements NotificationInterface
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ],
+            'timeout' => 30,
         ]);
 
         $this->log = Log::stack([
@@ -89,13 +90,13 @@ class Gorush implements NotificationInterface
 
             $res = $this->client->request('POST', $this->baseUrl, $postData);
 
-            $this->log->info('gorush res', [$res]);
+            $this->log->info('gorush res', [$res->getBody()->getContents()]);
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e]);
-
-            return false;
         }
+
+        return false;
     }
 }

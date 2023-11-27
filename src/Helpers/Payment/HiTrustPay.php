@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\TransferStats;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Store;
+use Throwable;
 
 class HiTrustPay implements PayInterface
 {
@@ -130,6 +131,9 @@ class HiTrustPay implements PayInterface
         try {
             $redirectUrl = '';
             $client = new Client(['timeout' => 30]);
+
+            $this->log->info('hitrust send', [$params]);
+
             $res = $client->post(
                 $this->url,
                 [
@@ -142,7 +146,13 @@ class HiTrustPay implements PayInterface
                     },
                     'allow_redirects' => false,
                 ]
-            );
+            )->getBody()->getContents();
+
+            $this->log->info('hitrust res', [
+                'getUrl' => $getUrl,
+                'redirectUrl' => $redirectUrl,
+                'res' => $res,
+            ]);
 
             if ($redirectUrl) {
                 if ($getUrl) {
@@ -153,10 +163,10 @@ class HiTrustPay implements PayInterface
                 return $query;
             }
 
-            return json_decode($res->getBody()->getContents(), true);
+            return json_decode($res, true);
         } catch (ClientException $e) {
             $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e]);
         }
 

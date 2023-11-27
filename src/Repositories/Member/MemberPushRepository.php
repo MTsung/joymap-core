@@ -14,11 +14,6 @@ class MemberPushRepository implements RepositoryInterface
         return app(MemberPush::class);
     }
 
-    /**
-     * 取得 push device token
-     * @param $memberIds
-     * @return Collection
-     */
     public function getTokens($memberIds): Collection
     {
         return $this->model()->query()
