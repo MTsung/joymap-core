@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Helpers\Notification;
 
+use Exception;
 use Mtsung\JoymapCore\Repositories\Member\MemberPushRepository;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreUserPushRepository;
@@ -97,15 +98,15 @@ class Notification
         return $this;
     }
 
-    public function token(array $token): Notification
-    {
-        $this->tokens = [$token];
-        return $this;
-    }
-
     public function tokens(array $tokens): Notification
     {
         $this->tokens = $tokens;
+        return $this;
+    }
+
+    public function token(array $token): Notification
+    {
+        $this->tokens = [$token];
         return $this;
     }
 
@@ -139,8 +140,18 @@ class Notification
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function send(): bool
     {
+        if (count($this->tokens) === 0) {
+            throw new Exception('Tokens Empty.', 422);
+        }
+        if (!$this->title) {
+            throw new Exception('請呼叫 title()', 422);
+        }
+
         $res = $this->service->send(
             $this->tokens,
             $this->title,
