@@ -43,7 +43,6 @@ class JoymapCoreServiceProvider extends ServiceProvider
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {
-                dump(config('joymap.' . $config));
                 config([$config => config('joymap.' . $config)]);
             }
         }

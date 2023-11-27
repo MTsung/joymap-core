@@ -407,7 +407,6 @@ class Member extends User implements JWTSubject
         return true;
     }
 
-
     /**
      * 取得包含國碼 phone
      * e.g. +886987086921
