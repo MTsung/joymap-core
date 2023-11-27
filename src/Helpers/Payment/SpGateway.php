@@ -12,6 +12,15 @@ class SpGateway implements PayInterface
 {
     private string $url;
     private Store $store;
+    protected mixed $log;
+
+    public function __construct()
+    {
+        $this->log = Log::stack([
+            config('logging.default'),
+            'spgateway-pay',
+        ]);
+    }
 
     public function getAmountMultiplicand(): int
     {
@@ -151,7 +160,7 @@ class SpGateway implements PayInterface
             'PartnerID_' => config('joymap.spgateway.store.partner_id'),
             'PostData_' => $encryptData,
         ];
-        Log::info('preparePostDataUsePartnerId 最後送出的資料：', $postData);
+        $this->log->info('preparePostDataUsePartnerId 最後送出的資料：', $postData);
 
         return $postData;
     }
@@ -170,7 +179,7 @@ class SpGateway implements PayInterface
         $data['RespondType'] = 'JSON';
         $data['TimeStamp'] = time();
         $data['CheckValue'] = $CheckValue;
-        Log::info('preparePostDataHasCkcekValue 最後送出的資料：', $data);
+        $this->log->info('preparePostDataHasCkcekValue 最後送出的資料：', $data);
 
         return $data;
     }
@@ -187,7 +196,7 @@ class SpGateway implements PayInterface
         ];
 
         if (config('joymap.spgateway.prepare_post_data_log')) {
-            Log::info('preparePostData 最後送出的資料：', $postData);
+            $this->log->info('preparePostData 最後送出的資料：', $postData);
         }
 
         return $postData;
@@ -227,16 +236,16 @@ class SpGateway implements PayInterface
                 ]
             );
 
-            Log::info('Spgateway::post', [
+            $this->log->info('Spgateway::post', [
                 'url' => $this->url,
                 'res' => $res,
             ]);
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $e) {
-            Log::error(__METHOD__ . ' ClientException: ', [$e]);
+            $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
         } catch (Exception $e) {
-            Log::error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' error: ', [$e]);
         }
 
         return false;

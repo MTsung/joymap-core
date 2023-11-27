@@ -15,12 +15,18 @@ class HiTrustPay implements PayInterface
     private string $refererUrl;
     private string $callbackUrl;
     private Store $store;
+    protected mixed $log;
 
     public function __construct()
     {
         $this->url = config('joymap.pay.hitrustpay.url');
         $this->refererUrl = config('joymap.pay.hitrustpay.referer_url');
         $this->callbackUrl = config('joymap.pay.hitrustpay.callback_url');
+
+        $this->log = Log::stack([
+            config('logging.default'),
+            'hitrust-pay',
+        ]);
     }
 
     public function getAmountMultiplicand(): int
@@ -149,9 +155,9 @@ class HiTrustPay implements PayInterface
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $e) {
-            Log::error(__METHOD__ . ' ClientException: ', [$e]);
+            $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
         } catch (Exception $e) {
-            Log::error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' error: ', [$e]);
         }
 
         return false;

@@ -22,8 +22,8 @@ class SpGatewayStore
         $this->partnerId = config('joymap.spgateway.store.partner_id');
         $this->merchantPrefix = config('joymap.spgateway.store.merchant_prefix');
         $this->log = Log::stack([
-            'spgateway-store',
             config('logging.default'),
+            'spgateway-store',
         ]);
     }
 

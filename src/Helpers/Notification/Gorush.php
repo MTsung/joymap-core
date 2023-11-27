@@ -18,6 +18,7 @@ class Gorush implements NotificationInterface
 
     public const PLATFORM_IOS = 1;
     public const PLATFORM_ANDROID = 2;
+    protected mixed $log;
 
     public function __construct()
     {
@@ -33,6 +34,11 @@ class Gorush implements NotificationInterface
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ],
+        ]);
+
+        $this->log = Log::stack([
+            config('logging.default'),
+            'gorush',
         ]);
     }
 
@@ -79,15 +85,15 @@ class Gorush implements NotificationInterface
                 ],
             ];
 
-            Log::info('gorush send', $postData);
+            $this->log->info('gorush send', $postData);
 
             $res = $this->client->request('POST', $this->baseUrl, $postData);
 
-            Log::info('gorush res', [$res]);
+            $this->log->info('gorush res', [$res]);
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
-            Log::error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' error: ', [$e]);
 
             return false;
         }

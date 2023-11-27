@@ -13,6 +13,7 @@ class Fcm implements NotificationInterface
     private Client $client;
     private string $baseUrl;
     private string $apiKey;
+    protected mixed $log;
 
     public function __construct()
     {
@@ -26,6 +27,11 @@ class Fcm implements NotificationInterface
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json'
             ],
+        ]);
+
+        $this->log = Log::stack([
+            config('logging.default'),
+            'fcm',
         ]);
     }
 
@@ -61,15 +67,15 @@ class Fcm implements NotificationInterface
                 ],
             ];
 
-            Log::info('fcm send', $postData);
+            $this->log->info('fcm send', $postData);
 
             $res = $this->client->request('POST', $this->baseUrl, $postData);
 
-            Log::info('fcm res', [$res->getBody()->getContents()]);
+            $this->log->info('fcm res', [$res->getBody()->getContents()]);
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
-            Log::error(__METHOD__ . ' error: ', [$e->getMessage(),$e]);
+            $this->log->error(__METHOD__ . ' error: ', [$e->getMessage(), $e]);
 
             return false;
         }

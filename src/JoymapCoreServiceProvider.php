@@ -30,6 +30,17 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'notification_new_register' => NotificationNewRegister::class,
             'App\Models\AdminUser' => AdminUser::class,
         ]);
+
+
+        // 預設 config merge
+        $mergeConfigs = [
+            'logging.channels.spgateway-store',
+        ];
+        foreach ($mergeConfigs as $config) {
+            if (!config()->has($config)) {
+                config([$config => config('joymap.' . $config)]);
+            }
+        }
     }
 
     /**
