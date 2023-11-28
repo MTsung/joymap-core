@@ -13,7 +13,6 @@ abstract class Validation extends Collection implements ValidationInterface
      */
     function __construct($items = [])
     {
-        parent::__construct($items);
         $validator = Validator::make(
             $items,
             $this->rules(),
@@ -25,5 +24,7 @@ abstract class Validation extends Collection implements ValidationInterface
             $firstMsg = $validator->errors()->first();
             throw new Exception('Params Validation Error: ' . $firstMsg);
         }
+
+        parent::__construct($items);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Facades;
+namespace Mtsung\JoymapCore\Facades\Upload;
 
 use Illuminate\Support\Facades\Facade;
 

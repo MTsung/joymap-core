@@ -22,4 +22,18 @@ class MemberRepository implements RepositoryInterface
             ->get()
             ->append(['full_phone']);
     }
+
+    public function hasByInviteCode(string $inviteCode): bool
+    {
+        return $this->model()->query()
+            ->where('invite_code', $inviteCode)
+            ->exists();
+    }
+
+    public function hasByMemberNo(string $memberNo): bool
+    {
+        return $this->model()->query()
+            ->where('member_no', $memberNo)
+            ->exists();
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Facades;
+namespace Mtsung\JoymapCore\Facade\Payment;
 
 use Illuminate\Support\Facades\Facade;
 

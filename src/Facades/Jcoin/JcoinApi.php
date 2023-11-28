@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Facades;
+namespace Mtsung\JoymapCore\Facades\Jcoin;
 
 use Illuminate\Support\Facades\Facade;
 use Mtsung\JoymapCore\Params\Jcoin\AddBonusParams;
