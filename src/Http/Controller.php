@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Mtsung\JoymapCore\Events\ErrorNotify\SendErrorNotifyEvent;
-use Mtsung\JoymapCore\Facades\LineNotification;
+use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 use Throwable;
 
 class Controller extends BaseController

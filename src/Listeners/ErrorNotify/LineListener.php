@@ -5,7 +5,7 @@ namespace Mtsung\JoymapCore\Listeners\ErrorNotify;
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mtsung\JoymapCore\Events\ErrorNotify\SendErrorNotifyEvent;
-use Mtsung\JoymapCore\Facades\LineNotification;
+use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 
 class LineListener implements ShouldQueue
 {
