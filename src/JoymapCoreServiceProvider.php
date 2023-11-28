@@ -40,6 +40,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.fcm',
             'logging.channels.gorush',
             'logging.channels.infobip',
+            'logging.channels.jcoin',
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {

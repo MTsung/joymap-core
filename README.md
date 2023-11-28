@@ -167,4 +167,13 @@ SMS_CHANNEL=infobip
 INFOBIP_URL='https://39wzv.api.infobip.com/sms/2/text/advanced'
 INFOBIP_KEY=
 INFOBIP_FROM=JOYMAP
+
+JCOIN_URL='https://jcoin-test.joymap.tw'
+# joymap jcoin user
+JCOIN_USER=''
+JCOIN_PW=''
+# twdd jcoin user
+TWDD_JCOIN_USER=''
+TWDD_JCOIN_PW=''
+
 ```
