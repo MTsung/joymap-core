@@ -424,7 +424,7 @@ class Member extends User implements JWTSubject
             return $phone->formatE164();
         } catch (Throwable $e) {
             Log::error('getFullPhoneAttribute new PhoneNumber error', [
-                'data' => $this,
+                'data' => $this->toArray(),
                 'e' => $e,
             ]);
         }

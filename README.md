@@ -101,6 +101,13 @@ return [
 ## env Example
 
 ```env
+# 本機
+APP_ENV=local
+# 測試機
+APP_ENV=testing
+# 正式機
+APP_ENV=production
+
 # Hitrust 參數
 HITRUST_URL='https://testtrustlink.hitrust.com.tw/TrustLink/TrxReqForJava'
 # 白名單網域
@@ -175,5 +182,4 @@ JCOIN_PW=''
 # twdd jcoin user
 TWDD_JCOIN_USER=''
 TWDD_JCOIN_PW=''
-
 ```
