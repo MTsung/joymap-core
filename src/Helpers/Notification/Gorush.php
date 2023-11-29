@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Helpers\Notification;
 
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -47,6 +48,19 @@ class Gorush implements NotificationInterface
     {
         $this->topic = $topic;
         return $this;
+    }
+
+    public function formatToken(Collection $tokens): array
+    {
+        $res[self::PLATFORM_IOS] = $tokens
+            ->where('platform', self::PLATFORM_IOS)
+            ->toArray();
+
+        $res[self::PLATFORM_ANDROID] = $tokens
+            ->where('platform', self::PLATFORM_ANDROID)
+            ->toArray();
+
+        return $res;
     }
 
     /**

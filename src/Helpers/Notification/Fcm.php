@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Helpers\Notification;
 
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 use Throwable;
@@ -34,6 +35,17 @@ class Fcm implements NotificationInterface
             config('logging.default'),
             'fcm',
         ]);
+    }
+
+    public function topic(string $topic): Fcm
+    {
+        // Do Nothing.
+        return $this;
+    }
+
+    public function formatToken(Collection $tokens): array
+    {
+        return $tokens->pluck('device_token')->toArray();
     }
 
     /**

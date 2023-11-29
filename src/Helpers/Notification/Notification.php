@@ -41,20 +41,9 @@ class Notification
     public function members(array $memberIds): Notification
     {
         $tokens = $this->memberPushRepository->getTokens($memberIds);
+        $this->tokens = $this->service->formatToken($tokens);
 
-        if ($this->service instanceof Fcm) {
-            $this->tokens = $tokens->pluck('device_token')->toArray();
-        } elseif ($this->service instanceof Gorush) {
-            $this->service->topic(config('joymap.notification.gorush.topic.member'));
-
-            $this->tokens[Gorush::PLATFORM_IOS] = $tokens
-                ->where('platform', Gorush::PLATFORM_IOS)
-                ->toArray();
-
-            $this->tokens[Gorush::PLATFORM_ANDROID] = $tokens
-                ->where('platform', Gorush::PLATFORM_ANDROID)
-                ->toArray();
-        }
+        $this->topic(config('joymap.notification.gorush.topic.member'));
 
         return $this;
     }
@@ -71,20 +60,9 @@ class Notification
     public function stores(array $storeIds): Notification
     {
         $tokens = $this->storeUserPushRepository->getTokens($storeIds);
+        $this->tokens = $this->service->formatToken($tokens);
 
-        if ($this->service instanceof Fcm) {
-            $this->tokens = $tokens->pluck('device_token')->toArray();
-        } elseif ($this->service instanceof Gorush) {
-            $this->service->topic(config('joymap.notification.gorush.topic.store'));
-
-            $this->tokens[Gorush::PLATFORM_IOS] = $tokens
-                ->where('platform', Gorush::PLATFORM_IOS)
-                ->toArray();
-
-            $this->tokens[Gorush::PLATFORM_ANDROID] = $tokens
-                ->where('platform', Gorush::PLATFORM_ANDROID)
-                ->toArray();
-        }
+        $this->topic(config('joymap.notification.gorush.topic.store'));
 
         return $this;
     }
@@ -137,6 +115,12 @@ class Notification
     public function data(array $data): Notification
     {
         $this->data = $data;
+        return $this;
+    }
+
+    public function topic(string $topic): Notification
+    {
+        $this->service->topic($topic);
         return $this;
     }
 
