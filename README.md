@@ -51,22 +51,6 @@ return [
 ];
 ```
 
-## 藍新建立/修改商店 Config
-
-`config/logging.php`
-
-```php
-return [
-    'channels' => [
-        'spgateway-store' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/spgateway/store.log'),
-            'days' => 90,
-        ],
-    ],
-];
-```
-
 ## Exception Error Code To Http Status Code Config
 
 `config/code.php`
