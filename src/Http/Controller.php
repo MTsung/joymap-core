@@ -29,11 +29,9 @@ class Controller extends BaseController
         event(new SendErrorNotifyEvent($message));
         Log::error($uuid . '---------' . $e->getFile() . ':' . $e->getLine(), [$e]);
 
-        // 正式環境不要 Show 程式資訊
-        if (env('APP_ENV') == 'production') {
-            return $uuid;
-        }
-        return $uuid . "\n" . $e->getMessage();
+        return isProd() ?
+            $uuid :
+            $uuid . "\n" . $e->getMessage();
     }
 
     public function success($return = null, string $msg = '成功'): JsonResponse

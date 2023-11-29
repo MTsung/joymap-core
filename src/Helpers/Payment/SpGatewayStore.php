@@ -65,6 +65,7 @@ class SpGatewayStore
     {
         $client = new Client();
         $url = config('joymap.spgateway.store.create.url');
+
         $postData = http_build_query($postDataArr);
 
         try {

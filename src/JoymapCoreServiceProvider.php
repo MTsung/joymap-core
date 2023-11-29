@@ -68,6 +68,12 @@ class JoymapCoreServiceProvider extends ServiceProvider
         // e.g. __('joymap::xxxxxxxx')
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'joymap');
 
+
+        $functionPath = __DIR__ . '/Function/';
+        foreach (Finder::create()->files()->name('*.php')->in($functionPath) as $file) {
+            require_once($file->getRealPath());
+        }
+
         // Register Event
         $this->app->register(EventServiceProvider::class);
     }
