@@ -3,7 +3,6 @@
 namespace Mtsung\JoymapCore\Helpers\Payment;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -90,10 +89,8 @@ class SpGatewayStore
             ]);
 
             return $resBody;
-        } catch (ClientException $e) {
-            $this->log->error('createStore ClientException', [$e]);
-        } catch (Throwable $th) {
-            $this->log->error('createStore Error', [$th]);
+        } catch (Throwable $e) {
+            $this->log->error('createStore Error', [$e]);
         }
 
         return false;
@@ -128,10 +125,8 @@ class SpGatewayStore
             ]);
 
             return $resBody;
-        } catch (ClientException $e) {
-            $this->log->error('updateStore ClientException', [$e]);
-        } catch (Throwable $th) {
-            $this->log->error('updateStore Error', [$th]);
+        } catch (Throwable $e) {
+            $this->log->error('updateStore Error', [$e]);
         }
 
         return false;

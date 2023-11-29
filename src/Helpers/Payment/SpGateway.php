@@ -4,7 +4,6 @@ namespace Mtsung\JoymapCore\Helpers\Payment;
 
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Store;
 use Throwable;
@@ -247,8 +246,6 @@ class SpGateway implements PayInterface
             ]);
 
             return json_decode($res, true);
-        } catch (ClientException $e) {
-            $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e]);
         }

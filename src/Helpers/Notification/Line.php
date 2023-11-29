@@ -32,8 +32,8 @@ class Line
                 ],
             ];
             $client->post($url, $params);
-        } catch (Throwable $clientE) {
-            Log::error($clientE->getMessage(), [$clientE]);
+        } catch (Throwable $e) {
+            Log::error($e->getMessage(), [$e]);
         }
     }
 

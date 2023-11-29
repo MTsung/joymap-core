@@ -4,7 +4,6 @@ namespace Mtsung\JoymapCore\Helpers\Jcoin;
 
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -133,8 +132,6 @@ class JcoinApi
             }
 
             throw new Exception($resBody['msg'] ?? '');
-        } catch (ClientException $e) {
-            $this->log->error(__METHOD__ . ' ClientException: ', [$e]);
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' error: ', [$e]);
         }

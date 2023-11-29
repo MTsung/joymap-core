@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Traits\SerializeDateTrait;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Throwable;
 
 class Member extends User implements JWTSubject
 {
@@ -421,7 +422,7 @@ class Member extends User implements JWTSubject
             $phone = new PhoneNumber($fullPhone);
 
             return $phone->formatE164();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('getFullPhoneAttribute new PhoneNumber error', [
                 'data' => $this,
                 'e' => $e,
