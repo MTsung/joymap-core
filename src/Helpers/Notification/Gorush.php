@@ -23,9 +23,9 @@ class Gorush implements NotificationInterface
 
     public function __construct()
     {
-        $this->host = config('joymap.notification.gorush.host');
-        $this->port = config('joymap.notification.gorush.port');
-        $this->path = config('joymap.notification.gorush.path');
+        $this->host = config('joymap.notification.channels.gorush.host');
+        $this->port = config('joymap.notification.channels.gorush.port');
+        $this->path = config('joymap.notification.channels.gorush.path');
 
         $this->baseUrl = "{$this->host}:{$this->port}{$this->path}";
 

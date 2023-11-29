@@ -5,8 +5,8 @@ namespace Mtsung\JoymapCore\Helpers\Notification;
 use Exception;
 use Mtsung\JoymapCore\Repositories\Member\MemberPushRepository;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationRepository;
-use Mtsung\JoymapCore\Repositories\Store\StoreUserPushRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreNotificationRepository;
+use Mtsung\JoymapCore\Repositories\Store\StoreUserPushRepository;
 
 class Notification
 {
@@ -24,6 +24,14 @@ class Notification
         private StoreNotificationRepository $storeNotificationRepository,
     )
     {
+        if (config()->has('joymap.notification.default')) {
+            $defaultChannel = config('joymap.notification.default');
+            $this->service = match ($defaultChannel) {
+                'fcm' => app(Fcm::class),
+                'gorush' => app(Gorush::class),
+                default => throw new Exception('不支援的 Notification Channel(joymap.notification.default)：' . $defaultChannel),
+            };
+        }
     }
 
     public function byFcm(): Notification
@@ -43,7 +51,7 @@ class Notification
         $tokens = $this->memberPushRepository->getTokens($memberIds);
         $this->tokens = $this->service->formatToken($tokens);
 
-        $this->topic(config('joymap.notification.gorush.topic.member'));
+        $this->topic(config('joymap.notification.channels.gorush.topic.member'));
 
         return $this;
     }
@@ -62,7 +70,7 @@ class Notification
         $tokens = $this->storeUserPushRepository->getTokens($storeIds);
         $this->tokens = $this->service->formatToken($tokens);
 
-        $this->topic(config('joymap.notification.gorush.topic.store'));
+        $this->topic(config('joymap.notification.channels.gorush.topic.store'));
 
         return $this;
     }

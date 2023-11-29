@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Models\Store;
 
 
 /**
- * @method static \Mtsung\JoymapCore\Helpers\Payment\SpGateway setStore(Store $store)
+ * @method static \Mtsung\JoymapCore\Helpers\Payment\SpGateway store(Store $store)
  * @method static int getAmountMultiplicand()
  * @method static mixed bindCard(array $params)
  * @method static mixed pay(array $params)

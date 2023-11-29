@@ -10,13 +10,13 @@ class Line
 {
     public static function sendMsg(string $message, bool $notificationDisabled = false): void
     {
-        if (!$token = config('joymap.notification.line_notify.token')) {
+        if (!$token = config('joymap.line_notify.token')) {
             return;
         }
 
         try {
             $client = new Client(['timeout' => 30]);
-            $url = config('joymap.notification.line_notify.url');
+            $url = config('joymap.line_notify.url');
             $params = [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,

@@ -23,7 +23,7 @@ class LineListener implements ShouldQueue
      */
     public function handle(SendErrorNotifyEvent $event): void
     {
-        if (config('joymap.notification.line_notify.enable')) {
+        if (config('joymap.line_notify.enable')) {
             LineNotification::sendMsg($event->message, !isProd());
         }
     }

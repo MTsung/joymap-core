@@ -18,8 +18,8 @@ class Fcm implements NotificationInterface
 
     public function __construct()
     {
-        $this->baseUrl = config('joymap.notification.fcm.url');
-        $this->apiKey = config('joymap.notification.fcm.token');
+        $this->baseUrl = config('joymap.notification.channels.fcm.url');
+        $this->apiKey = config('joymap.notification.channels.fcm.token');
 
         $this->client = new Client([
             'base_uri' => $this->baseUrl,
