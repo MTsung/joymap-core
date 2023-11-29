@@ -22,6 +22,18 @@ class JoyPay
     private ?string $callbackUrl = null;
     private string $email = '';
 
+    public function __construct()
+    {
+        if (config()->has('joymap.pay.default')) {
+            $defaultChannel = config('joymap.pay.default');
+            $this->service = match ($defaultChannel) {
+                'spgateway' => app(SpGateway::class),
+                'hitrustpay' => app(HiTrustPay::class),
+                default => throw new Exception('不支援的 Pay Channel(joymap.pay.default)：' . $defaultChannel),
+            };
+        }
+    }
+
     public function bySpGateway(): JoyPay
     {
         $this->service = app(SpGateway::class);

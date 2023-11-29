@@ -19,9 +19,9 @@ class HiTrustPay implements PayInterface
 
     public function __construct()
     {
-        $this->url = config('joymap.pay.hitrustpay.url');
-        $this->refererUrl = config('joymap.pay.hitrustpay.referer_url');
-        $this->callbackUrl = config('joymap.pay.hitrustpay.callback_url');
+        $this->url = config('joymap.pay.channels.hitrustpay.url');
+        $this->refererUrl = config('joymap.pay.channels.hitrustpay.referer_url');
+        $this->callbackUrl = config('joymap.pay.channels.hitrustpay.callback_url');
 
         $this->log = Log::stack([
             config('logging.default'),

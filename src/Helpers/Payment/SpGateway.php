@@ -46,7 +46,7 @@ class SpGateway implements PayInterface
     // 綁卡
     public function bindCard(array $params)
     {
-        $this->url = config('joymap.spgateway.credit_card_url');
+        $this->url = config('joymap.pay.channels.spgateway.credit_card_url');
         $params = [
             'TimeStamp' => time(),
             'Version' => '1.0',
@@ -69,7 +69,7 @@ class SpGateway implements PayInterface
     // 刷卡
     public function pay(array $params)
     {
-        $this->url = config('joymap.spgateway.credit_card_url');
+        $this->url = config('joymap.pay.channels.spgateway.credit_card_url');
         $params = [
             'TimeStamp' => time(),
             'Version' => '1.0',
@@ -88,7 +88,7 @@ class SpGateway implements PayInterface
     // 取消授權
     public function cancel($params)
     {
-        $this->url = config('joymap.spgateway.cancel_url');
+        $this->url = config('joymap.pay.channels.spgateway.cancel_url');
         $params = [
             'RespondType' => 'JSON',
             'Version' => '1.0',
@@ -104,7 +104,7 @@ class SpGateway implements PayInterface
     // 退刷
     public function close($params)
     {
-        $this->url = config('joymap.spgateway.close_url');
+        $this->url = config('joymap.pay.channels.spgateway.close_url');
         $params = [
             'RespondType' => 'JSON',
             'Version' => '1.0',
@@ -121,7 +121,7 @@ class SpGateway implements PayInterface
     // 查詢訂單
     public function query($params)
     {
-        $this->url = config('joymap.spgateway.query_url');
+        $this->url = config('joymap.pay.channels.spgateway.query_url');
         $params = [
             'MerchantID' => $this->store->storeSpgateway->merchant_id,
             'MerchantOrderNo' => $params['orderNumber'],
@@ -134,7 +134,7 @@ class SpGateway implements PayInterface
     // 跟 store 抽費用到 金流合作推廣商 (SPGATEWAY_STORE_PARTNER_ID)
     public function chargeInstruct($params)
     {
-        $this->url = config('joymap.spgateway.charge_instruct_url');
+        $this->url = config('joymap.pay.channels.spgateway.charge_instruct_url');
         $params = [
             'Version' => '1.0',
             'TimeStamp' => time(),
@@ -152,12 +152,12 @@ class SpGateway implements PayInterface
         $postDataStr = http_build_query($data);
         $encryptData = $this->encrypt(
             $postDataStr,
-            config('joymap.spgateway.store.merchant_hash_key'),
-            config('joymap.spgateway.store.merchant_iv_key'),
+            config('joymap.pay.channels.spgateway.store.merchant_hash_key'),
+            config('joymap.pay.channels.spgateway.store.merchant_iv_key'),
         );
 
         $postData = [
-            'PartnerID_' => config('joymap.spgateway.store.partner_id'),
+            'PartnerID_' => config('joymap.pay.channels.spgateway.store.partner_id'),
             'PostData_' => $encryptData,
         ];
         $this->log->info('preparePostDataUsePartnerId 最後送出的資料：', $postData);
@@ -195,7 +195,7 @@ class SpGateway implements PayInterface
             'PostData_' => $encryptData,
         ];
 
-        if (config('joymap.spgateway.prepare_post_data_log')) {
+        if (config('joymap.pay.channels.spgateway.prepare_post_data_log')) {
             $this->log->info('preparePostData 最後送出的資料：', $postData);
         }
 

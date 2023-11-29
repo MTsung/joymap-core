@@ -108,6 +108,7 @@ APP_ENV=testing
 # 正式機
 APP_ENV=production
 
+PAY_CHANNEL=spgateway
 # Hitrust 參數
 HITRUST_URL='https://testtrustlink.hitrust.com.tw/TrustLink/TrxReqForJava'
 # 白名單網域
@@ -141,6 +142,8 @@ SPGATEWAY_CREATE_STORE_VERSION=1.2
 SPGATEWAY_UPDATE_STORE_URL='https://ccore.newebpay.com/API/AddMerchant/modify'
 SPGATEWAY_UPDATE_STORE_VERSION=1.0
 
+NOTIFICATION_CHANNEL=fcm
+
 # FCM 推播設定
 FCM_URL='https://fcm.googleapis.com/fcm/send'
 FCM_KEY=
@@ -171,6 +174,7 @@ SEND_ERROR_LOG_LINE=false
 LINE_NOTIFY_TOKEN=
 
 SMS_CHANNEL=infobip
+
 INFOBIP_URL='https://39wzv.api.infobip.com/sms/2/text/advanced'
 INFOBIP_KEY=
 INFOBIP_FROM=JOYMAP

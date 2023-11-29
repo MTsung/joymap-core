@@ -16,10 +16,10 @@ class SpGatewayStore
 
     public function __construct()
     {
-        $this->key = config('joymap.spgateway.store.merchant_hash_key');
-        $this->iv = config('joymap.spgateway.store.merchant_iv_key');
-        $this->partnerId = config('joymap.spgateway.store.partner_id');
-        $this->merchantPrefix = config('joymap.spgateway.store.merchant_prefix');
+        $this->key = config('joymap.pay.channels.spgateway.store.merchant_hash_key');
+        $this->iv = config('joymap.pay.channels.spgateway.store.merchant_iv_key');
+        $this->partnerId = config('joymap.pay.channels.spgateway.store.partner_id');
+        $this->merchantPrefix = config('joymap.pay.channels.spgateway.store.merchant_prefix');
         $this->log = Log::stack([
             config('logging.default'),
             'spgateway-store',
@@ -37,10 +37,10 @@ class SpGatewayStore
 
     public function createStorePreSetData(array $postData = []): array
     {
-        $postData['Version'] = config('joymap.spgateway.store.create.version');
+        $postData['Version'] = config('joymap.pay.channels.spgateway.store.create.version');
         $postData['TimeStamp'] = time();
-        $postData['AgreedFee'] = 'CREDIT:' . config('joymap.spgateway.store.agreed_fee');
-        $postData['AgreedDay'] = 'CREDIT:' . config('joymap.spgateway.store.agreed_day');
+        $postData['AgreedFee'] = 'CREDIT:' . config('joymap.pay.channels.spgateway.store.agreed_fee');
+        $postData['AgreedDay'] = 'CREDIT:' . config('joymap.pay.channels.spgateway.store.agreed_day');
         $postData['PaymentType'] = 'CREDIT:1';
         $postData['Withdraw'] = 3;
         $postData['WithdrawSetting'] = 3;
@@ -51,10 +51,10 @@ class SpGatewayStore
 
     public function updateStorePreSetData(array $postData = []): array
     {
-        $postData['Version'] = config('joymap.spgateway.store.update.version');
+        $postData['Version'] = config('joymap.pay.channels.spgateway.store.update.version');
         $postData['TimeStamp'] = time();
-        $postData['AgreedFee'] = 'CREDIT:' . config('joymap.spgateway.store.agreed_fee');
-        $postData['AgreedDay'] = 'CREDIT:' . config('joymap.spgateway.store.agreed_day');
+        $postData['AgreedFee'] = 'CREDIT:' . config('joymap.pay.channels.spgateway.store.agreed_fee');
+        $postData['AgreedDay'] = 'CREDIT:' . config('joymap.pay.channels.spgateway.store.agreed_day');
         $postData['PaymentType'] = 'CREDIT:1';
 
         return $postData;
@@ -63,7 +63,7 @@ class SpGatewayStore
     public function createStore(array $postDataArr = [])
     {
         $client = new Client();
-        $url = config('joymap.spgateway.store.create.url');
+        $url = config('joymap.pay.channels.spgateway.store.create.url');
 
         $postData = http_build_query($postDataArr);
 
@@ -99,7 +99,7 @@ class SpGatewayStore
     public function updateStore(array $postDataArr = [])
     {
         $client = new Client();
-        $url = config('joymap.spgateway.store.update.url');
+        $url = config('joymap.pay.channels.spgateway.store.update.url');
 
         $postData = http_build_query($postDataArr);
 
