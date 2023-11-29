@@ -5,6 +5,8 @@ namespace Mtsung\JoymapCore\Helpers\Sms;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 
 class Sms
@@ -13,6 +15,7 @@ class Sms
     private array $phones = [];
     private string $body = '';
     private ?Carbon $sendAt = null;
+    private bool $skipCallApi = false;
 
     /**
      * @throws Exception
@@ -58,7 +61,7 @@ class Sms
         return $this;
     }
 
-    public function phone(array $phone): Sms
+    public function phone(string $phone): Sms
     {
         $this->phones = [$phone];
         return $this;
@@ -86,6 +89,24 @@ class Sms
     /**
      * @throws Exception
      */
+    public function onlyProdSend(): bool
+    {
+        if ($this->skipCallApi = !isProd()) {
+            $skipData = [
+                'phones' => $this->phones,
+                'body' => $this->body,
+            ];
+            Log::info('Skip Sms Send Api', $skipData);
+
+            LineNotification::sendMsg('Skip Sms: ' . json_encode($skipData), true);
+        }
+
+        return $this->send();
+    }
+
+    /**
+     * @throws Exception
+     */
     public function send(): bool
     {
         if (count($this->phones) == 0) {
@@ -95,11 +116,14 @@ class Sms
             throw new Exception('請呼叫 body()', 422);
         }
 
-        $res = $this->service->send(
-            $this->phones,
-            $this->body,
-            $this->sendAt
-        );
+        $res = true;
+        if (!$this->skipCallApi) {
+            $res = $this->service->send(
+                $this->phones,
+                $this->body,
+                $this->sendAt
+            );
+        }
 
         $this->reset();
 

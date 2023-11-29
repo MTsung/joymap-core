@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms members(array $memberIds)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms member(int $memberId)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms phones(array $phones)
- * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms phone(array $phone)
+ * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms phone(string $phone)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms body(string $body)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms sendAt(Carbon $sendAt)
+ * @method static bool onlyProdSend()
  * @method static bool send()
  *
  * @see \Mtsung\JoymapCore\Helpers\Sms\Sms

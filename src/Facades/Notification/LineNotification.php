@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Helpers\Notification\Line;
 use Throwable;
 
 /**
- * @method static void sendMsg(string $message)
+ * @method static void sendMsg(string $message, bool $notificationDisabled = false)
  * @method static string getMsgText(Throwable $e, string $uuid = '')
  *
  * @see \Mtsung\JoymapCore\Helpers\Notification\Line

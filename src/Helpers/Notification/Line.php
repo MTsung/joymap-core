@@ -8,7 +8,7 @@ use Throwable;
 
 class Line
 {
-    public static function sendMsg(string $message): void
+    public static function sendMsg(string $message, bool $notificationDisabled = false): void
     {
         if (!$token = config('joymap.notification.line_notify.token')) {
             return;
@@ -22,7 +22,13 @@ class Line
                     'Authorization' => 'Bearer ' . $token,
                 ],
                 'form_params' => [
-                    'message' => $message,
+                    'message' =>
+                        sprintf("%s\n【%s】\n%s",
+                            env('APP_ENV'),
+                            env('APP_NAME'),
+                            $message
+                        ),
+                    'notificationDisabled' => $notificationDisabled,
                 ],
             ];
             $client->post($url, $params);
@@ -33,9 +39,7 @@ class Line
 
     public static function getMsgText(Throwable $e, $uuid = ''): string
     {
-        return sprintf("%s\n【%s】\n%s\n%s\n%s:%s",
-            env('APP_ENV'),
-            env('APP_NAME'),
+        return sprintf("%s\n%s\n%s:%s",
             $uuid,
             $e->getMessage(),
             $e->getFile(),

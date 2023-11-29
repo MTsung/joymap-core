@@ -52,13 +52,19 @@ class Infobip implements SmsInterface
                 // string [ 0 .. 50 ] characters
                 // Message destination address. Addresses must be in international format (Example: 41793026727).
                 try {
-                    $phone = new PhoneNumber($phone);
-                    $destinations[] = ['to' => $phone->formatE164()];
+                    $phoneNumber = new PhoneNumber($phone);
+                    if (!$phoneNumber->getCountry()) {
+                        $phoneNumber = new PhoneNumber($phone, 'TW');
+                    }
+
+                    $phoneE164 = $phoneNumber->formatE164();
+                    $destinations[] = ['to' => $phoneE164];
+
+                    $this->log->info('phone formatE164', ['phone_raw' => $phone, 'phone_e164' => $phoneE164]);
                 } catch (Throwable $e) {
-                    $this->log->error('該手機無效', [
+                    $this->log->error('該手機號碼無效', [
                         'phone' => $phone,
                         'msg' => $e->getMessage(),
-                        'e' => $e
                     ]);
                 }
             }
