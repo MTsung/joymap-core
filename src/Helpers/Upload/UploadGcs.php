@@ -4,7 +4,7 @@ namespace Mtsung\JoymapCore\Helpers\Upload;
 
 use Exception;
 use Illuminate\Support\Facades\Storage;
-use Mtsung\JoymapCore\Facades\Image;
+use Mtsung\JoymapCore\Facades\Media\Image;
 
 class UploadGcs
 {

@@ -56,6 +56,11 @@ class JoymapCoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $functionPath = __DIR__ . '/Function/';
+        foreach (Finder::create()->files()->name('*.php')->in($functionPath) as $file) {
+            require_once($file->getRealPath());
+        }
+
         // Load All Config
         $configPath = __DIR__ . '/../config/';
         foreach (Finder::create()->files()->name('*.php')->in($configPath) as $file) {
@@ -67,12 +72,6 @@ class JoymapCoreServiceProvider extends ServiceProvider
         // Load All Lang
         // e.g. __('joymap::xxxxxxxx')
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'joymap');
-
-
-        $functionPath = __DIR__ . '/Function/';
-        foreach (Finder::create()->files()->name('*.php')->in($functionPath) as $file) {
-            require_once($file->getRealPath());
-        }
 
         // Register Event
         $this->app->register(EventServiceProvider::class);

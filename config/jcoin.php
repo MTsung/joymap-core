@@ -8,5 +8,4 @@ return [
 
     'twdd_user' => env('TWDD_JCOIN_USER', ''),
     'twdd_pwd' => env('TWDD_JCOIN_PW', ''),
-
 ];
