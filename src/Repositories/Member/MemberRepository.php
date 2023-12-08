@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Repositories\Member;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Mtsung\JoymapCore\Models\Member;
@@ -35,5 +36,32 @@ class MemberRepository implements RepositoryInterface
         return $this->model()->query()
             ->where('member_no', $memberNo)
             ->exists();
+    }
+
+    public function getByInviteCode(string $inviteCode): Member|Builder|null
+    {
+        return $this->model()->query()
+            ->where('invite_code', $inviteCode)
+            ->first();
+    }
+
+    public function getByAppleId(string $appleId): Member|Builder|null
+    {
+        return $this->model()->query()
+            ->where('apple_id', $appleId)
+            ->first();
+    }
+
+    public function getByPhone(string $phone, string $phonePrefix = '886'): Member|Builder|null
+    {
+        return $this->model()->query()
+            ->where('phone_prefix', $phonePrefix)
+            ->where('phone', $phone)
+            ->first();
+    }
+
+    public function create(array $data): Member|Builder
+    {
+        return $this->model()->query()->create($data);
     }
 }

@@ -11,20 +11,20 @@ abstract class Validation extends Collection implements ValidationInterface
     /**
      * @throws Exception
      */
-    function __construct($items = [])
+    public static function make($items = []): static
     {
         $validator = Validator::make(
             $items,
-            $this->rules(),
-            $this->messages(),
-            $this->attributes()
+            static::rules(),
+            static::messages(),
+            static::attributes()
         );
 
         if ($validator->fails()) {
             $firstMsg = $validator->errors()->first();
-            throw new Exception('Params Validation Error: ' . $firstMsg);
+            throw new Exception('Params Validation Error: ' . $firstMsg, 500);
         }
 
-        parent::__construct($items);
+        return parent::make($items);
     }
 }

@@ -10,7 +10,7 @@ class ExpiredParams extends Validation
     public string $start_ts;
     public string $end_ts;
 
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'start_ts' => 'required|numeric',
@@ -18,12 +18,12 @@ class ExpiredParams extends Validation
         ];
     }
 
-    public function attributes(): array
+    public static function attributes(): array
     {
         return [];
     }
 
-    public function messages(): array
+    public static function messages(): array
     {
         return [];
     }

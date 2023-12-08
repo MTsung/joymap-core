@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Params\Validation;
 
 class CreateUserParams extends Validation
 {
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'mobile' => 'required|string|regex:/^09[0-9]{8}/|size:10',
@@ -15,12 +15,12 @@ class CreateUserParams extends Validation
         ];
     }
 
-    public function attributes(): array
+    public static function attributes(): array
     {
         return [];
     }
 
-    public function messages(): array
+    public static function messages(): array
     {
         return [];
     }

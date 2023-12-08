@@ -56,6 +56,8 @@ class Controller extends BaseController
         $configKey = 'code.http_status_code.' . $code;
         if (config()->has($configKey)) {
             $httpStatus = config($configKey);
+        } else if ($code >= 400 && $code < 500) {
+            $httpStatus = $code;
         }
 
         return response()->json(new ApiResource([

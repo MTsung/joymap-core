@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Params\Validation;
 
 class CoinLogsParams extends Validation
 {
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'user_id' => 'required|string',
@@ -17,12 +17,12 @@ class CoinLogsParams extends Validation
         ];
     }
 
-    public function attributes(): array
+    public static function attributes(): array
     {
         return [];
     }
 
-    public function messages(): array
+    public static function messages(): array
     {
         return [];
     }

@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Params\Validation;
 
 class AddBonusParams extends Validation
 {
-    public function rules(): array
+    public static function rules(): array
     {
         return [
             'title' => 'required|string',
@@ -24,12 +24,12 @@ class AddBonusParams extends Validation
         ];
     }
 
-    public function attributes(): array
+    public static function attributes(): array
     {
         return [];
     }
 
-    public function messages(): array
+    public static function messages(): array
     {
         return [];
     }

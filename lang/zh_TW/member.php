@@ -24,5 +24,11 @@ return [
     'is_foreigner' => [
         Member::IS_FOREIGNER_LOCAL => '本國人',
         Member::IS_FOREIGNER_FOREIGN => '外國人',
-    ]
+    ],
+    'message' => [
+        'register' => [
+            'phone_existed' => '該手機已註冊過，無法重新註冊，如有疑問請洽客服',
+            'account_is_freeze' => '您的帳號尚在保護中，無法重新註冊，如有疑問請洽客服',
+        ],
+    ],
 ];
