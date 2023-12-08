@@ -5,7 +5,7 @@ namespace Mtsung\JoymapCore\Services\Member;
 use Illuminate\Support\Str;
 use Mtsung\JoymapCore\Facades\Rand;
 use Mtsung\JoymapCore\Models\Member;
-use Mtsung\JoymapCore\Params\Member\MemberCreateParams;
+use Mtsung\JoymapCore\Params\Member\MemberGetOrCreateParams;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Traits\AsObject;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -13,9 +13,9 @@ use Throwable;
 
 
 /**
- * @method static Member run(MemberCreateParams $data)
+ * @method static Member run(MemberGetOrCreateParams $data)
  */
-class MemberCreateService
+class MemberGetOrCreateService
 {
     use AsObject;
 
@@ -26,7 +26,7 @@ class MemberCreateService
     {
     }
 
-    public function handle(MemberCreateParams $data): Member
+    public function handle(MemberGetOrCreateParams $data): Member
     {
         $mainData = [];
         if (isset($data['apple_id'])) {

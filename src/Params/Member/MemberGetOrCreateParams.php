@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Params\Validation;
 
-class MemberCreateParams extends Validation
+class MemberGetOrCreateParams extends Validation
 {
     public static function rules(): array
     {

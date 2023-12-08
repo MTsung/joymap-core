@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Member;
-use Mtsung\JoymapCore\Params\Member\MemberCreateParams;
+use Mtsung\JoymapCore\Params\Member\MemberGetOrCreateParams;
 use Mtsung\JoymapCore\Params\Member\MemberRegisterParams;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Traits\AsObject;
@@ -67,7 +67,7 @@ class MemberRegisterService
         }
 
         $params = $this->formatCreateData($data);
-        return MemberCreateService::run($params);
+        return MemberGetOrCreateService::run($params);
     }
 
 
@@ -107,9 +107,9 @@ class MemberRegisterService
     /**
      * @throws Exception
      */
-    private function formatCreateData(Collection $data): MemberCreateParams
+    private function formatCreateData(Collection $data): MemberGetOrCreateParams
     {
-        return MemberCreateParams::make(
+        return MemberGetOrCreateParams::make(
             $data->only([
                 'full_phone',
                 'name',
