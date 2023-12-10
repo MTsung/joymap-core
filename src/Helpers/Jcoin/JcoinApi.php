@@ -133,7 +133,7 @@ class JcoinApi
 
             throw new Exception($resBody['msg'] ?? '');
         } catch (Throwable $e) {
-            $this->log->error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' Error: ', [$e]);
         }
 
         return false;

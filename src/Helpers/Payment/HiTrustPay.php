@@ -164,7 +164,7 @@ class HiTrustPay implements PayInterface
 
             return json_decode($res, true);
         } catch (Throwable $e) {
-            $this->log->error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' Error: ', [$e]);
         }
 
         return false;

@@ -108,7 +108,7 @@ class Gorush implements NotificationInterface
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
-            $this->log->error(__METHOD__ . ' error: ', [$e]);
+            $this->log->error(__METHOD__ . ' Error: ', [$e]);
         }
 
         return false;

@@ -15,14 +15,14 @@ use Mtsung\JoymapCore\Params\Jcoin\SubJcoinParams;
 /**
  * @method static \Mtsung\JoymapCore\Helpers\Jcoin\JcoinApi byJoymap()
  * @method static \Mtsung\JoymapCore\Helpers\Jcoin\JcoinApi byTwdd()
- * @method static array|bool add(AddJcoinParams $data)
- * @method static array|bool sub(SubJcoinParams $data)
- * @method static array|bool addBonus(AddBonusParams $data)
- * @method static array|bool subBonus(SubBonusParams $data)
- * @method static array|bool createUser(CreateUserParams $data)
- * @method static array|bool getUserInfo(GetUserInfoParams $phone)
- * @method static array|bool coinLogs(CoinLogsParams $data)
- * @method static array|bool expired(ExpiredParams $data)
+ * @method static mixed add(AddJcoinParams $data)
+ * @method static mixed sub(SubJcoinParams $data)
+ * @method static mixed addBonus(AddBonusParams $data)
+ * @method static mixed subBonus(SubBonusParams $data)
+ * @method static mixed createUser(CreateUserParams $data)
+ * @method static mixed getUserInfo(GetUserInfoParams $phone)
+ * @method static mixed coinLogs(CoinLogsParams $data)
+ * @method static mixed expired(ExpiredParams $data)
  *
  * @see \Mtsung\JoymapCore\Helpers\Jcoin\JcoinApi
  */

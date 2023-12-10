@@ -88,7 +88,7 @@ class Fcm implements NotificationInterface
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
-            $this->log->error(__METHOD__ . ' error: ', [$e->getMessage(), $e]);
+            $this->log->error(__METHOD__ . ' Error: ', [$e->getMessage(), $e]);
         }
 
         return false;
