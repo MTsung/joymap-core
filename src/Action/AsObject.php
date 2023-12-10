@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Traits;
+namespace Mtsung\JoymapCore\Action;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Fluent;
