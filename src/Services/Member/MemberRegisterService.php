@@ -6,13 +6,14 @@ namespace Mtsung\JoymapCore\Services\Member;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Params\Member\MemberGetOrCreateParams;
 use Mtsung\JoymapCore\Params\Member\MemberRegisterParams;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
-use Mtsung\JoymapCore\Traits\AsObject;
 
 /**
  * @method static Member run(MemberRegisterParams $data)
@@ -30,44 +31,56 @@ class MemberRegisterService
      */
     public function handle(MemberRegisterParams $data): Member
     {
-        // 目前只有台灣手機
-        $data['phone_prefix'] = '886';
-        $data['full_phone'] = '+' . $data['phone_prefix'] . $data['phone'];
+        return DB::transaction(function () use ($data) {
+            $now = Carbon::now();
 
-        // 找有沒有從免登入訂位管道建立過的會員
-        if ($member = $this->memberRepository->getByPhone($data['phone'], $data['phone_prefix'])) {
-            $this->checkMember($member);
-        }
+            // 目前只有台灣手機
+            $data['phone_prefix'] = '886';
+            $data['full_phone'] = '+' . $data['phone_prefix'] . $data['phone'];
 
-        $data['is_active'] = 1;
-        $data['register_at'] = Carbon::now();
-
-        // 密碼 hash
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
-        // 邀請人 id
-        if (!empty($data['from_invite_code'])) {
-            $fromInviteMember = $this->memberRepository->getByInviteCode($data['from_invite_code']);
-            $data['from_invite_id'] = $fromInviteMember?->id ?? null;
-        }
-
-        if ($member) {
-            $updateData = $this->formatUpdateData($data);
-            if (!$member->update($updateData)) {
-                Log::error('MemberRegisterService Error', [
-                    'member_id' => $member->id,
-                    'data' => $updateData,
-                ]);
-                throw new Exception('System Error');
+            // 找有沒有從免登入訂位管道建立過的會員
+            if ($member = $this->memberRepository->getByPhone($data['phone'], $data['phone_prefix'])) {
+                $this->checkMember($member);
             }
 
-            return $member;
-        }
+            $data['is_active'] = 1;
+            $data['register_at'] = $now;
 
-        $params = $this->formatCreateData($data);
-        return MemberGetOrCreateService::run($params);
+            // 密碼 hash
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }
+
+            // 邀請人 id
+            if (!empty($data['from_invite_code'])) {
+                $fromInviteMember = $this->memberRepository->getByInviteCode($data['from_invite_code']);
+                $data['from_invite_id'] = $fromInviteMember?->id ?? null;
+            }
+
+            if ($member) {
+                $updateData = $this->formatUpdateData($data);
+                if (!$member->update($updateData)) {
+                    Log::error('MemberRegisterService Error', [
+                        'member_id' => $member->id,
+                        'data' => $updateData,
+                    ]);
+                    throw new Exception('System Error');
+                }
+
+                $member->refresh();
+            } else {
+                $params = $this->formatCreateData($data);
+                $member = MemberGetOrCreateService::run($params);
+            }
+
+            $createGradeLogData = [
+                'member_grade_id' => Member::GRADE_NORMAL,
+                'start_at' => $now,
+            ];
+            $member->memberGradeChangeLogs()->create($createGradeLogData);
+
+            return $member;
+        });
     }
 
 

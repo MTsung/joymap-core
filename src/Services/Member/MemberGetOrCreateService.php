@@ -7,7 +7,7 @@ use Mtsung\JoymapCore\Facades\Rand;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Params\Member\MemberGetOrCreateParams;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
-use Mtsung\JoymapCore\Traits\AsObject;
+use Mtsung\JoymapCore\Action\AsObject;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;
 
