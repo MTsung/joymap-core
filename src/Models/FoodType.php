@@ -10,7 +10,7 @@ class FoodType extends Model
 
     protected $table = 'food_types';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function stores()
     {

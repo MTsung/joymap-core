@@ -10,7 +10,7 @@ class StoreWalletBankSetting extends Model
 
     protected $table = 'store_wallet_bank_settings';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function storeWallet()
     {

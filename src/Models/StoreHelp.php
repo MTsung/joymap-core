@@ -7,5 +7,5 @@ class StoreHelp extends Model
 {
     protected $table = 'store_helps';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

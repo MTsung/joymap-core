@@ -12,7 +12,7 @@ class StoreImage extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 首頁圖
     public const TYPE_HOME = 0;

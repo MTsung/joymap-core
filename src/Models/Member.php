@@ -18,7 +18,7 @@ class Member extends User implements JWTSubject
 
     protected $table = 'members';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected string $guard_name = 'store';
 

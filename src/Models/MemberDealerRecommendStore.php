@@ -8,7 +8,7 @@ class MemberDealerRecommendStore extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     //未讀取
     public const IS_READ_OFF = 0;

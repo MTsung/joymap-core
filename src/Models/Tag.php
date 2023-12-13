@@ -10,7 +10,7 @@ class Tag extends Model
 
     protected $table = "tags";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function settings()
     {

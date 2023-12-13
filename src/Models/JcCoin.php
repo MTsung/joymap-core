@@ -10,7 +10,7 @@ class JcCoin extends Model
 
     protected $table = "jc_coins";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 儲值
     public const TYPE_GIVE = 0;

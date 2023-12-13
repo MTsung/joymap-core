@@ -34,7 +34,7 @@ class CoinLog extends Model
 
     protected $table = 'coin_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function member()
     {

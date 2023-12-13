@@ -10,7 +10,7 @@ class CommentScoreSetting extends Model
 
     protected $table = 'comment_score_settings';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function commentScores()
     {

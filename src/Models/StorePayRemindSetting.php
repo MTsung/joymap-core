@@ -10,7 +10,7 @@ class StorePayRemindSetting extends Model
 
     protected $table = 'store_pay_remind_settings';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

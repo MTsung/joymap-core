@@ -10,6 +10,6 @@ class Bank extends Model
 
     protected $table = "banks";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

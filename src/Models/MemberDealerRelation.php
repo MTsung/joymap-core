@@ -19,7 +19,7 @@ class MemberDealerRelation extends Model implements TreeConfigurable
 
     protected $table = 'member_dealer_relations';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected static function buildTreeConfig(): Base
     {

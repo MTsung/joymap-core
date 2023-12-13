@@ -10,6 +10,6 @@ class TaskLog extends Model
 
     protected $table = "task_logs";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

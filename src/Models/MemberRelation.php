@@ -10,7 +10,7 @@ class MemberRelation extends Model
 
     protected $table = 'member_relation';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function member()
     {

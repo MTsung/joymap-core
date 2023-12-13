@@ -10,7 +10,7 @@ class StoreLightbox extends Model
 
     protected $table = "store_lightboxs";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function storeLightboxImages()
     {

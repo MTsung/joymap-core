@@ -10,6 +10,6 @@ class MemberGrade extends Model
 
     protected $table = 'member_grades';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

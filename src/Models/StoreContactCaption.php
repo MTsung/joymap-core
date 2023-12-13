@@ -7,5 +7,5 @@ class StoreContactCaption extends Model
 {
     protected $table = 'store_contact_captions';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

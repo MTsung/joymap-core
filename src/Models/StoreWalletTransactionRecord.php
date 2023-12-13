@@ -10,7 +10,7 @@ class StoreWalletTransactionRecord  extends Model
 
     protected $table = 'store_wallet_transaction_records';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function storeWallet()
     {

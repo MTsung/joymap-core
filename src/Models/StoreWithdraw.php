@@ -7,5 +7,5 @@ class StoreWithdraw extends Model
 {
     protected $table = 'store_withdraw';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

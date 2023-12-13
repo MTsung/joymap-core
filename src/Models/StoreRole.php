@@ -10,7 +10,7 @@ class StoreRole extends Model
 
     protected $table = "store_roles";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 停用
     public const IS_ACTIVE_DISABLED = 0;

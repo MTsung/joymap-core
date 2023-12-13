@@ -10,7 +10,7 @@ class MemberDeleteLog extends Model
 
     protected $table = 'member_delete_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 
     public function member()

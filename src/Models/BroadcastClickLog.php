@@ -10,7 +10,7 @@ class BroadcastClickLog extends Model
 
     protected $table = 'broadcast_click_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = false;
 }

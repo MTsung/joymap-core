@@ -10,7 +10,7 @@ class Goal extends Model
 
     protected $table = 'goals';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function orders()
     {

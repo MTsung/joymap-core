@@ -11,5 +11,5 @@ class AdminRole extends Role
 
     protected $table = 'admin_roles';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

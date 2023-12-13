@@ -10,7 +10,7 @@ class BroadcastLog extends Model
 
     protected $table = 'broadcast_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

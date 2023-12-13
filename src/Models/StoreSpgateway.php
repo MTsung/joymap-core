@@ -10,7 +10,7 @@ class StoreSpgateway extends Model
 
     protected $table = 'store_spgateway';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'post_data' => 'array',

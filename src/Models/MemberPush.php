@@ -10,7 +10,7 @@ class MemberPush extends Model
 
     protected $table = 'member_push';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function member()
     {

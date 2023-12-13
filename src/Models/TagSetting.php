@@ -10,6 +10,6 @@ class TagSetting extends Model
 
     protected $table = "tag_settings";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

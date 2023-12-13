@@ -16,7 +16,7 @@ class StoreUser extends User implements JWTSubject
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected string $guard_name = 'store';
 

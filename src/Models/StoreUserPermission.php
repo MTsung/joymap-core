@@ -16,7 +16,7 @@ class StoreUserPermission extends Model
 
     public $incrementing = false;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function role()
     {

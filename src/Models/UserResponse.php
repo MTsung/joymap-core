@@ -10,7 +10,7 @@ class UserResponse extends Model
 
     protected $table = 'user_response';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

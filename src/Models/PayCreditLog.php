@@ -7,7 +7,7 @@ class PayCreditLog extends Model
 {
     protected $table = 'pay_credit_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = false;
 }

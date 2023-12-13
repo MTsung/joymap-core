@@ -7,7 +7,7 @@ class ActivityLog extends Model
 {
     protected $table = 'activity_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function activity()
     {

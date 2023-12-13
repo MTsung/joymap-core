@@ -10,7 +10,7 @@ class MemberDealerPointLog extends Model
 
     protected $table = 'member_dealer_point_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 加入天使會員(經銷商)
     const TYPE_JOIN_DEALER = 0;

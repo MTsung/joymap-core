@@ -10,7 +10,7 @@ class CouponNumber extends Model
 
     protected $table = 'coupon_numbers';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 可以使用
     const STATUS_AVAILABLE = 0;

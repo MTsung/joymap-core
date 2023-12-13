@@ -10,7 +10,7 @@ class StoreWallet extends Model
 
     protected $table = 'store_wallets';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

@@ -10,7 +10,7 @@ class Article extends Model
 
     protected $table = "articles";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 熱門(否)
     public const IS_HOT_NO = 0;

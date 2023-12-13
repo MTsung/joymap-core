@@ -10,7 +10,7 @@ class MemberWithdraw extends Model
 
     protected $table = "member_withdraw";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 提領現金
     public const TYPE_MONEY = 0;

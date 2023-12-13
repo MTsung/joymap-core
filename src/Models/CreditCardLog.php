@@ -7,7 +7,7 @@ class CreditCardLog extends Model
 {
     protected $table = 'creditcard_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function payLog()
     {

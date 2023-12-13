@@ -11,7 +11,7 @@ class Carousel extends Model
 
     protected $table = 'carousel';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

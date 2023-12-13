@@ -10,6 +10,6 @@ class StoreMemberComment extends Model
 
     protected $table = 'store_member_comments';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

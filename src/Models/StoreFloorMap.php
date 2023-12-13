@@ -12,7 +12,7 @@ class StoreFloorMap extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'map' => 'array',

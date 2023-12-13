@@ -10,6 +10,6 @@ class StoreLightboxImage extends Model
 
     protected $table = "store_lightbox_images";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

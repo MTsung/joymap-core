@@ -10,7 +10,7 @@ class MemberDealerPointWithdraw extends Model
 
     protected $table = 'member_dealer_point_withdraws';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 申請提領審核中
     const STATUS_UNDER_REVIEW = 0;

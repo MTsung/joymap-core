@@ -13,7 +13,7 @@ class Order extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 取消訂位
     public const STATUS_CANCEL_BY_USER = 0;

@@ -16,7 +16,7 @@ class OrderTagSetting extends Model
 
     public $incrementing = false;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function order()
     {

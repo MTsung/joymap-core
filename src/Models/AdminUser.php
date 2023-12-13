@@ -13,7 +13,7 @@ class AdminUser extends User
 
     protected $table = "admin_users";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function getPermissionNameListAttribute()
     {

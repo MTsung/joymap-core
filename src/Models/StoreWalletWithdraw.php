@@ -10,7 +10,7 @@ class StoreWalletWithdraw extends Model
 
     protected $table = 'store_wallet_withdraws';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function storeWalletTransactionRecord()
     {

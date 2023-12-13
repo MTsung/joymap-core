@@ -10,6 +10,6 @@ class NotificationPlatformLogs extends Model
 
     protected $table = 'notification_platform_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

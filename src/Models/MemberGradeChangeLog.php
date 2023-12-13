@@ -10,7 +10,7 @@ class MemberGradeChangeLog extends Model
 
     protected $table = 'member_grade_change_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function member()
     {

@@ -16,7 +16,7 @@ class StoreFoodType extends Model
 
     public $incrementing = false;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

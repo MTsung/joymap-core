@@ -7,5 +7,5 @@ class StoreContact extends Model
 {
     protected $table = 'store_contacts';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

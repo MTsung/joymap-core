@@ -10,7 +10,7 @@ class NotificationMemberWithdraw extends Model
 
     protected $table = 'notification_member_withdraw';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function getMorphClass()
     {

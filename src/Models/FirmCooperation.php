@@ -10,6 +10,6 @@ class FirmCooperation extends Model
 
     protected $table = 'firm_cooperation';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

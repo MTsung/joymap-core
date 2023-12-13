@@ -10,7 +10,7 @@ class MemberCollection extends Model
 
     protected $table = 'member_collection';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

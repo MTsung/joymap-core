@@ -12,7 +12,7 @@ class OrderSetting extends Model
 
     public $timestamps = false;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public const ORDER_UNIT_MINUTE = ['10', '15', '20', '30', '60'];
     public const CAN_ORDER_DAY = ['7', '14', '30', '60', '90', '120', '150', '180'];

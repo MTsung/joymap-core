@@ -12,7 +12,7 @@ class MemberChargePlan extends Model
 
     public $timestamps = false;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 待處理
     public const STATUS_PENDING = 0;

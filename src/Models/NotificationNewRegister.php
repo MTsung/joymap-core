@@ -10,7 +10,7 @@ class NotificationNewRegister extends Model
 
     protected $table = 'notification_new_register';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function getMorphClass()
     {

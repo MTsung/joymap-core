@@ -10,7 +10,7 @@ class Broadcast extends Model
 
     protected $table = 'broadcasts';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

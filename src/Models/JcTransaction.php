@@ -10,7 +10,7 @@ class JcTransaction extends Model
 
     protected $table = "jc_transactions";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 儲值
     public const TYPE_GIVE = 0;

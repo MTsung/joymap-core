@@ -10,7 +10,7 @@ class MemberDealer extends Model
 
     protected $table = 'member_dealers';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 停用退出
     const STATUS_DISABLED = 0;

@@ -10,5 +10,5 @@ class StoreActionLog extends Model
 
     protected $table = 'store_action_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

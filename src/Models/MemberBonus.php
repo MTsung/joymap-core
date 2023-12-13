@@ -12,7 +12,7 @@ class MemberBonus extends Model
 
     protected $table = 'member_bonus';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 排程中
     public const STATUS_SCHEDULED = 0;

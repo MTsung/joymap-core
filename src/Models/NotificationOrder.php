@@ -10,7 +10,7 @@ class NotificationOrder extends Model
 
     protected $table = 'notification_order';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function getMorphClass()
     {

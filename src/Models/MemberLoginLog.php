@@ -10,7 +10,7 @@ class MemberLoginLog extends Model
 
     protected $table = 'member_login_log';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = ["created_at"];
 

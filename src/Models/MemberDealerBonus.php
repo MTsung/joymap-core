@@ -8,7 +8,7 @@ class MemberDealerBonus extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 排程中
     public const STATUS_SCHEDULED = 0;

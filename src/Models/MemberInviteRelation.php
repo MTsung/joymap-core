@@ -17,7 +17,7 @@ class MemberInviteRelation extends Model implements TreeConfigurable
 
     protected $table = 'member_invite_relations';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected static function buildTreeConfig(): Base
     {

@@ -12,7 +12,7 @@ class StoreFloor extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

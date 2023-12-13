@@ -10,7 +10,7 @@ class CommentImage extends Model
 
     protected $table = 'comment_images';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function comment()
     {

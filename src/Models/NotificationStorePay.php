@@ -10,7 +10,7 @@ class NotificationStorePay extends Model
 
     protected $table = 'notification_store_pay';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function getMorphClass()
     {

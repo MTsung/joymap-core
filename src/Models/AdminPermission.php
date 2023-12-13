@@ -6,7 +6,7 @@ class AdminPermission extends Model
 {
     protected $table = 'admin_permissions';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function resource()
     {

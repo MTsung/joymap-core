@@ -10,7 +10,7 @@ class Comment extends Model
 
     protected $table = 'comments';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 無
     public const SCORE_NONE = 0;

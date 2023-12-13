@@ -10,6 +10,6 @@ class TaskCondition extends Model
 
     protected $table = "task_conditions";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

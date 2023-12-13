@@ -10,7 +10,7 @@ class ChargePlan extends Model
 
     protected $table = "charge_plan";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function members()
     {

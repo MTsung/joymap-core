@@ -10,7 +10,7 @@ class JcUser extends Model
 
     protected $table = "jc_users";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function member()
     {

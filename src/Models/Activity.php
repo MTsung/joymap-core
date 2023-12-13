@@ -7,7 +7,7 @@ class Activity extends Model
 {
     protected $table = 'activities';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 已取消
     public const STATUS_CANCELLED = 0;

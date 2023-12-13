@@ -12,7 +12,7 @@ class CouponNumberTransactionLog extends Model
 
     const UPDATED_AT = null;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 核銷
     const ACTION_REDEEM = 0;

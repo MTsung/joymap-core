@@ -12,7 +12,7 @@ class StoreTableCombination extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'combination' => 'array',

@@ -7,7 +7,7 @@ class PayLog extends Model
 {
     protected $table = 'pay_logs';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 折抵類型 預設
     public const DISCOUNT_TYPE_DEFAULT = 0;

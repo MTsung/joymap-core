@@ -12,7 +12,7 @@ class StoreAnnouncement extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     // 所有店家
     public const SEND_TYPE_ALL = 0;

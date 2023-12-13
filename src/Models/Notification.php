@@ -14,7 +14,7 @@ class Notification extends Model
 
     const UPDATED_AT = null;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $appends = [
         'type'

@@ -10,7 +10,7 @@ class MemberDealerBankSetting extends Model
 
     protected $table = 'member_dealer_bank_settings';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function memberDealer()
     {

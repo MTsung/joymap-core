@@ -10,6 +10,6 @@ class Level extends Model
 
     protected $table = "levels";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
 }

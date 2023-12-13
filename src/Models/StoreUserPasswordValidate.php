@@ -14,7 +14,7 @@ class StoreUserPasswordValidate extends Model
 
     const UPDATED_AT = null;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function store()
     {

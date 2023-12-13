@@ -7,7 +7,7 @@ class MainFoodType extends Model
 {
     protected $table = 'main_food_types';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function foodTypes()
     {

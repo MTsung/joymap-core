@@ -10,7 +10,7 @@ class Coupon extends Model
 
     protected $table = 'coupons';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     const TYPE_DEALER = 0;  //經銷商劵
 }

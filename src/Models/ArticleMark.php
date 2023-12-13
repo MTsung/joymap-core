@@ -10,7 +10,7 @@ class ArticleMark extends Model
 
     protected $table = "article_mark";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = false;
 

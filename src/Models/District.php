@@ -10,7 +10,7 @@ class District extends Model
 
     protected $table = "districts";
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public $timestamps = false;
 

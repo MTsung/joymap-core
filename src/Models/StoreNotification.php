@@ -12,7 +12,7 @@ class StoreNotification extends Model
 
     public $timestamps = true;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     //未讀
     public const IS_READ_OFF = 0;
