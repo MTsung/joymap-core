@@ -4,14 +4,13 @@ namespace Mtsung\JoymapCore\Services\Sms;
 
 
 use Exception;
-use Illuminate\Support\Collection;
 use Mtsung\JoymapCore\Action\AsJob;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Facades\Sms\Sms;
 
 /**
- * @method static bool dispatch(mixed $to, array|Collection $bodyArguments = [])
- * @method static bool run(mixed $to, array|Collection $bodyArguments = [])
+ * @method static bool dispatch(mixed $to, $bodyArguments = null)
+ * @method static bool run(mixed $to, $bodyArguments = null)
  */
 abstract class SmsAbstract implements SmsInterface
 {
@@ -23,7 +22,7 @@ abstract class SmsAbstract implements SmsInterface
     /**
      * @throws Exception
      */
-    public function handle(mixed $to, array|Collection $bodyArguments = []): bool
+    public function handle(mixed $to, $bodyArguments = null): bool
     {
         return $this->send($to, $bodyArguments);
     }
@@ -31,7 +30,7 @@ abstract class SmsAbstract implements SmsInterface
     /**
      * @throws Exception
      */
-    public function send(mixed $to, array|Collection $bodyArguments = []): bool
+    public function send(mixed $to, $bodyArguments = null): bool
     {
         $method = $this->toType()->value;
         $sms = Sms::{$method}($to)->body($this->body($bodyArguments));
