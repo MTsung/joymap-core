@@ -1,17 +1,18 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Member;
+namespace Mtsung\JoymapCore\Services\Jcoin;
 
 use Illuminate\Support\Facades\Log;
-use Mtsung\JoymapCore\Facades\Jcoin\JcoinApi;
+use Mtsung\JoymapCore\Helpers\Jcoin\JcoinApi;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Params\Jcoin\CreateUserParams;
 use Mtsung\JoymapCore\Params\Jcoin\GetUserInfoParams;
-use Mtsung\JoymapCore\Repositories\Member\JcUserRepository;
+use Mtsung\JoymapCore\Repositories\Jcoin\JcUserRepository;
 use Mtsung\JoymapCore\Action\AsObject;
 
 
 /**
+ * @method static self make()
  * @method static Member run(Member $member)
  */
 class JcoinUserGetOrCreateService
@@ -26,6 +27,7 @@ class JcoinUserGetOrCreateService
         private JcUserRepository $jcUserRepository
     )
     {
+        $this->jcoinApi->byJoymap();
     }
 
     public function byJoymap(): self

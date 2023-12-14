@@ -16,11 +16,6 @@ class MemberFreezeService
 {
     use AsObject;
 
-    public function __construct()
-    {
-        Member::getToken();
-    }
-
     /**
      * @throws Exception
      */

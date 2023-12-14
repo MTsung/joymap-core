@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Repositories\Member;
+namespace Mtsung\JoymapCore\Repositories\Jcoin;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

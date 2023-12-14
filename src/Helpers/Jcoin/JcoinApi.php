@@ -20,8 +20,8 @@ use Throwable;
 class JcoinApi
 {
     protected string $baseUrl;
-    private string $user;
-    private string $password;
+    private string $user = '';
+    private string $password = '';
     protected mixed $log;
 
     public function __construct()

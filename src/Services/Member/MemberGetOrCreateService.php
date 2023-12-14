@@ -49,8 +49,7 @@ class MemberGetOrCreateService
             'is_active' => $data['is_active'] ?? 0,
             'gender' => $data['gender'] ?? Member::GENDER_UNKNOWN,
             'member_grade_id' => $data['member_grade_id'] ?? Member::GRADE_NORMAL,
-            'avatar' => empty($data['avatar']) ?
-                $data['avatar'] :
+            'avatar' => ($data['avatar'] ?? '') ?:
                 $this->defaultAvatar($data['gender'] ?? Member::GENDER_UNKNOWN),
             'member_no' => Rand::memberNo(),
             'invite_code' => Rand::inviteCode(),
