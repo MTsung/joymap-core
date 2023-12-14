@@ -98,7 +98,10 @@ class Sms
             ];
             Log::info('Skip Sms Send Api', $skipData);
 
-            LineNotification::sendMsg('Skip Sms: ' . json_encode($skipData), true);
+            LineNotification::sendMsg(
+                'Skip Sms: ' . json_encode($this->phones) . "\n" . $this->body,
+                true
+            );
         }
 
         return $this->send();
