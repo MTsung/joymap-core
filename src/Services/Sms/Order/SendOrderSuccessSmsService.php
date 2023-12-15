@@ -2,8 +2,11 @@
 
 namespace Mtsung\JoymapCore\Services\Sms\Order;
 
+use Exception;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
+use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
@@ -32,5 +35,21 @@ class SendOrderSuccessSmsService extends SmsAbstract
             'week' => __('joymap::week.abbr.' . $dateTime->dayOfWeek),
             'url' => config('joymap.domain.www') . '/booking-result/' . $order->id
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function asListener(OrderSuccessEvent $event): bool
+    {
+        if (!$phone = $event->order->member?->phone) {
+            Log::error(__METHOD__ . ': Member Phone Is Null', [
+                $event->order->id,
+            ]);
+
+            return false;
+        }
+
+        return self::run($phone, $event->order);
     }
 }

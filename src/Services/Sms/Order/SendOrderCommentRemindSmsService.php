@@ -2,7 +2,10 @@
 
 namespace Mtsung\JoymapCore\Services\Sms\Order;
 
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
+use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
@@ -26,5 +29,21 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
             'member' => $order->name,
             'url' => config('joymap.domain.www') . '/booking-result/' . $order->id
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function asListener(OrderCommentRemindEvent $event): bool
+    {
+        if (!$phone = $event->order->member?->phone) {
+            Log::error(__METHOD__ . ': Member Phone Is Null', [
+                $event->order->id,
+            ]);
+
+            return false;
+        }
+
+        return self::run($phone, $event->order);
     }
 }
