@@ -144,7 +144,9 @@ WEBAPI_URL='https://webapi-test.joymap.tw'
 # Joymap WWW Url
 WWW_URL='https://www-test.joymap.tw'
 # Joymap Booking Url
-ORDER_DOMAIN='https://web-test.joymap.tw/'
+ORDER_DOMAIN='https://web-test.joymap.tw'
+# Joymap Google Dining Url
+GOOGLE_DINING_URL='https://google-dining-test.joymap.tw'
 
 # GCS
 GOOGLE_CLOUD_PROJECT_ID=api-project-288918646937
@@ -170,4 +172,7 @@ JCOIN_PW=''
 # twdd jcoin user
 TWDD_JCOIN_USER=''
 TWDD_JCOIN_PW=''
+
+# 會員凍結天數
+MEMBER_DELETE_DAYS=31
 ```
