@@ -3,7 +3,6 @@
 namespace Mtsung\JoymapCore\Services\Sms\Order;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Models\Order;
@@ -21,9 +20,9 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
         return SmsToTypeEnum::phone;
     }
 
-    public function body($bodyArguments = null): string
+    public function body(): string
     {
-        $order = $bodyArguments;
+        $order = $this->arguments;
 
         return __('joymap::sms.order.comment_remind', [
             'member' => $order->name,
@@ -36,14 +35,6 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
      */
     public function asListener(OrderCommentRemindEvent $event): bool
     {
-        if (!$phone = $event->order->member?->phone) {
-            Log::error(__METHOD__ . ': Member Phone Is Null', [
-                $event->order->id,
-            ]);
-
-            return false;
-        }
-
-        return self::run($phone, $event->order);
+        return self::run($event->order->member?->phone, $event->order);
     }
 }

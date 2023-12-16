@@ -13,9 +13,14 @@ use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationOrderService;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationPayService;
+use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCancelPushNotificationService;
+use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCommentRemindPushNotificationService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCommentRemindSmsService;
+use Mtsung\JoymapCore\Services\Sms\Order\SendOrderRemindPushNotificationService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderRemindSmsService;
+use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessPushNotificationService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessSmsService;
+use Mtsung\JoymapCore\Services\Sms\Order\SendOrderUpdatePushNotificationService;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -32,24 +37,29 @@ class EventServiceProvider extends ServiceProvider
         OrderSuccessEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderSuccessSmsService::class, 'asListener'],
+            [SendOrderSuccessPushNotificationService::class, 'asListener'],
         ],
         // 訂位修改
         OrderUpdateEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
+            [SendOrderUpdatePushNotificationService::class, 'asListener'],
         ],
         // 訂位取消
         OrderCancelEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
+            [SendOrderCancelPushNotificationService::class, 'asListener'],
         ],
         // 訂位提醒
         OrderRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderRemindSmsService::class, 'asListener'],
+            [SendOrderRemindPushNotificationService::class, 'asListener'],
         ],
         // 評論提醒
         OrderCommentRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderCommentRemindSmsService::class, 'asListener'],
+            [SendOrderCommentRemindPushNotificationService::class, 'asListener'],
         ],
         // 支付成功
         PaySuccessEvent::class => [

@@ -4,7 +4,6 @@ namespace Mtsung\JoymapCore\Services\Sms\Order;
 
 use Exception;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Models\Order;
@@ -22,9 +21,10 @@ class SendOrderRemindSmsService extends SmsAbstract
         return SmsToTypeEnum::phone;
     }
 
-    public function body($bodyArguments = null): string
+    public function body(): string
     {
-        $order = $bodyArguments;
+        $order = $this->arguments;
+
         $dateTime = Carbon::parse($order->reservation_date . ' ' . $order->reservation_time);
 
         return __('joymap::sms.order.remind', [
@@ -41,14 +41,6 @@ class SendOrderRemindSmsService extends SmsAbstract
      */
     public function asListener(OrderRemindEvent $event): bool
     {
-        if (!$phone = $event->order->member?->phone) {
-            Log::error(__METHOD__ . ': Member Phone Is Null', [
-                $event->order->id,
-            ]);
-
-            return false;
-        }
-
-        return self::run($phone, $event->order);
+        return self::run($event->order->member?->phone, $event->order);
     }
 }

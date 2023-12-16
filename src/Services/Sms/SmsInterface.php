@@ -9,5 +9,5 @@ interface SmsInterface
 {
     public function toType(): SmsToTypeEnum;
 
-    public function body(mixed $bodyArguments = null): string;
+    public function body(): string;
 }
