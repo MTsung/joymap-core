@@ -22,7 +22,7 @@ class NotificationOrderRepository implements RepositoryInterface
      * @param int $status
      * @return mixed
      */
-    public function createWithNotification(int $orderId, int $memberId, int $status)
+    public function createWithNotification(int $orderId, int $memberId, int $status): mixed
     {
         return $this->model()
             ->query()

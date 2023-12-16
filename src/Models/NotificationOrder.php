@@ -12,10 +12,6 @@ class NotificationOrder extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = [
-        'notification_title',
-    ];
-
     // 預約成功 (使用者操作)
     const STATUS_USER_SUCCESS = 0;
     // 預約成功 (店家操作)
@@ -53,16 +49,5 @@ class NotificationOrder extends Model
     public function notify()
     {
         return $this->morphOne(Notification::class, 'notify');
-    }
-
-    // notification_title
-    public function getNotificationTitleAttribute()
-    {
-        $storeName = $this->order->store->name;
-        $status = $this->status;
-
-        return __('notification_order.notification_title.' . $status, [
-            'store_name' => $storeName
-        ]);
     }
 }

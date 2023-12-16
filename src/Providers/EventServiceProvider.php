@@ -9,8 +9,10 @@ use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
+use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationOrderService;
+use Mtsung\JoymapCore\Services\Notification\CreateNotificationPayService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCommentRemindSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderRemindSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessSmsService;
@@ -26,29 +28,33 @@ class EventServiceProvider extends ServiceProvider
         SendErrorNotifyEvent::class => [
             LineListener::class,
         ],
-        // 訂位成功 Event
+        // 訂位成功
         OrderSuccessEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderSuccessSmsService::class, 'asListener'],
         ],
-        // 訂位修改 Event
+        // 訂位修改
         OrderUpdateEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
         ],
-        // 訂位取消 Event
+        // 訂位取消
         OrderCancelEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
         ],
-        // 訂位提醒 Event
+        // 訂位提醒
         OrderRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderRemindSmsService::class, 'asListener'],
         ],
-        // 評論提醒 Event
+        // 評論提醒
         OrderCommentRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderCommentRemindSmsService::class, 'asListener'],
         ],
+        // 支付成功
+        PaySuccessEvent::class => [
+            [CreateNotificationPayService::class, 'asListener'],
+        ]
     ];
 
     /**

@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Services\Sms;
 
 
 use Exception;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Mtsung\JoymapCore\Action\AsJob;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Facades\Sms\Sms;
@@ -12,7 +13,7 @@ use Mtsung\JoymapCore\Facades\Sms\Sms;
  * @method static bool dispatch(mixed $to, $bodyArguments = null)
  * @method static bool run(mixed $to, $bodyArguments = null)
  */
-abstract class SmsAbstract implements SmsInterface
+abstract class SmsAbstract implements SmsInterface, ShouldQueue
 {
     use AsObject, AsJob;
 

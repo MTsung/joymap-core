@@ -12,6 +12,11 @@ class NotificationStorePay extends Model
 
     protected $guarded = ['id'];
 
+    // 不顯示評論按鈕
+    const STATUS_HIDE_BUTTON = 0;
+    // 需顯示評論按鈕
+    const STATUS_SHOW_BUTTON = 1;
+
     public function getMorphClass()
     {
         return $this->getTable();
@@ -25,6 +30,11 @@ class NotificationStorePay extends Model
     public function store()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    public function payLog()
+    {
+        return $this->belongsTo(PayLog::class, 'pay_log_id');
     }
 
     public function notify()

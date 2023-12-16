@@ -24,7 +24,7 @@ class NotificationRepository implements RepositoryInterface
      * @param int $month
      * @return int
      */
-    public function getMemberUnreadWithInMonthCount($memberId, int $month = 3)
+    public function getMemberUnreadWithInMonthCount($memberId, int $month = 3): int
     {
         $createdAt = Carbon::now()->subMonths($month);
 

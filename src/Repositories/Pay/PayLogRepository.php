@@ -19,4 +19,26 @@ class PayLogRepository implements RepositoryInterface
             ->where('pay_no', $payNo)
             ->exists();
     }
+
+    public function getByStoreAndMember(int $storeId, int $memberId = 0)
+    {
+        return $this->model()
+            ->query()
+            ->select('orders.*')
+            ->addReservationDatetime()
+            ->where('orders.store_id', $storeId)
+            ->when($memberId > 0, function ($query) use ($memberId) {
+                $query->where('orders.member_id', $memberId);
+            });
+    }
+
+    // 取得來店的資料(成功刷卡、全額折抵)
+    public function getSuccessLog(int $storeId, int $memberId, array $dateRange = [])
+    {
+        return $this->getByStoreAndMember($storeId, $memberId)
+            ->whereIn('pay_logs.status', PayLog::EFFECTIVE_USER_PAY_STATUS)
+            ->when(count($dateRange) == 2, function ($query) use ($dateRange) {
+                $query->whereBetween('pay_logs.created_at', $dateRange);
+            });
+    }
 }

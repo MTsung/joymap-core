@@ -15,6 +15,13 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
+    // 預約
+    public const TYPE_RESERVE = 0;
+    // 現場候位
+    public const TYPE_ONSITE_WAIT = 1;
+    // 現場入座
+    public const TYPE_ONSITE_SEAT = 2;
+
     // 取消訂位
     public const STATUS_CANCEL_BY_USER = 0;
     // 成功訂位
@@ -32,7 +39,6 @@ class Order extends Model
     // 未出席 no-show
     public const STATUS_NO_SHOW = 7;
 
-
     // JoyBooking
     public const FROM_SOURCE_JOY_BOOKING = 0;
     // TWDD
@@ -47,6 +53,41 @@ class Order extends Model
     public const FROM_SOURCE_TW_AUTHORIZATION = 5;
     // Google訂位
     public const FROM_SOURCE_GOOGLE_BOOKING = 6;
+
+    // 訂位成功
+    public const SUCCESS_BOOKING = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+    ];
+    // 待入座
+    public const TO_BE_SEATED = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+        self::STATUS_RESERVED_SEAT,
+        self::STATUS_NO_SHOW,
+    ];
+    // 取消
+    public const CANCEL = [
+        self::STATUS_CANCEL_BY_USER,
+        self::STATUS_CANCEL_BY_STORE,
+    ];
+    // 來店判斷
+    public const VISIT = [
+        self::STATUS_SEATED,
+        self::STATUS_LEFT_SEAT,
+    ];
+    // 取消以外的狀態
+    public const NON_CANCEL_STATE = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+        self::STATUS_RESERVED_SEAT,
+        self::STATUS_SEATED,
+        self::STATUS_LEFT_SEAT,
+        self::STATUS_NO_SHOW,
+    ];
+
+    // 組合預約日期時間 RAW SQL
+    public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';
 
     public function member()
     {
@@ -109,7 +150,7 @@ class Order extends Model
     public function scopeAddReservationDatetime($query)
     {
         return $query->addSelect(
-            DB::raw("CONCAT(orders.reservation_date,' ',orders.reservation_time) AS reservation_datetime"),
+            DB::raw(self::RAW_RESERVATION_DATETIME . ' AS reservation_datetime'),
         );
     }
 
