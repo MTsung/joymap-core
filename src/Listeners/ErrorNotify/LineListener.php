@@ -4,27 +4,20 @@ namespace Mtsung\JoymapCore\Listeners\ErrorNotify;
 
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Mtsung\JoymapCore\Events\ErrorNotify\SendErrorNotifyEvent;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 
 class LineListener implements ShouldQueue
 {
-
-    public function __construct()
-    {
-    }
-
     /**
      * Handle the event.
      *
-     * @param SendErrorNotifyEvent $event
+     * @param SendNotifyEvent $event
      * @return void
      * @throws Exception
      */
-    public function handle(SendErrorNotifyEvent $event): void
+    public function handle(SendNotifyEvent $event): void
     {
-        if (config('joymap.line_notify.enable')) {
-            LineNotification::sendMsg($event->message, !isProd());
-        }
+        LineNotification::sendMsg($event->message, !isProd());
     }
 }

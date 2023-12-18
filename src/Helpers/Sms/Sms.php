@@ -6,7 +6,7 @@ namespace Mtsung\JoymapCore\Helpers\Sms;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Mtsung\JoymapCore\Facades\Notification\LineNotification;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 
 class Sms
@@ -98,10 +98,7 @@ class Sms
             ];
             Log::info('Skip Sms Send Api', $skipData);
 
-            LineNotification::sendMsg(
-                'Skip Sms: ' . json_encode($this->phones) . "\n" . $this->body,
-                true
-            );
+            event(new SendNotifyEvent('Skip Sms: ' . json_encode($this->phones) . "\n" . $this->body));
         }
 
         return $this->send();

@@ -10,6 +10,10 @@ class Line
 {
     public static function sendMsg(string $message, bool $notificationDisabled = false): void
     {
+        if (!config('joymap.line_notify.enable')) {
+            return;
+        }
+
         if (!$token = config('joymap.line_notify.token')) {
             return;
         }

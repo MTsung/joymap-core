@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtsung\JoymapCore\Events\ErrorNotify;
+namespace Mtsung\JoymapCore\Events\Notify;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendErrorNotifyEvent
+class SendNotifyEvent
 {
     use Dispatchable, SerializesModels;
 

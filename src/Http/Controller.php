@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Mtsung\JoymapCore\Events\ErrorNotify\SendErrorNotifyEvent;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 use Throwable;
 
@@ -26,7 +26,7 @@ class Controller extends BaseController
 
         $uuid = Str::uuid();
         $message = LineNotification::getMsgText($e, $uuid);
-        event(new SendErrorNotifyEvent($message));
+        event(new SendNotifyEvent($message));
         Log::error($uuid . '---------' . $e->getFile() . ':' . $e->getLine(), [$e]);
 
         return isProd() ?

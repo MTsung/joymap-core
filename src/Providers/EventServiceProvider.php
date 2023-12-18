@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Mtsung\JoymapCore\Events\ErrorNotify\SendErrorNotifyEvent;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
@@ -35,7 +35,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        SendErrorNotifyEvent::class => [
+        // 系統提醒
+        SendNotifyEvent::class => [
             LineListener::class,
         ],
         // 訂位成功
