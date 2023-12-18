@@ -2,12 +2,12 @@
 
 namespace Mtsung\JoymapCore\Services\Notification;
 
-use App\Repositories\NotificationStorePayRepository;
 use Carbon\Carbon;
 use Exception;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Models\NotificationStorePay;
 use Mtsung\JoymapCore\Models\PayLog;
+use Mtsung\JoymapCore\Repositories\Notification\NotificationStorePayRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
 

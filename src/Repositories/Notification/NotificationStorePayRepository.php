@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace Mtsung\JoymapCore\Repositories\Notification;
 
-use Mtsung\JoymapCore\Models\Model;
+use Illuminate\Database\Eloquent\Model;
 use Mtsung\JoymapCore\Models\NotificationStorePay;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 

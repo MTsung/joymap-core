@@ -4,9 +4,7 @@ namespace Mtsung\JoymapCore\Repositories\Jcoin;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Mtsung\JoymapCore\Models\JcUser;
-use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 
 class JcUserRepository implements RepositoryInterface
