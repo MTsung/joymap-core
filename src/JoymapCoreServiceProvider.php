@@ -41,6 +41,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.gorush',
             'logging.channels.infobip',
             'logging.channels.jcoin',
+            'logging.channels.mail',
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {
@@ -72,6 +73,10 @@ class JoymapCoreServiceProvider extends ServiceProvider
         // Load All Lang
         // e.g. __('joymap::xxxxxxxx')
         $this->loadTranslationsFrom(__DIR__ . '/../lang/', 'joymap');
+
+        // Load All View
+        // e.g. view('joymap::xxxxxxxx')
+        $this->loadViewsFrom(__DIR__ . '/../views/', 'joymap');
 
         // Register Event
         $this->app->register(EventServiceProvider::class);

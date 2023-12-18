@@ -33,7 +33,7 @@ class SendOrderSuccessSmsService extends SmsAbstract
             'date' => $dateTime->format('m/d'),
             'time' => $dateTime->format('H:i'),
             'week' => __('joymap::week.abbr.' . $dateTime->dayOfWeek),
-            'url' => config('joymap.domain.www') . '/booking-result/' . $order->id
+            'url' => $order->info_url,
         ]);
     }
 

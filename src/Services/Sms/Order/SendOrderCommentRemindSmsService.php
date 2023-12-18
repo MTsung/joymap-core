@@ -26,7 +26,7 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
 
         return __('joymap::sms.order.comment_remind', [
             'member' => $order->name,
-            'url' => config('joymap.domain.www') . '/booking-result/' . $order->id
+            'url' => $order->info_url,
         ]);
     }
 

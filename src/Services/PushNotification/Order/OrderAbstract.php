@@ -4,8 +4,9 @@ namespace Mtsung\JoymapCore\Traits;
 
 
 use Illuminate\Support\Carbon;
+use Mtsung\JoymapCore\Services\Sms\PushNotificationAbstract;
 
-trait OrderTrait
+abstract class OrderAbstract extends PushNotificationAbstract
 {
     // 訂單推播內容共用
     public function body(): string

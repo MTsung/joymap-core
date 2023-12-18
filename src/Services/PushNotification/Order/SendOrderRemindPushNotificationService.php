@@ -7,18 +7,15 @@ use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
-use Mtsung\JoymapCore\Services\Sms\PushNotificationAbstract;
-use Mtsung\JoymapCore\Traits\OrderTrait;
+use Mtsung\JoymapCore\Traits\OrderAbstract;
 
 
 /**
  * @method static bool dispatch(Member $to, Order $order)
  * @method static bool run(Member $to, Order $order)
  */
-class SendOrderRemindPushNotificationService extends PushNotificationAbstract
+class SendOrderRemindPushNotificationService extends OrderAbstract
 {
-    use OrderTrait;
-
     public function toType(): PushNotificationToTypeEnum
     {
         return PushNotificationToTypeEnum::member;

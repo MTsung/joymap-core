@@ -69,6 +69,13 @@ class Store extends Model
     public const AVG_PRICE_MIN = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000];
     public const AVG_PRICE_MAX = [100, 300, 500, 900, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 10000];
 
+    // 把座標轉換
+    public function newQuery()
+    {
+        $raw = ' ST_X(lat_lng) as lat, ST_Y(lat_lng) as lng';
+
+        return parent::newQuery()->addSelect('*', DB::raw($raw));
+    }
 
     public function restriction()
     {
@@ -250,14 +257,6 @@ class Store extends Model
         return $this->belongsTo(StoreLightbox::class, 'id', 'store_id');
     }
 
-    // 把座標轉換
-    public function newQuery()
-    {
-        $raw = ' ST_X(lat_lng) as lat, ST_Y(lat_lng) as lng';
-
-        return parent::newQuery()->addSelect('*', DB::raw($raw));
-    }
-
     public function memberDealerRecommendStore()
     {
         return $this->hasOne(MemberDealerRecommendStore::class);
@@ -266,5 +265,53 @@ class Store extends Model
     public function storePayRemindSetting()
     {
         return $this->hasOne(StorePayRemindSetting::class);
+    }
+
+    /**
+     * 取得完整地址
+     * full_address
+     * @return string
+     */
+    public function getFullAddressAttribute(): string
+    {
+        $this->loadMissing([
+            'city',
+            'district',
+        ]);
+
+        return $this->district->name . $this->city->name . $this->address;
+    }
+
+    /**
+     * 取得店家 Logo 網址
+     * logo_url
+     * @return string
+     */
+    public function getLogoUrlAttribute(): string
+    {
+        $image = $this->images->where('type', StoreImage::TYPE_LOGO)->first();
+
+        return $image?->url ??
+            'https://storage.googleapis.com/joymap-store/logo/joymap_store_logo.png';
+    }
+
+    /**
+     * 取得店家用餐時間
+     * limit_minute
+     * @return int
+     */
+    public function getLimitMinuteAttribute(): int
+    {
+        return $this->restriction?->limit_minute ?? 120;
+    }
+
+    /**
+     * 取得次分類完整名稱
+     * food_type_full_name
+     * @return string
+     */
+    public function getFoodTypeFullNameAttribute(): string
+    {
+        return $this->foodTypes->implode('name', '・');
     }
 }

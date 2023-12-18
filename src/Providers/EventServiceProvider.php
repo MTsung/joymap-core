@@ -11,6 +11,11 @@ use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
 use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
+use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCancelMailService;
+use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCommentRemindMailService;
+use Mtsung\JoymapCore\Services\Mail\Order\SendOrderRemindMailService;
+use Mtsung\JoymapCore\Services\Mail\Order\SendOrderSuccessMailService;
+use Mtsung\JoymapCore\Services\Mail\Order\SendOrderUpdateMailService;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationOrderService;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationPayService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCancelPushNotificationService;
@@ -38,28 +43,33 @@ class EventServiceProvider extends ServiceProvider
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderSuccessSmsService::class, 'asListener'],
             [SendOrderSuccessPushNotificationService::class, 'asListener'],
+            [SendOrderSuccessMailService::class, 'asListener'],
         ],
         // 訂位修改
         OrderUpdateEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderUpdatePushNotificationService::class, 'asListener'],
+            [SendOrderUpdateMailService::class, 'asListener'],
         ],
         // 訂位取消
         OrderCancelEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderCancelPushNotificationService::class, 'asListener'],
+            [SendOrderCancelMailService::class, 'asListener'],
         ],
         // 訂位提醒
         OrderRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderRemindSmsService::class, 'asListener'],
             [SendOrderRemindPushNotificationService::class, 'asListener'],
+            [SendOrderRemindMailService::class, 'asListener'],
         ],
         // 評論提醒
         OrderCommentRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderCommentRemindSmsService::class, 'asListener'],
             [SendOrderCommentRemindPushNotificationService::class, 'asListener'],
+            [SendOrderCommentRemindMailService::class, 'asListener'],
         ],
         // 支付成功
         PaySuccessEvent::class => [

@@ -3,7 +3,6 @@
 namespace Mtsung\JoymapCore\Services\Notification;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
@@ -45,27 +44,19 @@ class CreateNotificationOrderService
     public function asListener(object $event): void
     {
         $order = $event->order;
-
-        if ($event instanceof OrderSuccessEvent) {
-            $status = NotificationOrder::STATUS_USER_SUCCESS;
-            if ($order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING) {
-                $status = NotificationOrder::STATUS_STORE_SUCCESS;
-            }
-        } else if ($event instanceof OrderUpdateEvent) {
-            $status = NotificationOrder::STATUS_MODIFY;
-        } else if ($event instanceof OrderCancelEvent) {
-            $status = NotificationOrder::STATUS_USER_CANCEL;
-            if ($order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING) {
-                $status = NotificationOrder::STATUS_STORE_CANCEL;
-            }
-        } else if ($event instanceof OrderRemindEvent) {
-            $status = NotificationOrder::STATUS_REMINDER;
-        } else if ($event instanceof OrderCommentRemindEvent) {
-            $status = NotificationOrder::STATUS_SEATED;
-        } else {
-            Log::error(__METHOD__ . ': 未知 event ', [get_class($event)]);
-            return;
-        }
+        $status = match (true) {
+            $event instanceof OrderSuccessEvent =>
+            $order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING ?
+                NotificationOrder::STATUS_STORE_SUCCESS :
+                NotificationOrder::STATUS_USER_SUCCESS,
+            $event instanceof OrderUpdateEvent => NotificationOrder::STATUS_MODIFY,
+            $event instanceof OrderCancelEvent =>
+            $order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING ?
+                NotificationOrder::STATUS_STORE_CANCEL :
+                NotificationOrder::STATUS_USER_CANCEL,
+            $event instanceof OrderRemindEvent => NotificationOrder::STATUS_REMINDER,
+            $event instanceof OrderCommentRemindEvent => NotificationOrder::STATUS_SEATED,
+        };
 
         self::run($order, $status);
     }

@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 
@@ -163,5 +164,14 @@ class Order extends Model
         return $query->addSelect(
             DB::raw("(orders.adult_num + orders.child_num) AS people_num"),
         );
+    }
+
+    /**
+     * info_url
+     * @return string
+     */
+    public function getInfoUrlAttribute(): string
+    {
+        return config('joymap.domain.www') . '/booking-result/' . $this->id;
     }
 }

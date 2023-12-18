@@ -34,7 +34,12 @@ return [
         ],
         'jcoin' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/jcoin.log'),
+            'path' => storage_path('logs/jcoin/jcoin.log'),
+            'days' => 14,
+        ],
+        'mail' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/mail/mail.log'),
             'days' => 14,
         ],
     ],
