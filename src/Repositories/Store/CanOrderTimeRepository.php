@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Repositories\Store;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\CanOrderTime;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 
@@ -17,17 +18,17 @@ class CanOrderTimeRepository implements RepositoryInterface
 
     /**
      * @param int $storeId
-     * @param ?Carbon $beginTime
+     * @param ?Collection $insertData
      * @return int
      */
-    public function delete(int $storeId, Carbon $beginTime = null): int
+    public function delete(int $storeId, Collection $insertData = null): int
     {
         return $this->model()->query()
             ->where('store_id', $storeId)
-            ->when($beginTime, function ($whenQuery) use ($beginTime) {
-                $whenQuery->where(function ($query) use ($beginTime) {
-                    $query->orWhere('begin_time', '<', Carbon::now()->subDay());
-                    $query->orWhere('begin_time', '>=', $beginTime);
+            ->where(function ($query) use ($insertData) {
+                $query->orWhere('begin_time', '<', Carbon::now()->subDay());
+                $query->when($insertData, function ($whenQuery) use ($insertData) {
+                    $whenQuery->orWhereIn('begin_time', $insertData->pluck('begin_time'));
                 });
             })
             ->delete();
@@ -50,7 +51,11 @@ class CanOrderTimeRepository implements RepositoryInterface
                 'end_time' => $v['end_time'],
             ])->toArray();
 
-            $res |= $this->model()->query()->insert($insert);
+            if (!$temp = $this->model()->query()->insert($insert)) {
+                Log::error(__METHOD__ . ': error', [$insert]);
+            }
+
+            $res |= $temp;
         }
 
         return $res;
