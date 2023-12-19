@@ -42,6 +42,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.infobip',
             'logging.channels.jcoin',
             'logging.channels.mail',
+            'logging.channels.can_order_time',
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {

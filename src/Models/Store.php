@@ -2,8 +2,10 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Store extends Model
 {
@@ -70,11 +72,13 @@ class Store extends Model
     public const AVG_PRICE_MAX = [100, 300, 500, 900, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 10000];
 
     // 把座標轉換
-    public function newQuery()
+    public function newQuery(): Builder
     {
-        $raw = ' ST_X(lat_lng) as lat, ST_Y(lat_lng) as lng';
-
-        return parent::newQuery()->addSelect('*', DB::raw($raw));
+        return parent::newQuery()->addSelect([
+            'stores.*',
+            DB::raw('ST_X(stores.lat_lng) as lat, ST_Y(stores.lat_lng) as lng'),
+            DB::raw('CONCAT(ST_X(stores.lat_lng), ",", ST_Y(stores.lat_lng)) as lat_lng'),
+        ]);
     }
 
     public function restriction()

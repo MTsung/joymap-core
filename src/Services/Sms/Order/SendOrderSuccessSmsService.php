@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Services\Sms\Order;
 
 use Exception;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Order;
@@ -11,7 +11,7 @@ use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
 
 /**
- * @method static bool dispatch(string $to, Order $order)
+ * @method static dispatch(string $to, Order $order)
  * @method static bool run(string $to, Order $order)
  */
 class SendOrderSuccessSmsService extends SmsAbstract

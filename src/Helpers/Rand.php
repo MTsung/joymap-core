@@ -4,7 +4,7 @@ namespace Mtsung\JoymapCore\Helpers;
 
 use Faker\Generator as Faker;
 use Faker\Provider\Base as FakerBase;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Repositories\MemberDealer\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;

@@ -20,9 +20,38 @@ trait DateTrait
         return [$startAt, $endAt];
     }
 
-    // 判斷時間是否相交
-    function isDateOverlap(Carbon $s1, Carbon $s2, Carbon $s3, Carbon $s4): bool
+    // 判斷時間是否重疊
+    function isDateOverlap(Carbon $s1, Carbon $s2, Carbon $s3, Carbon $s4, $excludeEnd = true): bool
     {
-        return $s1 < $s4 && $s3 < $s2;
+        // 差異在判不判斷結尾的重疊
+        // 重疊的四種可能
+        // |s1------s2|
+        //     |s3------s4|
+        //
+        //     |s1------s2|
+        // |s3----s4|
+        //
+        // |s1---------s2|
+        //    |s3---s4|
+        //
+        //    |s1---s2|
+        // |s3---------s4|
+
+        if ($excludeEnd) {
+            // 兩種重疊為 false
+            // e.g. 14:00~15:00 已有訂單，訂位時間 13:00~14:00、15:00~16:00 不能消失。
+            // 以下皆為 A B 時段與 C 比較皆為 false。
+            // |13---A---14|           |15---B---16|
+            //             |14---C---15|
+            return $s1 < $s4 && $s3 < $s2;
+        } else {
+            return $s1 <= $s4 && $s3 <= $s2;
+        }
+    }
+
+    // 判斷單一時間是否介於這段時間內
+    function isDateBetween(Carbon $check, Carbon $beginTime, Carbon $endTime): bool
+    {
+        return $beginTime <= $check && $check <= $endTime;
     }
 }

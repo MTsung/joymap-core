@@ -11,7 +11,7 @@ use Mtsung\JoymapCore\Traits\OrderAbstract;
 
 
 /**
- * @method static bool dispatch(Member $to, Order $order)
+ * @method static dispatch(Member $to, Order $order)
  * @method static bool run(Member $to, Order $order)
  */
 class SendOrderRemindPushNotificationService extends OrderAbstract

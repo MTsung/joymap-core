@@ -11,7 +11,7 @@ use Mtsung\JoymapCore\Facades\Notification\Notification;
 use Mtsung\JoymapCore\Services\PushNotification\PushNotificationInterface;
 
 /**
- * @method static bool dispatch(mixed $to, $arguments = null)
+ * @method static dispatch(mixed $to, $arguments = null)
  * @method static bool run(mixed $to, $arguments = null)
  */
 abstract class PushNotificationAbstract implements PushNotificationInterface, ShouldQueue

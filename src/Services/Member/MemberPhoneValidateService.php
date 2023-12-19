@@ -4,7 +4,7 @@ namespace Mtsung\JoymapCore\Services\Member;
 
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Mtsung\JoymapCore\Facades\Rand;
 use Mtsung\JoymapCore\Models\MemberPhoneValidate;
 use Mtsung\JoymapCore\Repositories\Member\MemberPhoneValidateRepository;

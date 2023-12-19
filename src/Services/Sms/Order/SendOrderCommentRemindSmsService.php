@@ -10,7 +10,7 @@ use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
 
 /**
- * @method static bool dispatch(string $to, Order $order)
+ * @method static dispatch(string $to, Order $order)
  * @method static bool run(string $to, Order $order)
  */
 class SendOrderCommentRemindSmsService extends SmsAbstract

@@ -10,7 +10,7 @@ use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Facades\Sms\Sms;
 
 /**
- * @method static bool dispatch(mixed $to, $arguments = null)
+ * @method static dispatch(mixed $to, $arguments = null)
  * @method static bool run(mixed $to, $arguments = null)
  */
 abstract class SmsAbstract implements SmsInterface, ShouldQueue

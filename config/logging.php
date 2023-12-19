@@ -42,5 +42,10 @@ return [
             'path' => storage_path('logs/mail/mail.log'),
             'days' => 14,
         ],
+        'can_order_time' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/can_order_time/can_order_time.log'),
+            'days' => 14,
+        ],
     ],
 ];

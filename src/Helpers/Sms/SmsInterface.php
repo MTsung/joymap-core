@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Helpers\Sms;
 
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 interface SmsInterface
 {

@@ -6,7 +6,7 @@ use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 
 
 /**
- * @method static bool dispatch(string $to, array $replace)
+ * @method static dispatch(string $to, array $replace)
  * @method static bool run(string $to, array $replace)
  */
 class SendPhoneVerifySmsService extends SmsAbstract

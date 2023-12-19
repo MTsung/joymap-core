@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Traits;
 
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Mtsung\JoymapCore\Services\Sms\PushNotificationAbstract;
 
 abstract class OrderAbstract extends PushNotificationAbstract

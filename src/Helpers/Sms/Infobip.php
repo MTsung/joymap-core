@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Helpers\Sms;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;

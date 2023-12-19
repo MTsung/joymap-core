@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Services\Member;
 
 use Exception;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Member;

@@ -9,7 +9,7 @@ use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\Mail\MailAbstract;
 
 /**
- * @method static bool dispatch(Order $order)
+ * @method static dispatch(Order $order)
  * @method static bool run(Order $order)
  */
 class SendOrderUpdateMailService extends MailAbstract
