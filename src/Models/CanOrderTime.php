@@ -17,8 +17,8 @@ class CanOrderTime extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'begin_time' => 'date',
-        'end_time' => 'date',
+        'begin_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     public function store()

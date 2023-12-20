@@ -45,7 +45,9 @@ class WriteStoreCanOrderTimeService
                 ] : [],
             );
 
-            $this->canOrderTimeRepository->delete($store->id, $canOrderTime);
+            $deleteCount = $this->canOrderTimeRepository->delete($store->id, $canOrderTime);
+
+            $log->info(__METHOD__ . ': deleteCount', [$deleteCount]);
 
             $res = $this->canOrderTimeRepository->batchInsert($canOrderTime);
 
