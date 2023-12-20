@@ -86,6 +86,14 @@ class Order extends Model
         self::STATUS_LEFT_SEAT,
         self::STATUS_NO_SHOW,
     ];
+    // 桌位已使用判斷
+    public const TABLE_USING = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+        self::STATUS_RESERVED_SEAT,
+        self::STATUS_SEATED,
+        self::STATUS_NO_SHOW,
+    ];
 
     // 組合預約日期時間 RAW SQL
     public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';

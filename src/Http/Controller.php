@@ -20,7 +20,7 @@ class Controller extends BaseController
     public function addErrorLog(Throwable $e): string
     {
         $code = $e->getCode();
-        if ($code >= 400 && $code < 500) {
+        if (is_int($code) && $code >= 400 && $code < 500) {
             return $e->getMessage();
         }
 
@@ -30,7 +30,7 @@ class Controller extends BaseController
         Log::error($uuid . '---------' . $e->getFile() . ':' . $e->getLine(), [$e]);
 
         return isProd() ?
-            $uuid :
+            'Error Tracking Code: ' . $uuid :
             $uuid . "\n" . $e->getMessage();
     }
 
@@ -46,10 +46,14 @@ class Controller extends BaseController
     /**
      * @throws Exception
      */
-    public function error(int $code, string $msg, $return = null): JsonResponse
+    public function error(mixed $code, string $msg, $return = null): JsonResponse
     {
         if ($code == 1) {
             throw new Exception('Error Code 不可為 1');
+        }
+
+        if (is_string($code)) {
+            $code = 0;
         }
 
         $httpStatus = 500;
