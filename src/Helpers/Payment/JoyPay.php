@@ -130,22 +130,22 @@ class JoyPay
     public function pay()
     {
         if (!$this->store && !$this->storeId) {
-            throw new Exception('請呼叫 store() 或 storeId()', 422);
+            throw new Exception('請呼叫 store() 或 storeId()', 500);
         }
         if (!$this->orderNumber) {
-            throw new Exception('請呼叫 orderNo()', 422);
+            throw new Exception('請呼叫 orderNo()', 500);
         }
         if (!$this->amount) {
-            throw new Exception('請呼叫 money()', 422);
+            throw new Exception('請呼叫 money()', 500);
         }
         if (!$this->token) {
-            throw new Exception('請呼叫 token()', 422);
+            throw new Exception('請呼叫 token()', 500);
         }
         if (($this->service instanceof HiTrustPay) && !$this->expiry) {
-            throw new Exception('請呼叫 expiry()', 422);
+            throw new Exception('請呼叫 expiry()', 500);
         }
         if (!$this->email) {
-            throw new Exception('請呼叫 email()', 422);
+            throw new Exception('請呼叫 email()', 500);
         }
 
         $params = [
@@ -173,22 +173,22 @@ class JoyPay
     public function bindCard()
     {
         if (!$this->store && !$this->storeId) {
-            throw new Exception('請呼叫 store() 或 storeId()', 422);
+            throw new Exception('請呼叫 store() 或 storeId()', 500);
         }
         if (!$this->cardNo) {
-            throw new Exception('請呼叫 cardNo()', 422);
+            throw new Exception('請呼叫 cardNo()', 500);
         }
         if (!$this->expiry) {
-            throw new Exception('請呼叫 expiry()', 422);
+            throw new Exception('請呼叫 expiry()', 500);
         }
         if (!$this->cvc) {
-            throw new Exception('請呼叫 cvc()', 422);
+            throw new Exception('請呼叫 cvc()', 500);
         }
         if (!$this->phone) {
-            throw new Exception('請呼叫 phone()', 422);
+            throw new Exception('請呼叫 phone()', 500);
         }
         if (!$this->email) {
-            throw new Exception('請呼叫 email()', 422);
+            throw new Exception('請呼叫 email()', 500);
         }
         if (!$this->amount) {
             $this->money(1);
@@ -224,13 +224,13 @@ class JoyPay
     public function cancel()
     {
         if (!$this->orderNumber) {
-            throw new Exception('請呼叫 orderNo()', 422);
+            throw new Exception('請呼叫 orderNo()', 500);
         }
         if (!$this->amount) {
-            throw new Exception('請呼叫 money()', 422);
+            throw new Exception('請呼叫 money()', 500);
         }
         if (!$this->store && !$this->storeId) {
-            throw new Exception('請呼叫 store() 或 storeId()', 422);
+            throw new Exception('請呼叫 store() 或 storeId()', 500);
         }
 
         $params = [
@@ -252,13 +252,13 @@ class JoyPay
     public function close()
     {
         if (!$this->orderNumber) {
-            throw new Exception('請呼叫 orderNo()', 422);
+            throw new Exception('請呼叫 orderNo()', 500);
         }
         if (!$this->amount) {
-            throw new Exception('請呼叫 money()', 422);
+            throw new Exception('請呼叫 money()', 500);
         }
         if (!$this->store && !$this->storeId) {
-            throw new Exception('請呼叫 store() 或 storeId()', 422);
+            throw new Exception('請呼叫 store() 或 storeId()', 500);
         }
 
         $params = [
@@ -280,13 +280,13 @@ class JoyPay
     public function query()
     {
         if (!$this->orderNumber) {
-            throw new Exception('請呼叫 orderNo()', 422);
+            throw new Exception('請呼叫 orderNo()', 500);
         }
         if (!$this->amount) {
-            throw new Exception('請呼叫 money()', 422);
+            throw new Exception('請呼叫 money()', 500);
         }
         if (!$this->store && !$this->storeId) {
-            throw new Exception('請呼叫 store() 或 storeId()', 422);
+            throw new Exception('請呼叫 store() 或 storeId()', 500);
         }
 
         $params = [

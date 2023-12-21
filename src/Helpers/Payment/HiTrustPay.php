@@ -41,7 +41,7 @@ class HiTrustPay implements PayInterface
     {
         $this->store = $store;
         if (!$this->store->qrcode_no) {
-            throw new Exception('商店沒有 store_id', 422);
+            throw new Exception('商店沒有 store_id', 500);
         }
         return $this;
     }

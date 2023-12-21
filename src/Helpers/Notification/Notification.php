@@ -138,10 +138,10 @@ class Notification
     public function send(): bool
     {
         if (count($this->tokens) === 0) {
-            throw new Exception('Tokens Empty.', 422);
+            throw new Exception('Tokens Empty.', 500);
         }
         if (!$this->title) {
-            throw new Exception('請呼叫 title()', 422);
+            throw new Exception('請呼叫 title()', 500);
         }
 
         $res = $this->service->send(

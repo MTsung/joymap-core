@@ -38,7 +38,7 @@ class SpGateway implements PayInterface
             empty($this->store->storeSpgateway->merchant_iv_key) ||
             empty($this->store->storeSpgateway->merchant_hash_key)
         ) {
-            throw new Exception('店家尚未啟用', 422);
+            throw new Exception('店家尚未啟用', 500);
         }
         return $this;
     }

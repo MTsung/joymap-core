@@ -110,10 +110,10 @@ class Sms
     public function send(): bool
     {
         if (count($this->phones) == 0) {
-            throw new Exception('Phones Empty.', 422);
+            throw new Exception('Phones Empty.', 500);
         }
         if (!$this->body) {
-            throw new Exception('請呼叫 body()', 422);
+            throw new Exception('請呼叫 body()', 500);
         }
 
         $res = true;
