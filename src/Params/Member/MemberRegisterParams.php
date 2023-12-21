@@ -7,6 +7,9 @@ use Illuminate\Validation\Rule;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Params\Validation;
 
+/**
+ * @method static self make($items = [])
+ */
 class MemberRegisterParams extends Validation
 {
     public static function rules(): array

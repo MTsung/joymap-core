@@ -5,6 +5,9 @@ namespace Mtsung\JoymapCore\Params\Jcoin;
 
 use Mtsung\JoymapCore\Params\Validation;
 
+/**
+ * @method static self make($items = [])
+ */
 class ExpiredParams extends Validation
 {
     public string $start_ts;

@@ -5,6 +5,9 @@ namespace Mtsung\JoymapCore\Params\Jcoin;
 
 use Mtsung\JoymapCore\Params\Validation;
 
+/**
+ * @method static self make($items = [])
+ */
 class AddBonusParams extends Validation
 {
     public static function rules(): array
