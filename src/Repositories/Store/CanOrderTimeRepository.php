@@ -25,8 +25,7 @@ class CanOrderTimeRepository implements RepositoryInterface
      * item output e.g.
      * [
      *     order_time => '2023-12-11 09:00:00',
-     *     // 這是 json string
-     *     people_array => '[
+     *     people_array => [
      *          [3, 4, 5, 6, 7, 8],
      *          [1, 2, 3, 4, 5, 6],
      *          [4, 5, 6, 7, 8, 9, 10],
@@ -34,7 +33,7 @@ class CanOrderTimeRepository implements RepositoryInterface
      *          [20, 21, 22],
      *          [5, 6, 7, 8, 9, 10],
      *          [2]
-     *      ]'
+     *      ]
      * ]
      * @throws Exception
      */
@@ -92,7 +91,11 @@ class CanOrderTimeRepository implements RepositoryInterface
             ->where('can_order_time.store_id', $store->id)
             ->whereBetween('can_order_time.begin_time', $dateBetween)
             ->orderBy('can_order_time.begin_time')
-            ->get();
+            ->get()
+            ->map(function ($v) {
+                $v->people_array = json_decode($v->people_array);
+                return $v;
+            });
     }
 
     /**
