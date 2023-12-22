@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Services\StoreWallet;
 
 
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreWallet;
@@ -25,6 +26,8 @@ class StoreWalletGetOrCreateService
         if ($store->storeWallet) {
             return $store->storeWallet;
         }
+
+        Log::info('找不到儲值金錢包，建立一個', [$store->id]);
 
         $data = [
             'store_id' => $store->id,

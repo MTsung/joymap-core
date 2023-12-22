@@ -17,6 +17,7 @@ use Mtsung\JoymapCore\Params\Jcoin\SubBonusParams;
 use Mtsung\JoymapCore\Params\Jcoin\SubJcoinParams;
 use Throwable;
 
+// https://hackmd.io/2g0jje37Txe1Ym1fpkX9ig
 class JcoinApi
 {
     protected string $baseUrl;

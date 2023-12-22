@@ -80,4 +80,9 @@ class PayLog extends Model
     {
         return $this->hasMany(Comment::class, 'pay_log_id', 'id');
     }
+
+    public function couponNumberTransactionLogs()
+    {
+        return $this->hasMany(CouponNumberTransactionLog::class, 'pay_log_id');
+    }
 }

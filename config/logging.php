@@ -47,5 +47,10 @@ return [
             'path' => storage_path('logs/can_order_time/can_order_time.log'),
             'days' => 14,
         ],
+        'refund' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/pay/refund.log'),
+            'days' => 365,
+        ],
     ],
 ];

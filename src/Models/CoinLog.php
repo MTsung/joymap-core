@@ -26,6 +26,11 @@ class CoinLog extends Model
     // 活動任務
     public const TYPE_ACTIVITY_TASK = 9;
 
+    // JOYMAP
+    public const FROM_SOURCE_JOYMAP = 0;
+    // TWDD
+    public const FROM_SOURCE_TWDD = 1;
+
     // 人為/系統 調整
     public const TYPE_CHANGES_BY_ADMIN = [
         self::TYPE_SYSTEM_RECLAIM,

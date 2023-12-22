@@ -20,11 +20,6 @@ class JcCoin extends Model
     public const TYPE_EXPIRE = 2;
 
     // JOYMAP
-    public const FROM_SOURCE_JOYMAP = 0;
-    // TWDD
-    public const FROM_SOURCE_TWDD = 1;
-
-    // JOYMAP
     public const FROM_PARTNER_JOYMAP = 1;
     // TWDD
     public const FROM_PARTNER_TWDD = 2;

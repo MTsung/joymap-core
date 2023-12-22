@@ -22,12 +22,12 @@ return [
         JcCoin::TYPE_EXPIRE => '過期',
     ],
     'from_source' => [
-        JcCoin::FROM_SOURCE_JOYMAP => 'Joymap',
-        JcCoin::FROM_SOURCE_TWDD => 'TWDD'
+        CoinLog::FROM_SOURCE_JOYMAP => 'Joymap',
+        CoinLog::FROM_SOURCE_TWDD => 'TWDD',
     ],
     'from_partner' => [
         JcCoin::FROM_PARTNER_JOYMAP => 'Joymap',
-        JcCoin::FROM_PARTNER_TWDD => 'TWDD'
+        JcCoin::FROM_PARTNER_TWDD => 'TWDD',
     ],
     'status' => [
         JcTransaction::STATUS_FAILURE => '失敗',
