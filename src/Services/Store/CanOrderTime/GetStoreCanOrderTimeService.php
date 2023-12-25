@@ -80,20 +80,20 @@ class GetStoreCanOrderTimeService
 
         $this->setStore($store);
 
-        // 先拿到只看營業時間的列表
-        $res = $this->getBusinessTimeList();
+        // 先拿到只看訂位時間的列表
+        $res = $this->getOrderHourSettingsList();
 
-        // 移除每週不開放訂位日期
-        $closeBookingWeeks = $this->orderHourSettings->where('is_open', 0)->pluck('week');
-        $res = $res->whereNotIn('week', $closeBookingWeeks);
+        // 移除每週不開放營業日期
+        $closeBusinessWeeks = $this->businessTimes->where('is_open', 0)->pluck('week');
+        $res = $res->whereNotIn('week', $closeBusinessWeeks);
 
         // 移除不在訂位時間內的時間
         $res = $res->filter(function ($v) {
-            $ohs = $this->orderHourSettings->where('is_open', 1)->where('week', $v['week']);
+            $bs = $this->businessTimes->where('is_open', 1)->where('week', $v['week']);
 
-            foreach ($ohs as $orderHourSetting) {
-                $beginTime = Carbon::parse($v['date'] . ' ' . $orderHourSetting->begin_time);
-                $endTime = Carbon::parse($v['date'] . ' ' . $orderHourSetting->end_time);
+            foreach ($bs as $businessTime) {
+                $beginTime = Carbon::parse($v['date'] . ' ' . $businessTime->begin_time);
+                $endTime = Carbon::parse($v['date'] . ' ' . $businessTime->end_time);
                 if ($beginTime > $endTime) $endTime->addDay();
 
                 if ($this->isDateBetween(Carbon::parse($v['begin_time']), $beginTime, $endTime)) {
@@ -182,8 +182,8 @@ class GetStoreCanOrderTimeService
             ->get();
     }
 
-    // 取得正常營業時間的 Time List
-    private function getBusinessTimeList(): Collection
+    // 取得正常訂位時間的 Time List
+    private function getOrderHourSettingsList(): Collection
     {
         $result = [];
 
@@ -193,14 +193,14 @@ class GetStoreCanOrderTimeService
             $date = $datePeriod->format('Y-m-d');
             $week = $datePeriod->dayOfWeek;
 
-            if ($this->businessTimes->where('week', $week)->where('is_open', 0)->isNotEmpty()) {
+            if ($this->orderHourSettings->where('week', $week)->where('is_open', 0)->isNotEmpty()) {
                 continue;
             }
 
-            $bs = $this->businessTimes->where('week', $week);
-            foreach ($bs as $businessTime) {
-                $beginTime = Carbon::parse($date . ' ' . $businessTime->begin_time);
-                $endTime = Carbon::parse($date . ' ' . $businessTime->end_time);
+            $ohs = $this->orderHourSettings->where('week', $week);
+            foreach ($ohs as $orderHourSetting) {
+                $beginTime = Carbon::parse($date . ' ' . $orderHourSetting->begin_time);
+                $endTime = Carbon::parse($date . ' ' . $orderHourSetting->end_time);
                 if ($beginTime > $endTime) $endTime->addDay();
 
                 for ($now = $beginTime->copy(); $now <= $endTime; $now->addMinutes($this->orderSetting->order_unit_minute)) {
