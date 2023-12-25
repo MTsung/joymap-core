@@ -19,6 +19,8 @@ class CanOrderTime extends Model
     protected $casts = [
         'begin_time' => 'datetime',
         'end_time' => 'datetime',
+        'people_array' => 'array',
+        'table_array' => 'array',
     ];
 
     public function store()

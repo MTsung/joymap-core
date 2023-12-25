@@ -16,6 +16,8 @@ class StoreTableCombination extends Model
 
     protected $casts = [
         'combination' => 'array',
+        'people_combination' => 'array',
+        'relation_ids' => 'array',
     ];
 
     public function orders()

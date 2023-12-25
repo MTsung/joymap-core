@@ -2,9 +2,12 @@
 
 namespace Mtsung\JoymapCore\Repositories\Order;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Models\Order;
+use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 
 class OrderRepository implements RepositoryInterface
@@ -44,5 +47,22 @@ class OrderRepository implements RepositoryInterface
                     $dateRange
                 );
             });
+    }
+
+    /**
+     * 取得待入座的單
+     * @param Store $store
+     * @return Builder
+     */
+    public function getToBeSeatedOrders(Store $store): Builder
+    {
+        // 會有還在用餐時間內的遲到單 status = 7
+        $beginTime = Carbon::now()->subMinutes($store->limit_minute);
+
+        return $this->model()
+            ->query()
+            ->where('orders.store_id', $store->id)
+            ->whereIn('orders.status', Order::TO_BE_SEATED)
+            ->where('begin_time', '>=', $beginTime);
     }
 }

@@ -161,7 +161,7 @@ class GetStoreCanOrderTimeService
     {
         $this->store = $store;
 
-        $this->restrictionMin = $store->restriction?->limit_minute ?? 120;
+        $this->restrictionMin = $store->limit_minute;
 
         $this->orderSetting = $store->orderSettings;
 
