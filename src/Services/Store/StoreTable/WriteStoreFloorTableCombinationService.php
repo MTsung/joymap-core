@@ -8,14 +8,17 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
+use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorUpdatedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableUpdatedEvent;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\StoreFloor;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 
 /**
- * @method static dispatch(StoreFloor $store, bool $refreshOrderTableId = true)
- * @method static bool run(StoreFloor $store, bool $refreshOrderTableId = true)
+ * @method static dispatch(StoreFloor $storeFloor, bool $refreshOrderTableId = true)
+ * @method static bool run(StoreFloor $storeFloor, bool $refreshOrderTableId = true)
  */
 class WriteStoreFloorTableCombinationService
 {
@@ -47,6 +50,17 @@ class WriteStoreFloorTableCombinationService
         }
     }
 
+    public function asListener(object $event): void
+    {
+        $storeFloor = match (true) {
+            $event instanceof StoreFloorUpdatedEvent => $event->storeFloor,
+            $event instanceof StoreTableUpdatedEvent => $event->storeTable->storeFloor,
+            $event instanceof StoreTableDeletedEvent => $event->storeTable->storeFloor,
+        };
+
+        self::run($storeFloor);
+    }
+
     /**
      * 取得樓層所有併桌組合
      */
@@ -72,7 +86,7 @@ class WriteStoreFloorTableCombinationService
             $this->storeFloor->storeTableCombinations()->create([
                 'min' => $min,
                 'max' => $max,
-                'people_combination' => json_encode(range($min, $max)),
+                'people_combination' => range($min, $max),
                 'can_book_online' => !$tables->contains('can_book_online', 0),
                 'is_can_combine' => $tables->contains('can_combine', 1),
                 'combination' => $tableId,

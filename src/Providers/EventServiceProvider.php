@@ -3,6 +3,12 @@
 namespace Mtsung\JoymapCore\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorDeletingEvent;
+use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorUpdatedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableCreatedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletingEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableUpdatedEvent;
 use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
@@ -11,6 +17,9 @@ use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
 use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
+use Mtsung\JoymapCore\Listeners\Model\StoreFloor\StoreFloorDeletingListener;
+use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableCreatedListener;
+use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableDeletingListener;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCancelMailService;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCommentRemindMailService;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderRemindMailService;
@@ -26,6 +35,7 @@ use Mtsung\JoymapCore\Services\Sms\Order\SendOrderRemindSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessPushNotificationService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderUpdatePushNotificationService;
+use Mtsung\JoymapCore\Services\Store\StoreTable\WriteStoreFloorTableCombinationService;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -75,7 +85,28 @@ class EventServiceProvider extends ServiceProvider
         // 支付成功
         PaySuccessEvent::class => [
             [CreateNotificationPayService::class, 'asListener'],
-        ]
+        ],
+
+        /** ---- Model Dispatches Events ----*/
+        StoreFloorUpdatedEvent::class => [
+            [WriteStoreFloorTableCombinationService::class, 'asListener'],
+        ],
+        StoreFloorDeletingEvent::class => [
+            StoreFloorDeletingListener::class,
+        ],
+        StoreTableCreatedEvent::class => [
+            StoreTableCreatedListener::class,
+        ],
+        StoreTableUpdatedEvent::class => [
+            [WriteStoreFloorTableCombinationService::class, 'asListener'],
+        ],
+        StoreTableDeletingEvent::class => [
+            StoreTableDeletingListener::class,
+        ],
+        StoreTableDeletedEvent::class => [
+            [WriteStoreFloorTableCombinationService::class, 'asListener'],
+        ],
+        /** ---- Model Dispatches Events ----*/
     ];
 
     /**

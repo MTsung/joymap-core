@@ -3,10 +3,17 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorDeletingEvent;
+use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorUpdatedEvent;
 
 class StoreFloor extends Model
 {
     use HasFactory;
+
+    protected $dispatchesEvents = [
+        'updated' => StoreFloorUpdatedEvent::class,
+        'deleting' => StoreFloorDeletingEvent::class,
+    ];
 
     protected $table = 'store_floors';
 

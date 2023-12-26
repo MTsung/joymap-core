@@ -3,10 +3,21 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableCreatedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletingEvent;
+use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableUpdatedEvent;
 
 class StoreTable extends Model
 {
     use HasFactory;
+
+    protected $dispatchesEvents = [
+        'created' => StoreTableCreatedEvent::class,
+        'updated' => StoreTableUpdatedEvent::class,
+        'deleting' => StoreTableDeletingEvent::class,
+        'deleted' => StoreTableDeletedEvent::class,
+    ];
 
     protected $table = 'store_tables';
 
