@@ -44,6 +44,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.mail',
             'logging.channels.can_order_time',
             'logging.channels.credit_card_refund',
+            'logging.channels.request',
         ];
         foreach ($mergeConfigs as $config) {
             if (!config()->has($config)) {
