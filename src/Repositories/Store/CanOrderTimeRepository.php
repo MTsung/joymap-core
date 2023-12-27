@@ -48,8 +48,7 @@ class CanOrderTimeRepository implements RepositoryInterface
         array $dateBetween = [],
         bool  $onlyOnline = true,
         int   $combinationId = 0,
-        bool  $showAllTime = true,
-
+        bool  $showAllTime = true
     ): Collection
     {
         if (!$dateBetween) {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtsung\JoymapCore\Traits;
+namespace Mtsung\JoymapCore\Services\PushNotification\Order;
 
 
 use Carbon\Carbon;
-use Mtsung\JoymapCore\Services\Sms\PushNotificationAbstract;
+use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
 
 abstract class OrderAbstract extends PushNotificationAbstract
 {

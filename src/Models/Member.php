@@ -22,6 +22,8 @@ class Member extends User implements JWTSubject
 
     protected string $guard_name = 'store';
 
+    public const GUEST_PHONE = '8787123456';
+
     // 正常
     public const STATUS_NORMAL = 1;
     // 凍結

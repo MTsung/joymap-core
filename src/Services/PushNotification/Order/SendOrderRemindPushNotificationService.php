@@ -1,13 +1,12 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Sms\Order;
+namespace Mtsung\JoymapCore\Services\PushNotification\Order;
 
 use Exception;
 use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
-use Mtsung\JoymapCore\Traits\OrderAbstract;
 
 
 /**

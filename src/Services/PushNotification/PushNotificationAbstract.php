@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Sms;
+namespace Mtsung\JoymapCore\Services\PushNotification;
 
 
 use Exception;
@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mtsung\JoymapCore\Action\AsJob;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Facades\Notification\Notification;
-use Mtsung\JoymapCore\Services\PushNotification\PushNotificationInterface;
 
 /**
  * @method static dispatch(mixed $to, $arguments = null)

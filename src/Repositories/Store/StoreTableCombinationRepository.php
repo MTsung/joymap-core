@@ -36,7 +36,7 @@ class StoreTableCombinationRepository implements RepositoryInterface
     /**
      * 取得可用桌位組合
      * @param Store $store
-     * @param Carbon $reservationTime 預約時間
+     * @param Carbon $reservationDatetime 預約時間
      * @param int $people 人數
      * @param bool $onlyOnline 只找可線上訂位的桌位
      * @param int $combinationId 指定桌位
@@ -44,14 +44,14 @@ class StoreTableCombinationRepository implements RepositoryInterface
      */
     public function getAvailableTable(
         Store  $store,
-        Carbon $reservationTime,
+        Carbon $reservationDatetime,
         int    $people,
         bool   $onlyOnline = false,
         int    $combinationId = 0
     ): StoreTableCombination|null
     {
         // 用餐時間
-        $beginTime = Carbon::parse($reservationTime);
+        $beginTime = Carbon::parse($reservationDatetime);
         $endTime = $beginTime->copy()->addMinutes($store->limit_minute);
 
         // 不撈全部的單，避免跑太慢（預測不會有延長時間超過 24 小時的單所以 subDay()）
