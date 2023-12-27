@@ -71,6 +71,14 @@ class MemberGetOrCreateService
 
     private function formatPhone(string $fullPhone): array
     {
+        // 現場入座貴賓
+        if ($fullPhone == Member::GUEST_PHONE) {
+            return [
+                'prefix' => null,
+                'phone' => $fullPhone,
+            ];
+        }
+
         try {
             $phoneNumber = new PhoneNumber($fullPhone);
             $libPhone = $phoneNumber->toLibPhoneObject();
