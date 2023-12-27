@@ -65,4 +65,22 @@ class OrderRepository implements RepositoryInterface
             ->whereIn('orders.status', Order::TO_BE_SEATED)
             ->where('begin_time', '>=', $beginTime);
     }
+
+    // 取得當天的最新候位號碼
+    public function getWaitNumber(Store $store, Carbon $reservationDatetime): int
+    {
+        return 1 + ($this->model()
+                ->query()
+                ->where('store_id', $store->id)
+                ->where('type', Order::TYPE_ONSITE_WAIT)
+                ->where('reservation_date', $reservationDatetime->toDateString())
+                ->orderByDesc('wait_number')
+                ->first()
+                ?->wait_number ?? 0);
+    }
+
+    public function create(array $data): Order|Builder
+    {
+        return $this->model()->query()->create($data);
+    }
 }
