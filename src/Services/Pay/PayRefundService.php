@@ -110,7 +110,7 @@ class PayRefundService
 
         // 驗證支付記錄的時間是否超過一天, 如果超過就無法申請此退款流程
         if ($this->payLog->created_at->diffInDays(Carbon::now()) > 1) {
-            throw new Exception('此筆支付記錄已超過一天，無法退款', 422);
+            throw new Exception('該筆支付記錄已超過一天，無法退款', 422);
         }
 
         // 查詢藍新這筆訂單的狀態
@@ -132,7 +132,7 @@ class PayRefundService
 
         // 不是 1 的話代表不是付款成功
         if ((int)$queryRes['Result']['TradeStatus'] !== 1) {
-            throw new Exception('此筆交易非成功單號', 422);
+            throw new Exception('該筆交易非成功單號', 422);
         }
     }
 

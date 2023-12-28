@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\PushNotification;
+namespace Mtsung\JoymapCore\Services\Order\CreateBy;
 
 use Carbon\Carbon;
 use Mtsung\JoymapCore\Models\Store;
@@ -10,7 +10,13 @@ interface CreateOrderInterface
 {
     public function store(Store $store): CreateOrderInterface;
 
+    public function type(int $type): CreateOrderInterface;
+
     public function getTableCombination(Carbon $reservationDatetime, int $people, array $tableIds = []): StoreTableCombination;
 
-    public function getStatus(int $type): int;
+    public function getStatus(): int;
+
+    public function checkPeople(int $people): void;
+
+    public function checkReservationDatetime(Carbon $reservationDatetime): void;
 }

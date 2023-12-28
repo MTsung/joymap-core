@@ -20,7 +20,7 @@ use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 use Mtsung\JoymapCore\Services\Member\MemberGetOrCreateService;
 use Mtsung\JoymapCore\Services\Order\CreateBy\ByMember;
 use Mtsung\JoymapCore\Services\Order\CreateBy\ByStore;
-use Mtsung\JoymapCore\Services\PushNotification\CreateOrderInterface;
+use Mtsung\JoymapCore\Services\Order\CreateBy\CreateOrderInterface;
 
 /**
  * @method static self make()
@@ -31,7 +31,7 @@ class CreateOrderService
 
     private ?Store $store = null;
 
-    private int $type = 0;
+    private ?int $type = null;
 
     private ?int $fromSource = null;
 
@@ -81,20 +81,7 @@ class CreateOrderService
      */
     public function type(int $type): CreateOrderService
     {
-        if (is_null($this->store)) {
-            throw new Exception('請呼叫 store()', 500);
-        }
-
         $this->type = $type;
-
-        // 現場入座/現場候位 時間自動帶入
-        if (in_array($type, [Order::TYPE_ONSITE_WAIT, Order::TYPE_ONSITE_SEAT])) {
-            $this->reservationDatetime(Carbon::now()->addMinute());
-        }
-
-        if ($type == Order::TYPE_ONSITE_WAIT) {
-            $this->waitNumber = $this->orderRepository->getWaitNumber($this->store, $this->reservationDatetime);
-        }
 
         return $this;
     }
@@ -114,7 +101,9 @@ class CreateOrderService
         $this->byService = (match ($fromSource) {
             Order::FROM_SOURCE_RESTAURANT_BOOKING => app(ByStore::class),
             default => app(ByMember::class),
-        })->store($this->store);
+        })
+            ->store($this->store)
+            ->type($this->type);
 
         return $this;
     }
@@ -150,9 +139,11 @@ class CreateOrderService
             throw new Exception('請呼叫 store()', 500);
         }
 
-        if ($reservationDatetime < Carbon::now()) {
-            throw new Exception('訂位時間小於當前時間，無法訂位', 422);
+        if (is_null($this->type)) {
+            throw new Exception('請呼叫 type()', 500);
         }
+
+        $this->byService->checkReservationDatetime($reservationDatetime);
 
         $this->reservationDatetime = $reservationDatetime;
 
@@ -174,9 +165,22 @@ class CreateOrderService
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function people(int $adultNum, int $childNum = 0, int $childSeatNum = 0): CreateOrderService
     {
+        if (is_null($this->store)) {
+            throw new Exception('請呼叫 store()', 500);
+        }
+
+        if (is_null($this->fromSource)) {
+            throw new Exception('請呼叫 fromSource()', 500);
+        }
+
         $this->peopleNum = $adultNum + $childNum;
+
+        $this->byService->checkPeople($this->peopleNum);
 
         $this->adultNum = $adultNum;
 
@@ -204,6 +208,10 @@ class CreateOrderService
             throw new Exception('請呼叫 reservationDatetime()', 500);
         }
 
+        if (is_null($this->type)) {
+            throw new Exception('請呼叫 type()', 500);
+        }
+
         if ($this->peopleNum === 0) {
             throw new Exception('請呼叫 people()', 500);
         }
@@ -214,7 +222,7 @@ class CreateOrderService
             }
 
             // 現場候位有指定位置就要算可用時間塞入
-            if ($combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
+            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
                 throw new Exception('桌位異常', 500);
             }
 
@@ -277,6 +285,20 @@ class CreateOrderService
             throw new Exception('請呼叫 reservationDatetime()', 500);
         }
 
+        if (is_null($this->type)) {
+            throw new Exception('請呼叫 type()', 500);
+        }
+
+        if ($this->type != Order::TYPE_ONSITE_WAIT) {
+            // 自動排桌
+            if (is_null($this->storeTableCombination)) {
+                $this->tables([]);
+            }
+        } else {
+            // 計算候位號碼
+            $this->waitNumber = $this->orderRepository->getWaitNumber($this->store, $this->reservationDatetime);
+        }
+
         $data = [
             'order_no' => Rand::orderNo(),
             'member_id' => $this->member->id,
@@ -287,14 +309,14 @@ class CreateOrderService
             'name' => $name,
             'gender' => $gender,
             'email' => $email,
-            'status' => $this->byService->getStatus($this->type),
+            'status' => $this->byService->getStatus(),
             'adult_num' => $this->adultNum,
             'child_num' => $this->childNum,
             'child_seat_num' => $this->childSeatNum,
             'reservation_date' => $this->reservationDate,
             'reservation_time' => $this->reservationTime,
             'store_table_combination_id' => $this->storeTableCombination?->id,
-            'store_table_combination_name' => $this->storeTableCombination?->name,
+            'store_table_combination_name' => $this->storeTableCombination?->combination_name,
             'begin_time' => $this->beginTime,
             'end_time' => $this->endTime,
             'goal_id' => $goalId ?? 1,
