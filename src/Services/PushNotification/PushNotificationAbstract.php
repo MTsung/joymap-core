@@ -39,6 +39,8 @@ abstract class PushNotificationAbstract implements PushNotificationInterface, Sh
         return Notification::{$method}($to)
             ->title($this->title())
             ->body($this->body())
+            ->action($this->action())
+            ->data($this->data())
             ->send();
     }
 }

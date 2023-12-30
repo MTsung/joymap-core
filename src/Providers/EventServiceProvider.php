@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Mtsung\JoymapCore\Events\Comment\CommentSuccessEvent;
 use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorDeletingEvent;
 use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorUpdatedEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableCreatedEvent;
@@ -27,11 +28,19 @@ use Mtsung\JoymapCore\Services\Mail\Order\SendOrderSuccessMailService;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderUpdateMailService;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationOrderService;
 use Mtsung\JoymapCore\Services\Notification\CreateNotificationPayService;
-use Mtsung\JoymapCore\Services\PushNotification\Order\SendOrderCancelPushNotificationService;
-use Mtsung\JoymapCore\Services\PushNotification\Order\SendOrderCommentRemindPushNotificationService;
-use Mtsung\JoymapCore\Services\PushNotification\Order\SendOrderRemindPushNotificationService;
-use Mtsung\JoymapCore\Services\PushNotification\Order\SendOrderSuccessPushNotificationService;
-use Mtsung\JoymapCore\Services\PushNotification\Order\SendOrderUpdatePushNotificationService;
+use Mtsung\JoymapCore\Services\Notification\CreateStoreNotificationCommentService;
+use Mtsung\JoymapCore\Services\Notification\CreateStoreNotificationOrderService;
+use Mtsung\JoymapCore\Services\Notification\CreateStoreNotificationPayService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Order\SendOrderCancelPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Order\SendOrderCommentRemindPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Order\SendOrderRemindPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Order\SendOrderSuccessPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Order\SendOrderUpdatePushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Member\Pay\SendPaySuccessPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Store\Comment\SendCommentSuccessPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Store\Order\SendOrderCancelPushNotificationService as StoreSendOrderCancelPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Store\Order\SendOrderSuccessPushNotificationService as StoreSendOrderSuccessPushNotificationService;
+use Mtsung\JoymapCore\Services\PushNotification\Store\Pay\SendPaySuccessPushNotificationService as StoreSendPaySuccessPushNotificationService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderCommentRemindSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderRemindSmsService;
 use Mtsung\JoymapCore\Services\Sms\Order\SendOrderSuccessSmsService;
@@ -52,8 +61,10 @@ class EventServiceProvider extends ServiceProvider
         // 訂位成功
         OrderSuccessEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
+            [CreateStoreNotificationOrderService::class, 'asListener'],
             [SendOrderSuccessSmsService::class, 'asListener'],
             [SendOrderSuccessPushNotificationService::class, 'asListener'],
+            [StoreSendOrderSuccessPushNotificationService::class, 'asListener'],
             [SendOrderSuccessMailService::class, 'asListener'],
         ],
         // 訂位修改
@@ -65,7 +76,9 @@ class EventServiceProvider extends ServiceProvider
         // 訂位取消
         OrderCancelEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
+            [CreateStoreNotificationOrderService::class, 'asListener'],
             [SendOrderCancelPushNotificationService::class, 'asListener'],
+            [StoreSendOrderCancelPushNotificationService::class, 'asListener'],
             [SendOrderCancelMailService::class, 'asListener'],
         ],
         // 訂位提醒
@@ -85,6 +98,14 @@ class EventServiceProvider extends ServiceProvider
         // 支付成功
         PaySuccessEvent::class => [
             [CreateNotificationPayService::class, 'asListener'],
+            [CreateStoreNotificationPayService::class, 'asListener'],
+            [SendPaySuccessPushNotificationService::class, 'asListener'],
+            [StoreSendPaySuccessPushNotificationService::class, 'asListener'],
+        ],
+        // 評論成功
+        CommentSuccessEvent::class => [
+            [CreateStoreNotificationCommentService::class, 'asListener'],
+            [SendCommentSuccessPushNotificationService::class, 'asListener'],
         ],
 
         /** ---- Model Dispatches Events ----*/

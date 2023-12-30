@@ -12,7 +12,7 @@ use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
 
 /**
- * @method static void runIf(bool $boolean, PayLog $payLog)
+ * @method static void run(PayLog $payLog)
  */
 class CreateNotificationPayService
 {
@@ -31,11 +31,18 @@ class CreateNotificationPayService
      */
     public function handle(PayLog $payLog): void
     {
+        // 檢查 N 小時內有沒有來過(入座/離席的訂位，成功支付)，有的話就不顯示按鈕。
+        if ($this->hasVisitedInLastHours($payLog)) {
+            $status = NotificationStorePay::STATUS_SHOW_BUTTON;
+        } else {
+            $status = NotificationStorePay::STATUS_HIDE_BUTTON;
+        }
+
         $this->notificationStorePayRepository->createWithNotification(
             $payLog->storeId,
             $payLog->memberId,
             $payLog->paylogId,
-            NotificationStorePay::STATUS_SHOW_BUTTON
+            $status
         );
     }
 
@@ -46,8 +53,7 @@ class CreateNotificationPayService
     {
         $payLog = $event->payLog;
 
-        // 檢查 N 小時內有沒有來過(入座/離席的訂位，成功支付)，有的話就不跑。
-        self::runIf($this->hasVisitedInLastHours($payLog), $payLog);
+        self::run($payLog);
     }
 
     private function hasVisitedInLastHours(PayLog $payLog, int $hour = 6): bool
@@ -65,7 +71,7 @@ class CreateNotificationPayService
             return true;
         }
 
-        if ($this->payLogRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->exists()) {
+        if ($this->payLogRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->count() > 1) {
             return true;
         }
 

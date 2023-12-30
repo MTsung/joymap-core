@@ -12,4 +12,8 @@ interface PushNotificationInterface
     public function title(): string;
 
     public function body(): string;
+
+    public function action(): string;
+
+    public function data(): array;
 }

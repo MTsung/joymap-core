@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\PushNotification\Order;
+namespace Mtsung\JoymapCore\Services\PushNotification\Member\Order;
 
 use Exception;
 use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
@@ -15,11 +15,6 @@ use Mtsung\JoymapCore\Models\Order;
  */
 class SendOrderCommentRemindPushNotificationService extends OrderAbstract
 {
-    public function toType(): PushNotificationToTypeEnum
-    {
-        return PushNotificationToTypeEnum::member;
-    }
-
     public function title(): string
     {
         $order = $this->arguments;

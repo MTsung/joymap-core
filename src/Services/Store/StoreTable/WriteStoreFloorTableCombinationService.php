@@ -112,7 +112,9 @@ class WriteStoreFloorTableCombinationService
         // storeTableCombinations 有異動所以重撈
         $storeTableCombinations = $this->storeFloor->storeTableCombinations();
 
-        $orders = $this->orderRepository->getToBeSeatedOrders($this->storeFloor->store)->get();
+        $orders = $this->orderRepository->getToBeSeatedOrders($this->storeFloor->store)
+            ->orderBy('type', 'ASC')
+            ->get();
 
         /** @var Order $order */
         foreach ($orders as $order) {

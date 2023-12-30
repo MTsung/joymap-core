@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Repositories\Store;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Mtsung\JoymapCore\Models\StoreNotification;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 
@@ -24,5 +25,10 @@ class StoreNotificationRepository implements RepositoryInterface
             ->where('store_id', $storeId)
             ->where('is_read', StoreNotification::IS_READ_OFF)
             ->count();
+    }
+
+    public function create(array $data): StoreNotification|Builder
+    {
+        return $this->model()->query()->create($data);
     }
 }

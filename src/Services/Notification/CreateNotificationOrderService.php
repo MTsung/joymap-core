@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Services\Notification;
 
+use Carbon\Carbon;
 use Exception;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
@@ -12,6 +13,8 @@ use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
 use Mtsung\JoymapCore\Models\NotificationOrder;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationOrderRepository;
+use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
+use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
 
 /**
  * @method static void run(Order $order, int $status)
@@ -21,7 +24,9 @@ class CreateNotificationOrderService
     use AsObject;
 
     public function __construct(
-        private NotificationOrderRepository $notificationOrderRepository
+        private NotificationOrderRepository $notificationOrderRepository,
+        private OrderRepository             $orderRepository,
+        private PayLogRepository            $payLogRepository,
     )
     {
     }
@@ -51,13 +56,38 @@ class CreateNotificationOrderService
                 NotificationOrder::STATUS_USER_SUCCESS,
             $event instanceof OrderUpdateEvent => NotificationOrder::STATUS_MODIFY,
             $event instanceof OrderCancelEvent =>
-            $order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING ?
+            $order->status == Order::STATUS_CANCEL_BY_STORE ?
                 NotificationOrder::STATUS_STORE_CANCEL :
                 NotificationOrder::STATUS_USER_CANCEL,
             $event instanceof OrderRemindEvent => NotificationOrder::STATUS_REMINDER,
-            $event instanceof OrderCommentRemindEvent => NotificationOrder::STATUS_SEATED,
+            $event instanceof OrderCommentRemindEvent =>
+            $this->hasVisitedInLastHours($order) ?
+                NotificationOrder::STATUS_SEATED_NO_BUTTON :
+                NotificationOrder::STATUS_SEATED,
         };
 
         self::run($order, $status);
+    }
+
+    private function hasVisitedInLastHours(Order $order, int $hour = 6): bool
+    {
+        $now = Carbon::now();
+        $checkDateRange = [
+            $now->copy()->subHours($hour),
+            $now,
+        ];
+
+        $storeId = $order->store_id;
+        $memberId = $order->member_id;
+
+        if ($this->orderRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->count() > 1) {
+            return true;
+        }
+
+        if ($this->payLogRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->exists()) {
+            return true;
+        }
+
+        return false;
     }
 }

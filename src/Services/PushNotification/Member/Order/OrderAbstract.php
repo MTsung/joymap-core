@@ -1,14 +1,19 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\PushNotification\Order;
+namespace Mtsung\JoymapCore\Services\PushNotification\Member\Order;
 
 
 use Carbon\Carbon;
+use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
 use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
 
 abstract class OrderAbstract extends PushNotificationAbstract
 {
-    // 訂單推播內容共用
+    public function toType(): PushNotificationToTypeEnum
+    {
+        return PushNotificationToTypeEnum::member;
+    }
+
     public function body(): string
     {
         $order = $this->arguments;
@@ -20,5 +25,15 @@ abstract class OrderAbstract extends PushNotificationAbstract
             'datetime' => $dateTime,
             'people' => $people,
         ]);
+    }
+
+    public function action(): string
+    {
+        return 'notification.list';
+    }
+
+    public function data(): array
+    {
+        return [];
     }
 }

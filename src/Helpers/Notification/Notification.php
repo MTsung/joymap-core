@@ -14,6 +14,7 @@ class Notification
     private array $tokens = [];
     private string $title = '';
     private string $body = '';
+    private ?string $action = null;
     private int $badge = 1;
     private array $data = [];
 
@@ -116,7 +117,7 @@ class Notification
 
     public function action(string $action): Notification
     {
-        $this->data = array_merge($this->data, ['action' => $action]);
+        $this->action = $action;
         return $this;
     }
 
@@ -142,6 +143,10 @@ class Notification
         }
         if (!$this->title) {
             throw new Exception('請呼叫 title()', 500);
+        }
+
+        if (!is_null($this->action)) {
+            $this->data = array_merge($this->data, ['action' => $this->action]);
         }
 
         $res = $this->service->send(
