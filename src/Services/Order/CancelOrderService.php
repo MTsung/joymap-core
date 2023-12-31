@@ -49,9 +49,9 @@ class CancelOrderService
     {
         Log::info('cancel order', [
             'order_id' => $order->id,
-            'user_type' => get_class($user ?? new StdClass()),
-            'user_id' => $user?->id,
-            'user_name' => $user?->name,
+            'user_type' => get_class($this->user ?? new StdClass()),
+            'user_id' => $this->user?->id,
+            'user_name' => $this->user?->name,
         ]);
 
         $canCancelStatus = [
@@ -59,7 +59,7 @@ class CancelOrderService
             Order::STATUS_SUCCESS_BOOKING_BY_STORE,
             Order::STATUS_RESERVED_SEAT,
         ];
-        if (!in_array($order->status, $canCancelStatus) || !$order->is_late) {
+        if (!in_array($order->status, $canCancelStatus) && !$order->is_late) {
             throw new Exception('該訂位狀態不可取消', 422);
         }
 
