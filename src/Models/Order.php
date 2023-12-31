@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -213,5 +214,27 @@ class Order extends Model
     {
         return $this->status == self::STATUS_NO_SHOW &&
             Carbon::now() < $this->reservation_datetime->addMinutes($this->store->limit_minute);
+    }
+
+    /**
+     * 判斷是否有修改權
+     * @param Authenticatable $user
+     * @return bool
+     */
+    public function isOwns(Authenticatable $user): bool
+    {
+        if ($user instanceof StoreUser) {
+            return $this->store_id == $user->store_id;
+        }
+
+        if ($user instanceof Member) {
+            return $this->member_id == $user->id;
+        }
+
+        if ($user instanceof AdminUser) {
+            return true;
+        }
+
+        return false;
     }
 }
