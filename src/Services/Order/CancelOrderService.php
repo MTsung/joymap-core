@@ -55,6 +55,10 @@ class CancelOrderService
             'user_name' => $this->user?->name,
         ]);
 
+        if (!$order->isOwns($this->user)) {
+            throw new Exception('無權限操作', 403);
+        }
+
         $canCancelStatus = [
             Order::STATUS_SUCCESS_BOOKING_BY_USER,
             Order::STATUS_SUCCESS_BOOKING_BY_STORE,
