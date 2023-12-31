@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * @property Carbon reservation_datetime
  * @property string info_url
+ * @property bool is_late
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -135,7 +136,7 @@ class Order extends Model
         return $this->hasOne(Comment::class);
     }
 
-    public function timeLogs(): HasOne
+    public function timeLog(): HasOne
     {
         return $this->hasOne(OrderTimeLog::class);
     }
@@ -201,5 +202,16 @@ class Order extends Model
     public function getReservationDatetimeAttribute(): Carbon
     {
         return Carbon::parse($this->reservation_date . ' ' . $this->reservation_time);
+    }
+
+    /**
+     * 是否遲到
+     * is_late
+     * @return bool
+     */
+    public function getIsLateAttribute(): bool
+    {
+        return $this->status == self::STATUS_NO_SHOW &&
+            Carbon::now() < $this->reservation_datetime->addMinutes($this->store->limit_minute);
     }
 }

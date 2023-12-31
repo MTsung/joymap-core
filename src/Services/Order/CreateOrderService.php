@@ -98,12 +98,12 @@ class CreateOrderService
 
         $this->fromSource = $fromSource;
 
-        $this->byService = (match ($fromSource) {
+        $this->byService = match ($fromSource) {
             Order::FROM_SOURCE_RESTAURANT_BOOKING => app(ByStore::class),
             default => app(ByMember::class),
-        })
-            ->store($this->store)
-            ->type($this->type);
+        };
+
+        $this->byService->store($this->store)->type($this->type);
 
         return $this;
     }
@@ -328,7 +328,7 @@ class CreateOrderService
         return DB::transaction(function () use ($data, $tagIds) {
             $order = $this->orderRepository->create($data);
 
-            $order->timeLogs()->create([
+            $order->timeLog()->create([
                 'order_time' => $this->fromSource != Order::FROM_SOURCE_RESTAURANT_BOOKING ? Carbon::now() : null,
                 'store_order_time' => $this->fromSource == Order::FROM_SOURCE_RESTAURANT_BOOKING ? Carbon::now() : null,
                 'seat_time' => $this->type == Order::TYPE_ONSITE_SEAT ? Carbon::now() : null,
