@@ -3,8 +3,7 @@
 namespace Mtsung\JoymapCore\Services\PushNotification\Member\Order;
 
 use Exception;
-use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
-use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
+use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 
@@ -32,7 +31,7 @@ class SendOrderCancelPushNotificationService extends OrderAbstract
     /**
      * @throws Exception
      */
-    public function asListener(OrderSuccessEvent $event): bool
+    public function asListener(OrderCancelEvent $event): bool
     {
         return self::run($event->order->member, $event->order);
     }

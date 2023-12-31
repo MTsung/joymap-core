@@ -4,7 +4,7 @@ namespace Mtsung\JoymapCore\Repositories\Notification;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Mtsung\JoymapCore\Helpers\Notification\Notification;
+use Mtsung\JoymapCore\Models\Notification;
 use Mtsung\JoymapCore\Models\NotificationMemberWithdraw;
 use Mtsung\JoymapCore\Models\NotificationOrder;
 use Mtsung\JoymapCore\Models\NotificationPlatform;

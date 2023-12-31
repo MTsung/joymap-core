@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
+use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\StoreUser;
@@ -45,7 +46,7 @@ class CancelOrderService
     /**
      * @throws Exception
      */
-    public function handle(Order $order)
+    public function handle(Order $order): bool
     {
         Log::info('cancel order', [
             'order_id' => $order->id,
@@ -63,8 +64,12 @@ class CancelOrderService
             throw new Exception('該訂位狀態不可取消', 422);
         }
 
-        return DB::transaction(function () use ($order) {
+        $res = DB::transaction(function () use ($order) {
             return $this->service->cancel($order);
         });
+
+        event(new OrderCancelEvent($order->refresh()));
+
+        return $res;
     }
 }

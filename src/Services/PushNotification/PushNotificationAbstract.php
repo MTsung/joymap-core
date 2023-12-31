@@ -5,6 +5,8 @@ namespace Mtsung\JoymapCore\Services\PushNotification;
 
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Mtsung\JoymapCore\Action\AsJob;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Facades\Notification\Notification;
@@ -35,6 +37,12 @@ abstract class PushNotificationAbstract implements PushNotificationInterface, Sh
         $this->arguments = $arguments;
 
         $method = $this->toType()->value;
+
+        if (is_subclass_of($to, Model::class)) {
+            $to = $to->id;
+        } else if ($to instanceof Collection && is_subclass_of($to->first(), Model::class)) {
+            $to = $to->pluck('id');
+        }
 
         return Notification::{$method}($to)
             ->title($this->title())

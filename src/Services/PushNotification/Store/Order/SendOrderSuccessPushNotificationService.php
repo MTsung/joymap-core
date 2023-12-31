@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Services\PushNotification\Store\Order;
 
 use Exception;
-use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
+use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
 
@@ -28,7 +28,7 @@ class SendOrderSuccessPushNotificationService extends OrderAbstract
     /**
      * @throws Exception
      */
-    public function asListener(OrderCancelEvent $event): bool
+    public function asListener(OrderSuccessEvent $event): bool
     {
         if ($event->order->type != Order::TYPE_RESERVE) {
             return true;

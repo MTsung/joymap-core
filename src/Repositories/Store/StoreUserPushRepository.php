@@ -18,7 +18,7 @@ class StoreUserPushRepository implements RepositoryInterface
     {
         return $this->model()->query()
             ->select(['device_token', 'platform'])
-            ->whereIn('member_id', $storeIds)
+            ->whereIn('store_id', $storeIds)
             ->get();
     }
 }

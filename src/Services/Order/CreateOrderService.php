@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Action\AsObject;
+use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Facades\Rand;
 use Mtsung\JoymapCore\Models\CanOrderTime;
 use Mtsung\JoymapCore\Models\Member;
@@ -325,7 +326,7 @@ class CreateOrderService
             'app_version' => request()->header('version'),
         ];
 
-        return DB::transaction(function () use ($data, $tagIds) {
+        $order = DB::transaction(function () use ($data, $tagIds) {
             $order = $this->orderRepository->create($data);
 
             $order->timeLog()->create([
@@ -338,5 +339,9 @@ class CreateOrderService
 
             return $order;
         });
+
+        event(new OrderSuccessEvent($order->refresh()));
+
+        return $order;
     }
 }

@@ -6,5 +6,5 @@ use Mtsung\JoymapCore\Models\Order;
 
 interface CancelOrderInterface
 {
-    public function cancel(Order $order);
+    public function cancel(Order $order): bool;
 }
