@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
@@ -24,7 +25,7 @@ class Controller extends BaseController
             return $e->getMessage();
         }
 
-        $uuid = Str::uuid();
+        $uuid = Config::get('__tracking_code__');
         $message = LineNotification::getMsgText($e, $uuid);
         event(new SendNotifyEvent($message));
         Log::error($uuid . '---------' . $e->getFile() . ':' . $e->getLine(), [$e]);

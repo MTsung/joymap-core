@@ -55,15 +55,21 @@ class UpdateOrderService
         array  $tableIds,
     ): bool
     {
-        $updateData = func_get_args();
-        unset($updateData[0]);
-
         Log::info('update order', [
             'order_id' => $order->id,
             'user_type' => get_class($this->user ?? new StdClass()),
             'user_id' => $this->user?->id,
             'user_name' => $this->user?->name,
-            'update_data' => $updateData,
+            'update_data' => [
+                'adultNum' => $adultNum,
+                'childNum' => $childNum,
+                'childSeatNum' => $childSeatNum,
+                'reservationDatetime' => $reservationDatetime,
+                'goalId' => $goalId,
+                'storeComment' => $storeComment,
+                'tagIds' => $tagIds,
+                'tableIds' => $tableIds,
+            ],
         ]);
 
         if (!$order->isOwns($this->user)) {
