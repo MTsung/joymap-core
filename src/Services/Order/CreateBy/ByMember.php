@@ -15,12 +15,6 @@ class ByMember implements CreateOrderInterface
 
     private int $type;
 
-    public function __construct(
-        private StoreTableCombinationRepository $storeTableCombinationRepository,
-    )
-    {
-    }
-
     /**
      * @throws Exception
      */
@@ -44,34 +38,6 @@ class ByMember implements CreateOrderInterface
         $this->type = $type;
 
         return $this;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function getTableCombination(Carbon $reservationDatetime, int $people, array $tableIds = []): StoreTableCombination
-    {
-        // 指定桌位
-        $combination = null;
-        if (count($tableIds) > 0) {
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
-        }
-
-        $combination = $this->storeTableCombinationRepository->getAvailableTable(
-            $this->store,
-            $reservationDatetime,
-            $people,
-            true,
-            $combination?->id ?? 0,
-        );
-
-        if (!$combination) {
-            throw new Exception('該時段訂位已滿', 422);
-        }
-
-        return $combination;
     }
 
     public function getStatus(): int

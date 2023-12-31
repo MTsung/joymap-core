@@ -11,20 +11,10 @@ use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 
 class ByStore implements CreateOrderInterface
 {
-    private Store $store;
-
     private int $type;
-
-    public function __construct(
-        private StoreTableCombinationRepository $storeTableCombinationRepository,
-    )
-    {
-    }
 
     public function store(Store $store): CreateOrderInterface
     {
-        $this->store = $store;
-
         if ($store->can_order != Store::CAN_ORDER_ENABLED) {
             throw new Exception('訂位功能尚未啟用，無法訂位。', 422);
         }
@@ -41,34 +31,6 @@ class ByStore implements CreateOrderInterface
         $this->type = $type;
 
         return $this;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function getTableCombination(Carbon $reservationDatetime, int $people, array $tableIds = []): StoreTableCombination
-    {
-        // 指定桌位
-        if (count($tableIds) > 0) {
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
-
-            // 店家指定桌位不需檢查可不可用
-            return $combination;
-        }
-
-        $combination = $this->storeTableCombinationRepository->getAvailableTable(
-            $this->store,
-            $reservationDatetime,
-            $people,
-        );
-
-        if (!$combination) {
-            throw new Exception('無可用桌位', 422);
-        }
-
-        return $combination;
     }
 
     public function getStatus(): int

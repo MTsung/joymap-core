@@ -4,12 +4,10 @@ namespace Mtsung\JoymapCore\Services\Order;
 
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Facades\Rand;
-use Mtsung\JoymapCore\Models\CanOrderTime;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
@@ -30,37 +28,39 @@ class CreateOrderService
 {
     use AsObject;
 
-    private ?Store $store = null;
+    public ?Store $store = null;
 
-    private ?int $type = null;
+    public ?int $type = null;
 
-    private ?int $fromSource = null;
+    public ?int $fromSource = null;
 
     private ?CreateOrderInterface $byService = null;
 
-    private ?Member $member = null;
+    public ?Member $member = null;
 
-    private ?Carbon $reservationDatetime = null;
+    public ?Carbon $reservationDatetime = null;
 
-    private string $reservationDate;
+    public string $reservationDate;
 
-    private string $reservationTime;
+    public string $reservationTime;
 
-    private Carbon $beginTime;
+    public Carbon $beginTime;
 
-    private Carbon $endTime;
+    public Carbon $endTime;
 
-    private int $peopleNum = 0;
+    public int $peopleNum = 0;
 
-    private int $adultNum = 0;
+    public int $adultNum = 0;
 
-    private int $childNum = 0;
+    public int $childNum = 0;
 
-    private int $childSeatNum = 0;
+    public int $childSeatNum = 0;
 
-    private ?StoreTableCombination $storeTableCombination = null;
+    public ?int $storeTableCombinationId = null;
 
-    private ?int $waitNumber = null;
+    public ?string $storeTableCombinationName = null;
+
+    public ?int $waitNumber = null;
 
     public function __construct(
         private OrderRepository                 $orderRepository,
@@ -152,14 +152,7 @@ class CreateOrderService
 
         $this->reservationTime = $reservationDatetime->toTimeString();
 
-        $this->orderTimeRang($reservationDatetime);
-
-        return $this;
-    }
-
-    public function orderTimeRang(Carbon $startTime): CreateOrderService
-    {
-        $this->beginTime = $startTime->copy();
+        $this->beginTime = $reservationDatetime->copy();
 
         $this->endTime = $this->beginTime->copy()->addMinutes($this->store->limit_minute);
 
@@ -217,44 +210,7 @@ class CreateOrderService
             throw new Exception('請呼叫 people()', 500);
         }
 
-        if ($this->type == Order::TYPE_ONSITE_WAIT) {
-            if (count($tableIds) === 0) {
-                return $this;
-            }
-
-            // 現場候位有指定位置就要算可用時間塞入
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
-
-            $canOrderTime = $this->canOrderTimeRepository->getCanOrderTimesAndTables(
-                $this->store,
-                [Carbon::now(), Carbon::now()->addDay()],
-                $this->fromSource != Order::FROM_SOURCE_RESTAURANT_BOOKING,
-                $combination->id,
-                false,
-            )->first(function (CanOrderTime $value) {
-                return in_array($this->peopleNum, Arr::collapse($value->people_array));
-            });
-
-            if (!$canOrderTime) {
-                throw new Exception('該桌位於24小時內已無可用時間。', 422);
-            }
-
-            $this->orderTimeRang(Carbon::parse($canOrderTime['begin_time']));
-
-            $this->storeTableCombination = $combination;
-
-            return $this;
-        }
-
-        $this->storeTableCombination = $this->byService->getTableCombination(
-            $this->reservationDatetime,
-            $this->peopleNum,
-            $tableIds,
-        );
-
-        return $this;
+        return FillTableService::run($this, $tableIds);
     }
 
     /**
@@ -292,7 +248,7 @@ class CreateOrderService
 
         if ($this->type != Order::TYPE_ONSITE_WAIT) {
             // 自動排桌
-            if (is_null($this->storeTableCombination)) {
+            if (is_null($this->storeTableCombinationId)) {
                 $this->tables([]);
             }
         } else {
@@ -316,8 +272,8 @@ class CreateOrderService
             'child_seat_num' => $this->childSeatNum,
             'reservation_date' => $this->reservationDate,
             'reservation_time' => $this->reservationTime,
-            'store_table_combination_id' => $this->storeTableCombination?->id,
-            'store_table_combination_name' => $this->storeTableCombination?->combination_name,
+            'store_table_combination_id' => $this->storeTableCombinationId,
+            'store_table_combination_name' => $this->storeTableCombinationName,
             'begin_time' => $this->beginTime,
             'end_time' => $this->endTime,
             'goal_id' => $goalId ?? 1,

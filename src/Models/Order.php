@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
  * @property Carbon reservation_datetime
  * @property string info_url
  * @property bool is_late
+ * @property int people_num
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -214,6 +215,15 @@ class Order extends Model
     {
         return $this->status == self::STATUS_NO_SHOW &&
             Carbon::now() < $this->reservation_datetime->addMinutes($this->store->limit_minute);
+    }
+
+    /**
+     * people_num
+     * @return int
+     */
+    public function getPeopleNumAttribute(): int
+    {
+        return $this->adult_num + $this->child_num;
     }
 
     /**

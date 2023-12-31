@@ -12,8 +12,6 @@ interface CreateOrderInterface
 
     public function type(int $type): CreateOrderInterface;
 
-    public function getTableCombination(Carbon $reservationDatetime, int $people, array $tableIds = []): StoreTableCombination;
-
     public function getStatus(): int;
 
     public function checkPeople(int $people): void;
