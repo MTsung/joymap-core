@@ -57,5 +57,10 @@ return [
             'path' => storage_path('logs/request/request.log'),
             'days' => 14,
         ],
+        'slow_request' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/request/slow_request.log'),
+            'days' => 90,
+        ],
     ],
 ];

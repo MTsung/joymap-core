@@ -36,7 +36,12 @@ class LogRequestMiddleware
             ]);
         }
 
+        $start = microtime(true);
         $response = $next($request);
+        $end = microtime(true);
+        if (($end - $start) > env('SLOW_REQUEST_SECOND', 1)) {
+            Log::channel('slow_request')->info($uuid . '-' . $request->fullUrl());
+        }
 
         if ($needLog) {
             $resContent = $response->getContent();
