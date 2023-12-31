@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SpecialStoreBusinessTime extends Model
 {
@@ -14,7 +15,7 @@ class SpecialStoreBusinessTime extends Model
 
     protected $guarded = ['id'];
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }

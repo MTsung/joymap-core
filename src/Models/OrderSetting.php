@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderSetting extends Model
 {
@@ -22,7 +23,7 @@ class OrderSetting extends Model
     public const FINAL_CANCEL_MINUTE = ['0', '30', '60'];
     public const HOLD_ORDER_MINUTE = ['10', '15', '20', '25', '30'];
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }

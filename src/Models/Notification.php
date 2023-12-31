@@ -3,7 +3,12 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property ?string type
+ */
 class Notification extends Model
 {
     use HasFactory;
@@ -31,7 +36,7 @@ class Notification extends Model
      *
      * @return string|null
      */
-    public function getTypeAttribute()
+    public function getTypeAttribute(): ?string
     {
         switch ($this->notify_type) {
             case 'notification_platform':
@@ -52,12 +57,12 @@ class Notification extends Model
     /* -------------------------------------------------------------------------- */
     /*                                  RELATIONS                                 */
     /* -------------------------------------------------------------------------- */
-    public function notify()
+    public function notify(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function notificationMemberRead()
+    public function notificationMemberRead(): HasOne
     {
         return $this->hasOne(NotificationMemberRead::class);
     }

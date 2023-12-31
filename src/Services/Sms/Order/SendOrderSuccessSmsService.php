@@ -25,14 +25,12 @@ class SendOrderSuccessSmsService extends SmsAbstract
     {
         $order = $this->arguments;
 
-        $dateTime = Carbon::parse($order->reservation_date . ' ' . $order->reservation_time);
-
         return __('joymap::sms.order.success', [
             'name' => $order->store->name,
             'people_count' => (int)$order->adult_num + (int)$order->child_num,
-            'date' => $dateTime->format('m/d'),
-            'time' => $dateTime->format('H:i'),
-            'week' => __('joymap::week.abbr.' . $dateTime->dayOfWeek),
+            'date' => $order->reservation_datetime->format('m/d'),
+            'time' => $order->reservation_datetime->format('H:i'),
+            'week' => __('joymap::week.abbr.' . $order->reservation_datetime->dayOfWeek),
             'url' => $order->info_url,
         ]);
     }

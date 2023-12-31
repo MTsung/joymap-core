@@ -4,8 +4,19 @@ namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property string full_address
+ * @property string logo_url
+ * @property int limit_minute
+ * @property string food_type_full_name
+ */
 class Store extends Model
 {
     use HasFactory;
@@ -80,192 +91,192 @@ class Store extends Model
         ]);
     }
 
-    public function restriction()
+    public function restriction(): BelongsTo
     {
         return $this->belongsTo(StoreRestriction::class, 'store_restriction_id', 'id');
     }
 
-    public function roles()
+    public function roles(): HasMany
     {
         return $this->hasMany(StoreRole::class);
     }
 
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(StoreNotification::class);
     }
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function orderSettings()
+    public function orderSettings(): HasOne
     {
         return $this->hasOne(OrderSetting::class);
     }
 
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(StoreImage::class);
     }
 
-    public function serviceSettings()
+    public function serviceSettings(): HasMany
     {
         return $this->hasMany(StoreServiceSetting::class);
     }
 
-    public function replies()
+    public function replies(): HasMany
     {
         return $this->hasMany(StoreReplie::class);
     }
 
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(StoreUser::class);
     }
 
-    public function specialBusinessTimes()
+    public function specialBusinessTimes(): HasMany
     {
         return $this->hasMany(SpecialStoreBusinessTime::class);
     }
 
-    public function businessTimes()
+    public function businessTimes(): HasMany
     {
         return $this->hasMany(StoreBusinessTime::class);
     }
 
-    public function storeFoodTypes()
+    public function storeFoodTypes(): HasMany
     {
         return $this->hasMany(StoreFoodType::class);
     }
 
-    public function userPasswordValidates()
+    public function userPasswordValidates(): HasMany
     {
         return $this->hasMany(StoreUserPasswordValidate::class);
     }
 
-    public function storePayments()
+    public function storePayments(): HasMany
     {
         return $this->hasMany(StorePayment::class);
     }
 
-    public function tags()
+    public function tags(): HasMany
     {
         return $this->hasMany(StoreTag::class);
     }
 
-    public function orderHourSettings()
+    public function orderHourSettings(): HasMany
     {
         return $this->hasMany(OrderHourSetting::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function announcementLogs()
+    public function announcementLogs(): HasMany
     {
         return $this->hasMany(StoreAnnouncementLog::class);
     }
 
-    public function foodTypes()
+    public function foodTypes(): BelongsToMany
     {
         return $this->belongsToMany(FoodType::class, 'store_food_types', 'store_id', 'food_type_id');
     }
 
-    public function storeService()
+    public function storeService(): BelongsToMany
     {
         return $this->belongsToMany(StoreService::class, 'store_service_settings', 'store_id', 'store_service_id')->withPivot('status');
     }
 
-    public function payments()
+    public function payments(): BelongsToMany
     {
         return $this->belongsToMany(Payment::class, 'store_payments', 'store_id', 'payment_id');
     }
 
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function district()
+    public function district(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
-    public function activityLogs()
+    public function activityLogs(): HasMany
     {
         return $this->hasMany(ActivityLog::class);
     }
 
-    public function activeTags()
+    public function activeTags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'tag_settings');
     }
 
-    public function storeSpgateway()
+    public function storeSpgateway(): HasOne
     {
         return $this->hasOne(StoreSpgateway::class);
     }
 
-    public function ranking()
+    public function ranking(): HasOne
     {
         return $this->hasOne(Ranking::class);
     }
 
-    public function notificationStorePay()
+    public function notificationStorePay(): HasOne
     {
         return $this->hasOne(NotificationStorePay::class);
     }
 
-    public function storeFloors()
+    public function storeFloors(): HasMany
     {
         return $this->hasMany(StoreFloor::class);
     }
 
-    public function storeTableCombinations()
+    public function storeTableCombinations(): HasMany
     {
         return $this->hasMany(StoreTableCombination::class);
     }
 
-    public function tables()
+    public function tables(): HasManyThrough
     {
         return $this->hasManyThrough(StoreTable::class, StoreFloor::class);
     }
 
-    public function blockOrderHour()
+    public function blockOrderHour(): HasMany
     {
         return $this->hasMany(BlockOrderHour::class);
     }
 
-    public function canOrderTimes()
+    public function canOrderTimes(): HasMany
     {
         return $this->hasMany(CanOrderTime::class);
     }
 
-    public function storeWallet()
+    public function storeWallet(): HasOne
     {
         return $this->hasOne(StoreWallet::class);
     }
 
-    public function storeWalletBankSetting()
+    public function storeWalletBankSetting(): HasOne
     {
         return $this->hasOne(StoreWalletBankSetting::class);
     }
 
-    public function lightbox()
+    public function lightbox(): BelongsTo
     {
         return $this->belongsTo(StoreLightbox::class, 'id', 'store_id');
     }
 
-    public function memberDealerRecommendStore()
+    public function memberDealerRecommendStore(): HasOne
     {
         return $this->hasOne(MemberDealerRecommendStore::class);
     }
 
-    public function storePayRemindSetting()
+    public function storePayRemindSetting(): HasOne
     {
         return $this->hasOne(StorePayRemindSetting::class);
     }

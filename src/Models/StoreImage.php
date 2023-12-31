@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StoreImage extends Model
 {
@@ -23,7 +24,7 @@ class StoreImage extends Model
     // 酒單圖
     public const TYPE_WINE_LIST = 3;
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }

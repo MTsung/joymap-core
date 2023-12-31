@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StoreService extends Model
 {
@@ -14,7 +15,7 @@ class StoreService extends Model
 
     protected $guarded = ['id'];
 
-    public function settings()
+    public function settings(): HasMany
     {
         return $this->hasMany(StoreServiceSetting::class);
     }

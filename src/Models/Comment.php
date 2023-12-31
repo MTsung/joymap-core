@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Comment extends Model
 {
@@ -25,37 +27,37 @@ class Comment extends Model
     // 非常棒
     public const SCORE_EXCELLENT = 5;
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function pay()
+    public function pay(): BelongsTo
     {
         return $this->belongsTo(PayLog::class, 'pay_log_id');
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function storeReplies()
+    public function storeReplies(): HasMany
     {
         return $this->hasMany(StoreReplie::class);
     }
 
-    public function scores()
+    public function scores(): HasMany
     {
         return $this->hasMany(CommentScore::class);
     }
 
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(CommentImage::class);
     }

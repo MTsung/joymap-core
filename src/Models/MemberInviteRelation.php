@@ -7,8 +7,10 @@ use Fureev\Trees\Config\LeftAttribute;
 use Fureev\Trees\Config\LevelAttribute;
 use Fureev\Trees\Config\RightAttribute;
 use Fureev\Trees\Contracts\TreeConfigurable;
+use Fureev\Trees\Exceptions\Exception;
 use Fureev\Trees\NestedSetTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberInviteRelation extends Model implements TreeConfigurable
 {
@@ -19,6 +21,9 @@ class MemberInviteRelation extends Model implements TreeConfigurable
 
     protected $guarded = ['id'];
 
+    /**
+     * @throws Exception
+     */
     protected static function buildTreeConfig(): Base
     {
         $base = new Base();
@@ -28,7 +33,7 @@ class MemberInviteRelation extends Model implements TreeConfigurable
         return $base;
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }

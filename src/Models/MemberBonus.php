@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,12 +28,12 @@ class MemberBonus extends Model
     // 退刷
     public const STATUS_REFUNDED = 5;
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function paylog()
+    public function payLog(): BelongsTo
     {
         return $this->belongsTo(PayLog::class, 'pay_log_id', 'id');
     }
@@ -42,9 +43,16 @@ class MemberBonus extends Model
      * 取得每一個有獲得分潤的會員該月實際刷卡金額和分潤金額
      * @param string $year 年份
      * @param string $month 月份
+     * @param null $memberId
+     * @param null $status
      * @return mixed
      */
-    public static function MemberMonthBonusPayAmount(string $year, string $month, $memberId = null, $status = null)
+    public static function MemberMonthBonusPayAmount(
+        string $year,
+        string $month,
+        $memberId = null,
+        $status = null
+    ): mixed
     {
         $date = Carbon::createFromDate($year, $month);
         $year = $date->format('Y');

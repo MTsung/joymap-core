@@ -7,9 +7,11 @@ use Fureev\Trees\Config\LeftAttribute;
 use Fureev\Trees\Config\LevelAttribute;
 use Fureev\Trees\Config\RightAttribute;
 use Fureev\Trees\Contracts\TreeConfigurable;
+use Fureev\Trees\Exceptions\Exception;
 use Fureev\Trees\Fixing;
 use Fureev\Trees\NestedSetTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberDealerRelation extends Model implements TreeConfigurable
 {
@@ -21,6 +23,9 @@ class MemberDealerRelation extends Model implements TreeConfigurable
 
     protected $guarded = ['id'];
 
+    /**
+     * @throws Exception
+     */
     protected static function buildTreeConfig(): Base
     {
         $base = new Base();
@@ -30,12 +35,12 @@ class MemberDealerRelation extends Model implements TreeConfigurable
         return $base;
     }
 
-    public function memberDealer()
+    public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
     }
 
-    public function parentRelation()
+    public function parentRelation(): BelongsTo
     {
         return $this->belongsTo(MemberDealerRelation::class, 'parent_id');
     }

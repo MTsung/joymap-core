@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MemberChargePlan extends Model
 {
@@ -21,17 +23,17 @@ class MemberChargePlan extends Model
     // 已確認
     public const STATUS_CONFIRMED  = 2;
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function chargePlan()
+    public function chargePlan(): BelongsTo
     {
         return $this->belongsTo(ChargePlan::class);
     }
 
-    public function memberChargePlanLogs()
+    public function memberChargePlanLogs(): HasMany
     {
         return $this->hasMany(MemberChargePlanLog::class);
     }

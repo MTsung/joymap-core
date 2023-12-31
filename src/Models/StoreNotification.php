@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StoreNotification extends Model
 {
@@ -38,12 +39,12 @@ class StoreNotification extends Model
     // Google 訂位
     public const STATUS_ORDER_FROM_GOOGLE = 8;
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }

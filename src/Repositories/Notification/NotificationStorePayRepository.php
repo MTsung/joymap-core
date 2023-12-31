@@ -18,18 +18,18 @@ class NotificationStorePayRepository implements RepositoryInterface
      *
      * @param int $storeId
      * @param int $memberId
-     * @param int $paylogId
+     * @param int $payLogId
      * @param int $status
      * @return mixed
      */
-    public function createWithNotification(int $storeId, int $memberId, int $paylogId, int $status = 0): mixed
+    public function createWithNotification(int $storeId, int $memberId, int $payLogId, int $status = 0): mixed
     {
         return $this->model()
             ->query()
             ->create([
                 'store_id' => $storeId,
                 'member_id' => $memberId,
-                'pay_log_id' => $paylogId,
+                'pay_log_id' => $payLogId,
                 'status' => $status,
             ])
             ->notify()

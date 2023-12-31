@@ -3,7 +3,11 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string type_text
+ */
 class MemberChargePlanLog extends Model
 {
     use HasFactory;
@@ -25,12 +29,16 @@ class MemberChargePlanLog extends Model
     // 確認時間
     public const TYPE_CONFIRM_TIME = 2;
 
-    public function memberChargePlan()
+    public function memberChargePlan(): BelongsTo
     {
         return $this->belongsTo(MemberChargePlan::class);
     }
 
-    public function getTypeTextAttribute()
+    /**
+     * type_text
+     * @return string
+     */
+    public function getTypeTextAttribute(): string
     {
         return __('member_charge_plan_log.type.' . $this->type);
     }

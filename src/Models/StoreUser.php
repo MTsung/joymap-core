@@ -3,6 +3,9 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Mtsung\JoymapCore\Traits\SerializeDateTrait;
@@ -30,7 +33,7 @@ class StoreUser extends User implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -40,39 +43,38 @@ class StoreUser extends User implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(StoreRole::class);
     }
 
-    public function storeReplies()
+    public function storeReplies(): HasMany
     {
         return $this->hasMany(StoreReplie::class);
     }
 
-    public function passwordValidates()
+    public function passwordValidates(): HasMany
     {
         return $this->hasMany(StoreUserPasswordValidate::class);
     }
 
-    public function permissions()
+    public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(StorePermission::class, 'store_user_permissions', 'store_role_id', 'store_permission_id', 'role_id', 'id');
     }
 
-    public function storeUserPushes()
+    public function storeUserPushes(): HasMany
     {
         return $this->hasMany(StoreUserPush::class);
-
     }
 }

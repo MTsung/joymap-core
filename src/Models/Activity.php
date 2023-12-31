@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class Activity extends Model
 {
     protected $table = 'activities';
@@ -40,12 +42,12 @@ class Activity extends Model
     // 統一到期日
     public const EXTRA_COIN_DEADLINE_UNIFIED = 1;
 
-    public function activityLogs()
+    public function activityLogs(): HasMany
     {
         return $this->hasMany(ActivityLog::class);
     }
 
-    public function coinLogs()
+    public function coinLogs(): HasMany
     {
         return $this->hasMany(CoinLog::class);
     }

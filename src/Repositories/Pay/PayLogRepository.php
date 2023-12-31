@@ -24,11 +24,10 @@ class PayLogRepository implements RepositoryInterface
     {
         return $this->model()
             ->query()
-            ->select('orders.*')
-            ->addReservationDatetime()
-            ->where('orders.store_id', $storeId)
+            ->select('pay_logs.*')
+            ->where('pay_logs.store_id', $storeId)
             ->when($memberId > 0, function ($query) use ($memberId) {
-                $query->where('orders.member_id', $memberId);
+                $query->where('pay_logs.member_id', $memberId);
             });
     }
 

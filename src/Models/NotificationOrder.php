@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class NotificationOrder extends Model
 {
@@ -31,22 +33,22 @@ class NotificationOrder extends Model
     // 已入座(無按鈕)
     const STATUS_SEATED_NO_BUTTON = 8;
 
-    public function getMorphClass()
+    public function getMorphClass(): string
     {
         return $this->getTable();
     }
 
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function notify()
+    public function notify(): MorphOne
     {
         return $this->morphOne(Notification::class, 'notify');
     }

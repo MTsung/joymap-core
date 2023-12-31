@@ -3,6 +3,10 @@
 namespace Mtsung\JoymapCore\Models;
 
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 class PayLog extends Model
 {
     protected $table = 'pay_logs';
@@ -48,7 +52,7 @@ class PayLog extends Model
     /**
      * 要抓公司卡才會需要用這個
      */
-    public function creditCardLogs()
+    public function creditCardLogs(): BelongsToMany
     {
         return $this->belongsToMany(CreditCardLog::class, 'pay_credit_logs', 'pay_log_id', 'creditcard_log_id');
     }
@@ -56,32 +60,32 @@ class PayLog extends Model
     /**
      * 有 pay_log_id 的代表是刷 member 卡
      */
-    public function memberCreditCardLog()
+    public function memberCreditCardLog(): HasMany
     {
         return $this->hasMany(CreditCardLog::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function coinLog()
+    public function coinLog(): HasMany
     {
         return $this->hasMany(CoinLog::class, 'pay_log_id', 'id');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'pay_log_id', 'id');
     }
 
-    public function couponNumberTransactionLogs()
+    public function couponNumberTransactionLogs(): HasMany
     {
         return $this->hasMany(CouponNumberTransactionLog::class, 'pay_log_id');
     }

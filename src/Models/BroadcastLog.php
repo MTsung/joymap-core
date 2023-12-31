@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BroadcastLog extends Model
 {
@@ -14,7 +15,7 @@ class BroadcastLog extends Model
 
     public $timestamps = true;
 
-    public function clicks()
+    public function clicks(): HasMany
     {
         return $this->hasMany(BroadcastClickLog::class);
     }

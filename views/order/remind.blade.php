@@ -51,7 +51,7 @@
                                                 </td>
                                                 <td>
                                                     <p style="display: inline-block;  color: #fa6c3e;  font-size: 15px ; margin: 0;">
-                                                        {{ $reservationDateTime->format('m月 d日') }}
+                                                        {{ $reservationDatetime->format('m月 d日') }}
                                                     </p>
                                                 </td>
                                             </tr>
@@ -69,7 +69,7 @@
                                                 </td>
                                                 <td>
                                                     <p style="display: inline-block; color: #fa6c3e; font-size: 15px ; margin: 0;">
-                                                        {{ $reservationDateTime->format('H:i') }}
+                                                        {{ $reservationDatetime->format('H:i') }}
                                                     </p>
                                                 </td>
                                             </tr>
@@ -103,7 +103,7 @@
                         <td bgcolor="#ffffff" style="padding:15px; border-radius: 5px;">
                             <p style="margin: 0; color: #2f2f2f ; font-weight: 500; font-size: 15px;">{{ $order->name }} 您好！</p>
                             <p style="color: #2f2f2f; font-size: 15px;">還記得您
-                                <span style="color: #fa6c3e;"> {{ $reservationDateTime->format('m月 d日') }} </span>的訂位嗎？請協助我們確認，您是否保留這項訂位呢？
+                                <span style="color: #fa6c3e;"> {{ $reservationDatetime->format('m月 d日') }} </span>的訂位嗎？請協助我們確認，您是否保留這項訂位呢？
                             </p>
                             <table align="center" cellpadding="0" cellspacing="0"
                                    style="border-collapse: separate;  border-spacing: 0 20px;">

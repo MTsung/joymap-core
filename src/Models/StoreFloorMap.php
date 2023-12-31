@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StoreFloorMap extends Model
 {
@@ -18,7 +19,7 @@ class StoreFloorMap extends Model
         'map' => 'array',
     ];
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(StoreFloor::class);
     }

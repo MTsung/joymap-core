@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StoreTableCombination extends Model
 {
@@ -20,17 +22,17 @@ class StoreTableCombination extends Model
         'relation_ids' => 'array',
     ];
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function storeFloor()
+    public function storeFloor(): BelongsTo
     {
         return $this->belongsTo(StoreFloor::class);
     }

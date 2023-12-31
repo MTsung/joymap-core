@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberDealerBonus extends Model
 {
@@ -25,17 +26,17 @@ class MemberDealerBonus extends Model
     // 忽略
     public const STATUS_NEGLECT = 99;
 
-    public function memberDealer()
+    public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }

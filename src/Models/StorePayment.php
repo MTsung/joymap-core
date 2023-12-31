@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StorePayment extends Model
 {
@@ -18,12 +19,12 @@ class StorePayment extends Model
 
     protected $guarded = ['id'];
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function payment()
+    public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
     }

@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class City extends Model
 {
@@ -14,7 +15,7 @@ class City extends Model
 
     public $timestamps = false;
 
-    public function districts()
+    public function districts(): HasMany
     {
         return $this->hasMany(District::class);
     }

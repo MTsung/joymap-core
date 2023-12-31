@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StoreUserPermission extends Model
 {
@@ -18,12 +19,12 @@ class StoreUserPermission extends Model
 
     protected $guarded = ['id'];
 
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(StoreRole::class);
     }
 
-    public function permission()
+    public function permission(): BelongsTo
     {
         return $this->belongsTo(StorePermission::class);
     }

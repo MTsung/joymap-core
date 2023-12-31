@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberDealerPointWithdraw extends Model
 {
@@ -17,12 +18,12 @@ class MemberDealerPointWithdraw extends Model
     // 提領已完成匯款
     const STATUS_COMPLETE_REMITTANCE = 1;
 
-    public function memberDealerPointLog()
+    public function memberDealerPointLog(): BelongsTo
     {
         return $this->belongsTo(MemberDealerPointLog::class);
     }
 
-    public function bank()
+    public function bank(): BelongsTo
     {
         return $this->belongsTo(Bank::class);
     }

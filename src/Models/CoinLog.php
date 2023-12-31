@@ -41,27 +41,27 @@ class CoinLog extends Model
 
     protected $guarded = ['id'];
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function payLog()
+    public function payLog(): BelongsTo
     {
         return $this->belongsTo(PayLog::class);
     }
 
-    public function activity()
+    public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class);
     }
 
-    public function memberWithdraw()
+    public function memberWithdraw(): BelongsTo
     {
         return $this->belongsTo(MemberWithdraw::class);
     }

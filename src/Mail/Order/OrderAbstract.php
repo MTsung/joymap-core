@@ -21,16 +21,14 @@ abstract class OrderAbstract extends Mailable implements ShouldQueue
     public OrderMailTypeEnum $type;
     public Order $order;
     public Store $store;
-    public Carbon $reservationDateTime;
+    public Carbon $reservationDatetime;
 
     public function __construct(Order $order, OrderMailTypeEnum $type)
     {
         $this->type = $type;
         $this->order = $order;
         $this->store = $order->store;
-        $this->reservationDateTime = Carbon::parse(
-            $order->reservation_date . ' ' . $order->reservation_time
-        );
+        $this->reservationDatetime = $order->reservation_datetime;
     }
 
     public function envelope(): Envelope
@@ -43,9 +41,9 @@ abstract class OrderAbstract extends Mailable implements ShouldQueue
             subject: __('joymap::mail.order.subject.' . $this->type->value, [
                 'name' => $this->store->name,
                 'people_count' => (int)$this->order->adult_num + (int)$this->order->child_num,
-                'date' => $this->reservationDateTime->format('m/d'),
-                'time' => $this->reservationDateTime->format('H:i'),
-                'week' => __('joymap::week.abbr.' . $this->reservationDateTime->dayOfWeek),
+                'date' => $this->reservationDatetime->format('m/d'),
+                'time' => $this->reservationDatetime->format('H:i'),
+                'week' => __('joymap::week.abbr.' . $this->reservationDatetime->dayOfWeek),
             ]),
         );
     }

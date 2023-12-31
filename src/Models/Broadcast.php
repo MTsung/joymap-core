@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Broadcast extends Model
 {
@@ -28,7 +29,7 @@ class Broadcast extends Model
     // 上線
     public const STATUS_ONLINE = 1;
 
-    public function logs()
+    public function logs(): HasMany
     {
         return $this->hasMany(BroadcastLog::class);
     }

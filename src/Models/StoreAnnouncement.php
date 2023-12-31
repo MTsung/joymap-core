@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StoreAnnouncement extends Model
 {
@@ -23,12 +24,12 @@ class StoreAnnouncement extends Model
     // 指定店家
     public const SEND_TYPE_ASSIGN = 3;
 
-    public function logs()
+    public function logs(): HasMany
     {
         return $this->hasMany(StoreAnnouncementLog::class, 'announcement_id');
     }
 
-    public function storeAnnouncementTarget()
+    public function storeAnnouncementTarget(): HasMany
     {
         return $this->hasMany(StoreAnnouncementTarget::class, 'store_announcement_id');
     }

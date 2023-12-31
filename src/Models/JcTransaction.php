@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class JcTransaction extends Model
 {
@@ -26,7 +27,7 @@ class JcTransaction extends Model
     // 手動補發
     public const STATUS_MANUAL_RESEND = 2;
 
-    public function jcCoins()
+    public function jcCoins(): HasMany
     {
         return $this->hasMany(JcCoin::class, 'transaction_id', 'id');
     }

@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CouponNumberTransactionLog extends Model
 {
@@ -23,27 +24,27 @@ class CouponNumberTransactionLog extends Model
     // 失效作廢
     const ACTION_INVALIDATE = 3;
 
-    public function couponNumber()
+    public function couponNumber(): BelongsTo
     {
         return $this->belongsTo(CouponNumber::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function memberDealer()
+    public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function payLog()
+    public function payLog(): BelongsTo
     {
         return $this->belongsTo(PayLog::class);
     }

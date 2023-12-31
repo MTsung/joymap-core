@@ -3,9 +3,21 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property Carbon reservation_datetime
+ * @property string info_url
+ *
+ * @method  Builder addReservationDatetime()
+ * @method  Builder addPeopleNum()
+ */
 class Order extends Model
 {
     use HasFactory;
@@ -98,56 +110,55 @@ class Order extends Model
     // 組合預約日期時間 RAW SQL
     public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function goal()
+    public function goal(): BelongsTo
     {
         return $this->belongsTo(Goal::class);
     }
 
-    public function tagSettings()
+    public function tagSettings(): HasMany
     {
         return $this->hasMany(OrderTagSetting::class);
     }
 
-    public function memberComment()
+    public function memberComment(): HasOne
     {
         return $this->hasOne(Comment::class);
     }
 
-    public function timeLogs()
+    public function timeLogs(): HasOne
     {
         return $this->hasOne(OrderTimeLog::class);
     }
 
-    public function notificationOrder()
+    public function notificationOrder(): HasMany
     {
         return $this->hasMany(NotificationOrder::class);
     }
 
-    public function orderTags()
+    public function orderTags(): BelongsToMany
     {
         return $this->belongsToMany(StoreTag::class, 'order_tag_settings', 'order_id', 'store_tag_id');
     }
 
-    public function storeNotification()
+    public function storeNotification(): HasMany
     {
         return $this->hasMany(StoreNotification::class);
     }
 
     /**
      * 會是抓全部店家的會員標籤，要再 where store_id
-     * @return mixed
      */
-    public function memberTags()
+    public function memberTags(): BelongsToMany
     {
         return $this->belongsToMany(StoreTag::class, 'member_tag_settings', 'member_id', 'store_tag_id', 'member_id');
     }
@@ -181,5 +192,14 @@ class Order extends Model
     public function getInfoUrlAttribute(): string
     {
         return config('joymap.domain.www') . '/booking-result/' . $this->id;
+    }
+
+    /**
+     * reservation_datetime
+     * @return Carbon
+     */
+    public function getReservationDatetimeAttribute(): Carbon
+    {
+        return Carbon::parse($this->reservation_date . ' ' . $this->reservation_time);
     }
 }

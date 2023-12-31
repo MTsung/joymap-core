@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MemberDealerPointLog extends Model
 {
@@ -31,17 +33,17 @@ class MemberDealerPointLog extends Model
     // 備存
     const STATUS_KEEP = 99;
 
-    public function memberDealer()
+    public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function memberDealerPointWithdraw()
+    public function memberDealerPointWithdraw(): HasOne
     {
         return $this->hasOne(MemberDealerPointWithdraw::class);
     }

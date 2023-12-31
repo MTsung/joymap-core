@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MemberWithdraw extends Model
 {
@@ -22,17 +24,17 @@ class MemberWithdraw extends Model
     // 匯款完成
     public const STATUS_COMPLETED = 1;
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function bank()
+    public function bank(): BelongsTo
     {
         return $this->belongsTo(Bank::class);
     }
 
-    public function coinLog()
+    public function coinLog(): HasOne
     {
         return $this->hasOne(CoinLog::class);
     }

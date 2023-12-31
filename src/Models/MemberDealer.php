@@ -3,6 +3,9 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MemberDealer extends Model
 {
@@ -17,47 +20,47 @@ class MemberDealer extends Model
     // 正常啟用
     const STATUS_ENABLE = 1;
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function memberDealerRelation()
+    public function memberDealerRelation(): HasOne
     {
         return $this->hasOne(MemberDealerRelation::class);
     }
 
-    public function memberDealerBankSetting()
+    public function memberDealerBankSetting(): HasOne
     {
         return $this->hasOne(MemberDealerBankSetting::class);
     }
 
-    public function memberDealerPointLogs()
+    public function memberDealerPointLogs(): HasMany
     {
         return $this->hasMany(MemberDealerPointLog::class);
     }
 
-    public function couponNumbers()
+    public function couponNumbers(): HasMany
     {
         return $this->hasMany(CouponNumber::class);
     }
 
-    public function memberDealerRecommendStores()
+    public function memberDealerRecommendStores(): HasMany
     {
         return $this->hasMany(MemberDealerRecommendStore::class);
     }
 
-    public function memberDealerBonuses()
+    public function memberDealerBonuses(): HasMany
     {
         return $this->hasMany(MemberDealerBonus::class);
     }
 
-    public function memberDealerBonusWithdraws()
+    public function memberDealerBonusWithdraws(): HasMany
     {
         return $this->hasMany(MemberDealerBonusWithdraw::class);
     }
 
-    public function memberBanks()
+    public function memberBanks(): HasMany
     {
         return $this->hasMany(MemberBank::class, 'member_id', 'member_id');
     }

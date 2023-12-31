@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberDealerBankSetting extends Model
 {
@@ -12,12 +13,12 @@ class MemberDealerBankSetting extends Model
 
     protected $guarded = ['id'];
 
-    public function memberDealer()
+    public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
     }
 
-    public function bank()
+    public function bank(): BelongsTo
     {
         return $this->belongsTo(Bank::class);
     }

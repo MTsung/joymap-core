@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberRelation extends Model
 {
@@ -12,17 +13,17 @@ class MemberRelation extends Model
 
     protected $guarded = ['id'];
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function parentMember()
+    public function parentMember(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'id', 'parent_member_id');
     }
 
-    public function grandParentMember()
+    public function grandParentMember(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'id', 'grand_parent_member_id');
     }

@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CommentScoreSetting extends Model
 {
@@ -12,7 +13,7 @@ class CommentScoreSetting extends Model
 
     protected $guarded = ['id'];
 
-    public function commentScores()
+    public function commentScores(): HasMany
     {
         return $this->hasMany(CommentScore::class);
     }

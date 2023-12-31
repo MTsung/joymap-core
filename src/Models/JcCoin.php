@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class JcCoin extends Model
 {
@@ -24,12 +26,12 @@ class JcCoin extends Model
     // TWDD
     public const FROM_PARTNER_TWDD = 2;
 
-    public function jcCoinLogs()
+    public function jcCoinLogs(): HasMany
     {
         return $this->hasMany(JcCoin::class, 'transaction_id', 'id');
     }
 
-    public function coinLogs()
+    public function coinLogs(): HasOne
     {
         return $this->hasOne(CoinLog::class, 'coin_id', 'transaction_id');
     }

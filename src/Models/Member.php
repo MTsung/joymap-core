@@ -2,8 +2,12 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -12,6 +16,22 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;
 
+
+/**
+ * @property string joy_dealer_start_at
+ * @property int children_count
+ * @property string avatar_url
+ * @property string identity_front_url
+ * @property bool has_identity_front
+ * @property string identity_back_url
+ * @property bool has_identity_back
+ * @property string identity_account_url
+ * @property bool has_identity_account
+ * @property bool has_identity
+ * @property string full_phone
+ *
+ * @method Builder active()
+ */
 class Member extends User implements JWTSubject
 {
     use HasFactory, SerializeDateTrait;
@@ -75,7 +95,7 @@ class Member extends User implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -85,167 +105,167 @@ class Member extends User implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function payLogs()
+    public function payLogs(): HasMany
     {
         return $this->hasMany(PayLog::class);
     }
 
-    public function tagSettings()
+    public function tagSettings(): HasMany
     {
         return $this->hasMany(MemberTagSetting::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function notificationOrder()
+    public function notificationOrder(): HasMany
     {
         return $this->hasMany(NotificationOrder::class);
     }
 
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function district()
+    public function district(): BelongsTo
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
-    public function memberDeviceTokens()
+    public function memberDeviceTokens(): HasMany
     {
         return $this->hasMany(MemberPush::class, 'member_id', 'id');
     }
 
-    public function memberRelation()
+    public function memberRelation(): HasOne
     {
         return $this->hasOne(MemberRelation::class);
     }
 
-    public function relationChildren()
+    public function relationChildren(): HasMany
     {
         return $this->hasMany(MemberRelation::class, 'parent_member_id', 'id');
     }
 
-    public function relationGrandChildren()
+    public function relationGrandChildren(): HasMany
     {
         return $this->hasMany(MemberRelation::class, 'grand_parent_member_id', 'id');
     }
 
-    public function memberBonuses()
+    public function memberBonuses(): HasMany
     {
         return $this->hasMany(MemberBonus::class, 'member_id', 'id');
     }
 
-    public function memberBanks()
+    public function memberBanks(): HasMany
     {
         return $this->hasMany(MemberBank::class, 'member_id', 'id');
     }
 
-    public function deleteLogs()
+    public function deleteLogs(): HasMany
     {
         return $this->hasMany(MemberDeleteLog::class, 'member_id', 'id');
     }
 
-    public function jcUser()
+    public function jcUser(): HasOne
     {
         return $this->hasOne(JcUser::class);
     }
 
-    public function jcCoins()
+    public function jcCoins(): HasMany
     {
         return $this->hasMany(JcCoin::class, 'user_id', 'jc_user_id');
     }
 
-    public function chargePlans()
+    public function chargePlans(): BelongsToMany
     {
         return $this->belongsToMany(ChargePlan::class, 'member_charge_plan', 'member_id', 'charge_plan_id')->withPivot('status', 'receiver', 'receiver_phone', 'receiver_address');
     }
 
-    public function memberChargePlans()
+    public function memberChargePlans(): HasMany
     {
         return $this->hasMany(MemberChargePlan::class);
     }
 
-    public function memberLoginLogs()
+    public function memberLoginLogs(): HasMany
     {
         return $this->hasMany(MemberLoginLog::class);
     }
 
-    public function memberGrade()
+    public function memberGrade(): BelongsTo
     {
         return $this->belongsTo(MemberGrade::class);
     }
 
-    public function memberDealers()
+    public function memberDealers(): HasMany
     {
         return $this->hasMany(MemberDealer::class);
     }
 
-    public function memberGradeChangeLogs()
+    public function memberGradeChangeLogs(): HasMany
     {
         return $this->hasMany(MemberGradeChangeLog::class);
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(StoreTag::class, 'member_tag_settings', 'member_id', 'store_tag_id');
     }
 
-    public function notificationMemberRead()
+    public function notificationMemberRead(): HasOne
     {
         return $this->hasOne(NotificationMemberRead::class);
     }
 
-    public function coinLogs()
+    public function coinLogs(): HasMany
     {
         return $this->hasMany(CoinLog::class);
     }
 
-    public function relationChilren()
+    public function relationChilren(): HasMany
     {
         return $this->hasMany(MemberRelation::class, 'parent_member_id', 'id');
     }
 
-    public function relationGrandChilren()
+    public function relationGrandChilren(): HasMany
     {
         return $this->hasMany(MemberRelation::class, 'grand_parent_member_id', 'id');
     }
 
-    public function jcTransactionLogs()
+    public function jcTransactionLogs(): HasMany
     {
         return $this->hasMany(JcTransaction::class, 'user_id', 'jc_user_id');
     }
 
-    public function memberWithdraw()
+    public function memberWithdraw(): HasMany
     {
         return $this->hasMany(MemberWithdraw::class, 'member_id', 'id');
     }
 
-    public function memberInviteRelation()
+    public function memberInviteRelation(): HasOne
     {
         return $this->hasOne(MemberInviteRelation::class);
     }
 
-    public function fromInvite()
+    public function fromInvite(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'from_invite_id', 'id');
     }
 
-    public function invite()
+    public function invite(): HasMany
     {
         return $this->hasMany(Member::class, 'from_invite_id', 'id');
     }
@@ -255,8 +275,8 @@ class Member extends User implements JWTSubject
         return $this->hasMany(SystemTaskLog::class, 'member_id');
     }
 
-    //抓取未停權的會員
-    public function scopeActive($query)
+    // 抓取未停權的會員
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_NORMAL);
     }
@@ -306,12 +326,14 @@ class Member extends User implements JWTSubject
     /**
      * 大頭貼網址 avatar_url
      */
-    public function getAvatarUrlAttribute()
+    public function getAvatarUrlAttribute():string
     {
         if ($this->avatar) return $this->avatar;
+
         if ($this->gender == 1) {
             return 'https://storage.googleapis.com/joymap-store/default_avatar/default_m_01.png';
         }
+
         return 'https://storage.googleapis.com/joymap-store/default_avatar/default_f_01.png';
     }
 
@@ -319,7 +341,7 @@ class Member extends User implements JWTSubject
      * 身分證正面
      * identity_front_url
      */
-    public function getIdentityFrontUrlAttribute()
+    public function getIdentityFrontUrlAttribute(): string
     {
         return config('joymap.domain.webapi') . '/v2/member/identity/' . $this->id . '/front';
     }
@@ -327,7 +349,7 @@ class Member extends User implements JWTSubject
     /**
      * has_identity_front
      */
-    public function getHasIdentityFrontAttribute()
+    public function getHasIdentityFrontAttribute(): bool
     {
         $res = Http::withHeaders(['domain' => 'admin.joymap.tw'])->get($this->identity_front_url);
 
@@ -338,7 +360,7 @@ class Member extends User implements JWTSubject
      * 身分證背面
      * identity_back_url
      */
-    public function getIdentityBackUrlAttribute()
+    public function getIdentityBackUrlAttribute(): string
     {
         return config('joymap.domain.webapi') . '/v2/member/identity/' . $this->id . '/back';
     }
@@ -346,7 +368,7 @@ class Member extends User implements JWTSubject
     /**
      * has_identity_back
      */
-    public function getHasIdentityBackAttribute()
+    public function getHasIdentityBackAttribute(): bool
     {
         $res = Http::withHeaders(['domain' => 'admin.joymap.tw'])->get($this->identity_back_url);
 
@@ -357,7 +379,7 @@ class Member extends User implements JWTSubject
      * 存摺封面
      * identity_account_url
      */
-    public function getIdentityAccountUrlAttribute()
+    public function getIdentityAccountUrlAttribute(): string
     {
         return config('joymap.domain.webapi') . '/v2/member/identity/' . $this->id . '/account';
     }
@@ -365,7 +387,7 @@ class Member extends User implements JWTSubject
     /**
      * has_identity_account
      */
-    public function getHasIdentityAccountAttribute()
+    public function getHasIdentityAccountAttribute(): bool
     {
         $res = Http::withHeaders(['domain' => 'admin.joymap.tw'])->get($this->identity_account_url);
 
@@ -377,7 +399,7 @@ class Member extends User implements JWTSubject
      * has_identity
      * @return bool
      */
-    public function getHasIdentityAttribute()
+    public function getHasIdentityAttribute(): bool
     {
         if ($this->is_foreigner) {
             if (empty($this->passport_number)) {
@@ -416,7 +438,7 @@ class Member extends User implements JWTSubject
      * full_phone
      * @return string
      */
-    public function getFullPhoneAttribute()
+    public function getFullPhoneAttribute(): string
     {
         $fullPhone = '+' . $this->phone_prefix . $this->phone;
         try {

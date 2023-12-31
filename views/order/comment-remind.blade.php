@@ -51,7 +51,7 @@
                                                 </td>
                                                 <td>
                                                     <p style="display: inline-block; color: #fa6c3e; font-size: 15px; margin: 0;">
-                                                        {{ $reservationDateTime->format('m月 d日') }}
+                                                        {{ $reservationDatetime->format('m月 d日') }}
                                                     </p>
                                                 </td>
                                             </tr>
@@ -69,7 +69,7 @@
                                                 </td>
                                                 <td>
                                                     <p style="display: inline-block; color: #fa6c3e; font-size: 15px; margin: 0;">
-                                                        {{ $reservationDateTime->format('H:i') }}
+                                                        {{ $reservationDatetime->format('H:i') }}
                                                     </p>
                                                 </td>
                                             </tr>

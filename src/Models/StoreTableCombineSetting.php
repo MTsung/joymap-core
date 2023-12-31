@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StoreTableCombineSetting extends Model
 {
@@ -16,12 +17,12 @@ class StoreTableCombineSetting extends Model
 
     protected $guarded = ['id'];
 
-    public function storeTable()
+    public function storeTable(): BelongsTo
     {
         return $this->belongsTo(StoreTable::class);
     }
 
-    public function combineTable()
+    public function combineTable(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'combine_table_id');
     }

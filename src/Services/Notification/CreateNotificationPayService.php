@@ -39,9 +39,9 @@ class CreateNotificationPayService
         }
 
         $this->notificationStorePayRepository->createWithNotification(
-            $payLog->storeId,
-            $payLog->memberId,
-            $payLog->paylogId,
+            $payLog->store_id,
+            $payLog->member_id,
+            $payLog->pay_log_id,
             $status
         );
     }

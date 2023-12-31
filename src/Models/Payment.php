@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
@@ -14,7 +15,7 @@ class Payment extends Model
 
     protected $guarded = ['id'];
 
-    public function storePayments()
+    public function storePayments(): HasMany
     {
         return $this->hasMany(StorePayment::class);
     }

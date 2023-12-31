@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class NotificationMemberWithdraw extends Model
 {
@@ -12,17 +14,17 @@ class NotificationMemberWithdraw extends Model
 
     protected $guarded = ['id'];
 
-    public function getMorphClass()
+    public function getMorphClass(): string
     {
         return $this->getTable();
     }
 
-    public function notify()
+    public function notify(): MorphOne
     {
         return $this->morphOne(Notification::class, 'notify');
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }

@@ -21,7 +21,7 @@ class Carousel extends Model
     public const STATUS_ON_SHELF = 1;
 
     // open_type
-    public function getOpenTypeAttribute()
+    public function getOpenTypeAttribute(): bool
     {
         return Str::contains($this->url, '/member/news/');
     }

@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StoreLightbox extends Model
 {
@@ -12,7 +13,7 @@ class StoreLightbox extends Model
 
     protected $guarded = ['id'];
 
-    public function storeLightboxImages()
+    public function storeLightboxImages(): HasMany
     {
         return $this->hasMany(StoreLightboxImage::class);
     }

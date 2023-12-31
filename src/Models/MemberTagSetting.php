@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MemberTagSetting extends Model
 {
@@ -18,12 +19,12 @@ class MemberTagSetting extends Model
 
     protected $guarded = ['id'];
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function storeTag()
+    public function storeTag(): BelongsTo
     {
         return $this->belongsTo(StoreTag::class);
     }

@@ -18,11 +18,10 @@ abstract class OrderAbstract extends PushNotificationAbstract
     {
         $order = $this->arguments;
 
-        $dateTime = Carbon::parse($order->reservation_date . ' ' . $order->reservation_time);
         $people = $order->adult_num + $order->child_num;
 
         return __('joymap::notification.order.body', [
-            'datetime' => $dateTime,
+            'datetime' => $order->reservation_datetime->translatedFormat('Y/m/d D H:i'),
             'people' => $people,
         ]);
     }

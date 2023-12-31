@@ -3,6 +3,8 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StoreWalletTransactionRecord extends Model
 {
@@ -34,37 +36,37 @@ class StoreWalletTransactionRecord extends Model
 
     protected $guarded = ['id'];
 
-    public function storeWallet()
+    public function storeWallet(): BelongsTo
     {
         return $this->belongsTo(StoreWallet::class);
     }
 
-    public function storeWalletWithdraw()
+    public function storeWalletWithdraw(): HasOne
     {
         return $this->hasOne(StoreWalletWithdraw::class);
     }
 
-    public function store()
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class);
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function payLog()
+    public function payLog(): BelongsTo
     {
         return $this->belongsTo(PayLog::class);
     }
 
-    public function adminUser()
+    public function adminUser(): BelongsTo
     {
         return $this->belongsTo(AdminUser::class);
     }
 
-    public function storeUser()
+    public function storeUser(): BelongsTo
     {
         return $this->belongsTo(StoreUser::class);
     }
