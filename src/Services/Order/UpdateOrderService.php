@@ -26,9 +26,6 @@ class UpdateOrderService
 
     private ?Authenticatable $user;
 
-    /**
-     * @throws Exception
-     */
     public function by(Authenticatable $user): UpdateOrderService
     {
         $this->user = $user;
@@ -53,7 +50,7 @@ class UpdateOrderService
         string $storeComment,
         array  $tagIds,
         array  $tableIds,
-    ): bool
+    ): void
     {
         Log::info('update order', [
             'order_id' => $order->id,
@@ -85,8 +82,8 @@ class UpdateOrderService
             throw new Exception('該訂位狀態不可修改', 422);
         }
 
-        $res = DB::transaction(function () use ($order, $adultNum, $childNum, $childSeatNum, $reservationDatetime, $goalId, $storeComment, $tagIds, $tableIds) {
-            return $this->service->update(
+        DB::transaction(function () use ($order, $adultNum, $childNum, $childSeatNum, $reservationDatetime, $goalId, $storeComment, $tagIds, $tableIds) {
+            $this->service->update(
                 $order,
                 $adultNum,
                 $childNum,
@@ -102,7 +99,5 @@ class UpdateOrderService
         if ($order->wasChanged(['adult_num', 'child_num', 'reservation_date', 'reservation_time'])) {
             event(new OrderUpdateEvent($order->refresh()));
         }
-
-        return $res;
     }
 }

@@ -2,38 +2,35 @@
 
 namespace Mtsung\JoymapCore\Services\Order;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
-use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
-use Mtsung\JoymapCore\Models\StoreUser;
-use Mtsung\JoymapCore\Services\Order\CancelBy\ByMember;
-use Mtsung\JoymapCore\Services\Order\CancelBy\ByStore;
-use Mtsung\JoymapCore\Services\Order\CancelBy\CancelOrderInterface;
+use Mtsung\JoymapCore\Services\Order\HoldBy\ByMember;
+use Mtsung\JoymapCore\Services\Order\HoldBy\HoldOrderInterface;
 use StdClass;
 
 /**
  * @method static self make()
  */
-class CancelOrderService
+class HoldOrderService
 {
     use AsObject;
 
-    private ?CancelOrderInterface $service = null;
+    private ?HoldOrderInterface $service = null;
 
     private ?Authenticatable $user;
 
-    public function by(Authenticatable $user): CancelOrderService
+    public function by(Authenticatable $user): HoldOrderService
     {
         $this->user = $user;
 
         $this->service = match (true) {
             $user instanceof Member => app(ByMember::class),
-            $user instanceof StoreUser => app(ByStore::class),
         };
 
         return $this;
@@ -44,7 +41,7 @@ class CancelOrderService
      */
     public function handle(Order $order): void
     {
-        Log::info('cancel order', [
+        Log::info('hold order', [
             'order_id' => $order->id,
             'user_type' => get_class($this->user ?? new StdClass()),
             'user_id' => $this->user?->id,
@@ -55,19 +52,20 @@ class CancelOrderService
             throw new Exception('無權限操作', 403);
         }
 
-        $canCancelStatus = [
+        if (Carbon::now() > $order->reservation_datetime) {
+            throw new Exception('已超過可以保留的時間', 422);
+        }
+
+        $canHoldStatus = [
             Order::STATUS_SUCCESS_BOOKING_BY_USER,
             Order::STATUS_SUCCESS_BOOKING_BY_STORE,
-            Order::STATUS_RESERVED_SEAT,
         ];
-        if (!in_array($order->status, $canCancelStatus) && !$order->is_late) {
-            throw new Exception('該訂位狀態不可取消', 422);
+        if (!in_array($order->status, $canHoldStatus)) {
+            throw new Exception('該訂位狀態不可保留', 422);
         }
 
         DB::transaction(function () use ($order) {
-            $this->service->cancel($order);
+            $this->service->hold($order);
         });
-
-        event(new OrderCancelEvent($order->refresh()));
     }
 }

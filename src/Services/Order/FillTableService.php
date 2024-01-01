@@ -47,9 +47,7 @@ class FillTableService
             }
 
             // 現場候位有指定位置就要算可用時間塞入
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
+            $combination = $this->storeTableCombinationRepository->getByTableIdsOrFail($tableIds);
 
             $canOrderTime = $this->canOrderTimeRepository->getCanOrderTimesAndTables(
                 $order->store,

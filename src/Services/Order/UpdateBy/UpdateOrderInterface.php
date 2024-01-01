@@ -17,5 +17,5 @@ interface UpdateOrderInterface
         string $storeComment,
         array  $tagIds,
         array  $tableIds
-    ): bool;
+    ): void;
 }

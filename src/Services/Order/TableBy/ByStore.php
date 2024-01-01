@@ -32,12 +32,8 @@ class ByStore implements TableInterface
     {
         // 指定桌位
         if (count($tableIds) > 0) {
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
-
             // 店家指定桌位不需檢查可不可用
-            return $combination;
+            return $this->storeTableCombinationRepository->getByTableIdsOrFail($tableIds);
         }
 
         $combination = $this->storeTableCombinationRepository->getAvailableTable(

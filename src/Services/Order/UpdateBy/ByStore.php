@@ -3,15 +3,11 @@
 namespace Mtsung\JoymapCore\Services\Order\UpdateBy;
 
 use Carbon\Carbon;
-use Exception;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\Order\FillTableService;
 
 class ByStore implements UpdateOrderInterface
 {
-    /**
-     * @throws Exception
-     */
     public function update(
         Order  $order,
         int    $adultNum,
@@ -22,7 +18,7 @@ class ByStore implements UpdateOrderInterface
         string $storeComment,
         array  $tagIds,
         array  $tableIds,
-    ): bool
+    ): void
     {
         $order->fill([
             'is_modify' => 1,
@@ -42,10 +38,8 @@ class ByStore implements UpdateOrderInterface
 
         FillTableService::run($order, $tableIds);
 
-        $res = $order->save();
+        $order->save();
 
         $order->orderTags()->sync($tagIds);
-
-        return $res;
     }
 }

@@ -36,9 +36,7 @@ class ByMember implements TableInterface
         // 指定桌位
         $combination = null;
         if (count($tableIds) > 0) {
-            if (!$combination = $this->storeTableCombinationRepository->getByTableIds($tableIds)) {
-                throw new Exception('桌位異常', 500);
-            }
+            $combination = $this->storeTableCombinationRepository->getByTableIdsOrFail($tableIds);
         }
 
         $combination = $this->storeTableCombinationRepository->getAvailableTable(

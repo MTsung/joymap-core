@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Repositories\Store;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -31,6 +32,18 @@ class StoreTableCombinationRepository implements RepositoryInterface
             ->whereJsonContains('combination', $tableIds)
             ->whereJsonLength('combination', count($tableIds))
             ->first();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getByTableIdsOrFail(array|Collection $tableIds): StoreTableCombination
+    {
+        if (!$combination = $this->getByTableIds($tableIds)) {
+            throw new Exception('桌位異常', 500);
+        }
+
+        return $combination;
     }
 
     /**

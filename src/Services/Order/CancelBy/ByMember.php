@@ -11,7 +11,7 @@ class ByMember implements CancelOrderInterface
     /**
      * @throws Exception
      */
-    public function cancel(Order $order): bool
+    public function cancel(Order $order): void
     {
         $store = $order->store;
 
@@ -26,8 +26,8 @@ class ByMember implements CancelOrderInterface
             throw new Exception('已超過可以取消的時間', 422);
         }
 
-        $res = $order->update(['status' => Order::STATUS_CANCEL_BY_USER]);
+        $order->update(['status' => Order::STATUS_CANCEL_BY_USER]);
 
-        return $res && $order->timeLog->update(['cancel_time' => Carbon::now()]);
+        $order->timeLog->update(['cancel_time' => Carbon::now()]);
     }
 }
