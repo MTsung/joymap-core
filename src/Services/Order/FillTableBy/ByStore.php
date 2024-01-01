@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Order\TableBy;
+namespace Mtsung\JoymapCore\Services\Order\FillTableBy;
 
 use Carbon\Carbon;
 use Exception;
@@ -8,7 +8,7 @@ use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreTableCombination;
 use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 
-class ByStore implements TableInterface
+class ByStore implements FillTableInterface
 {
     private Store $store;
 
@@ -18,7 +18,7 @@ class ByStore implements TableInterface
     {
     }
 
-    public function store(Store $store): TableInterface
+    public function store(Store $store): FillTableInterface
     {
         $this->store = $store;
 

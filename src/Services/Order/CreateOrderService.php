@@ -11,7 +11,6 @@ use Mtsung\JoymapCore\Facades\Rand;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
-use Mtsung\JoymapCore\Models\StoreTableCombination;
 use Mtsung\JoymapCore\Params\Member\MemberGetOrCreateParams;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Store\CanOrderTimeRepository;

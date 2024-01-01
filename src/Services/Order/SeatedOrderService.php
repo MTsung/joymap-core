@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Services\Order;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
@@ -17,6 +18,7 @@ use Mtsung\JoymapCore\Services\Order\SeatedBy\SeatedOrderInterface;
 use StdClass;
 
 /**
+ * @method static void run(Order $order, array $tableIds)
  * @method static self make()
  */
 class SeatedOrderService
@@ -25,7 +27,7 @@ class SeatedOrderService
 
     private ?SeatedOrderInterface $service = null;
 
-    private ?Authenticatable $user;
+    private ?Authenticatable $user = null;
 
     public function by(Authenticatable $user): SeatedOrderService
     {
@@ -44,6 +46,10 @@ class SeatedOrderService
      */
     public function handle(Order $order, array $tableIds): void
     {
+        if (is_null($this->user)) {
+            $this->by(Auth::user());
+        }
+
         Log::info('seated order', [
             'order_id' => $order->id,
             'user_type' => get_class($this->user ?? new StdClass()),

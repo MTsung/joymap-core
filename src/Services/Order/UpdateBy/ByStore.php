@@ -8,6 +8,9 @@ use Mtsung\JoymapCore\Services\Order\FillTableService;
 
 class ByStore implements UpdateOrderInterface
 {
+    /**
+     * @throws \Exception
+     */
     public function update(
         Order  $order,
         int    $adultNum,
@@ -36,7 +39,7 @@ class ByStore implements UpdateOrderInterface
             ]);
         }
 
-        FillTableService::run($order, $tableIds);
+        FillTableService::run($this, $tableIds);
 
         $order->save();
 
