@@ -149,6 +149,8 @@ class SpGateway implements PayInterface
 
     private function preparePostDataUsePartnerId(array $data): array
     {
+        $this->log->info('preparePostDataUsePartnerId data：', $data);
+
         $postDataStr = http_build_query($data);
         $encryptData = $this->encrypt(
             $postDataStr,
@@ -167,6 +169,8 @@ class SpGateway implements PayInterface
 
     private function preparePostDataHasCkcekValue(array $data): array
     {
+        $this->log->info('preparePostDataHasCkcekValue data：', $data);
+
         ksort($data);
         $CheckValue = sprintf(
             'IV=%s&%s&Key=%s',
@@ -186,6 +190,8 @@ class SpGateway implements PayInterface
 
     private function preparePostData(array $data): array
     {
+        $this->log->info('preparePostData data：', $data);
+
         $postDataStr = http_build_query($data);
         $encryptData = $this->encrypt($postDataStr);
 
@@ -195,9 +201,7 @@ class SpGateway implements PayInterface
             'PostData_' => $encryptData,
         ];
 
-        if (config('joymap.pay.channels.spgateway.prepare_post_data_log')) {
-            $this->log->info('preparePostData 最後送出的資料：', $postData);
-        }
+        $this->log->info('preparePostData 最後送出的資料：', $postData);
 
         return $postData;
     }

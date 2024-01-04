@@ -20,9 +20,6 @@ return [
         ],
         // 藍新＆智付通的API 一模一樣 domain 不同而已
         'spgateway' => [
-            // prepare_post_data 是否紀錄 (注意有包含卡號＆Token)
-            'prepare_post_data_log' => env('SPGATEWAY_PREPARE_POST_DATA_LOG', !isProd()),
-
             // 刷卡＆綁卡
             'credit_card_url' => env(
                 'SPGATEWAY_CREDIT_CARD_URL',

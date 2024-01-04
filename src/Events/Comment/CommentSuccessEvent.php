@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Events\Comment;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Comment;
 
 class CommentSuccessEvent
@@ -19,6 +20,8 @@ class CommentSuccessEvent
      */
     public function __construct(Comment $comment)
     {
-        $this->comment= $comment;
+        Log::info(__METHOD__ . ' start', [$comment->id]);
+
+        $this->comment = $comment;
     }
 }

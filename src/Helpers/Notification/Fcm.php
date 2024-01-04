@@ -49,12 +49,14 @@ class Fcm implements NotificationInterface
     }
 
     /**
+     * 一次限制 1000 則
+     * Google: Number of messages on maximum allowed (1000)
      * @throws Exception
      */
     public function send(array $tokens, string $title, string $body, int $badge, array $data): bool
     {
         $res = false;
-        $temp = collect($tokens)->chunk(10);
+        $temp = collect($tokens)->chunk(1000);
         foreach ($temp as $sendTokens) {
             $t = $sendTokens->values()->toArray();
             $res |= $this->callApi($t, $title, $body, $badge, $data);
@@ -75,6 +77,7 @@ class Fcm implements NotificationInterface
                         'title' => $title,
                         'body' => $body,
                         'badge' => $badge,
+                        'sound' => 'default',
                     ],
                     'data' => $data ?: new stdClass(),
                 ],

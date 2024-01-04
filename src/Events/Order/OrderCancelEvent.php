@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Events\Order;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Order;
 
 class OrderCancelEvent
@@ -19,6 +20,8 @@ class OrderCancelEvent
      */
     public function __construct(Order $order)
     {
+        Log::info(__METHOD__ . ' start', [$order->id]);
+
         $this->order = $order;
     }
 }
