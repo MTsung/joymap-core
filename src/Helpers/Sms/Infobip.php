@@ -5,6 +5,8 @@ namespace Mtsung\JoymapCore\Helpers\Sms;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
+use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Throwable;
 
@@ -93,6 +95,9 @@ class Infobip implements SmsInterface
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' Error: ', [$e]);
+
+            $message = LineNotification::getMsgText($e);
+            event(new SendNotifyEvent($message));
         }
 
         return false;

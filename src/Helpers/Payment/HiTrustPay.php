@@ -6,6 +6,8 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\TransferStats;
 use Illuminate\Support\Facades\Log;
+use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
+use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 use Mtsung\JoymapCore\Models\Store;
 use Throwable;
 
@@ -165,6 +167,9 @@ class HiTrustPay implements PayInterface
             return json_decode($res, true);
         } catch (Throwable $e) {
             $this->log->error(__METHOD__ . ' Error: ', [$e]);
+
+            $message = LineNotification::getMsgText($e);
+            event(new SendNotifyEvent($message));
         }
 
         return false;
