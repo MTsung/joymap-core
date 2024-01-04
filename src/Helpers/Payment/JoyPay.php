@@ -110,18 +110,18 @@ class JoyPay
 
     private function reset(): void
     {
-        $this->token = null;
+        $this->token = '';
         $this->amount = 0;
         $this->storeId = null;
         $this->store = null;
-        $this->orderNumber = null;
-        $this->expiry = null;
-        $this->cvc = null;
-        $this->cardNo = null;
-        $this->phone = null;
+        $this->orderNumber = '';
+        $this->expiry = '';
+        $this->cvc = '';
+        $this->cardNo = '';
+        $this->phone = '';
         $this->returnUrl = null;
         $this->callbackUrl = null;
-        $this->email = null;
+        $this->email = '';
     }
 
     /**
