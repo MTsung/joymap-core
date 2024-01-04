@@ -180,9 +180,9 @@ class Member extends User implements JWTSubject
         return $this->hasMany(MemberDeleteLog::class, 'member_id', 'id');
     }
 
-    public function jcUser(): HasOne
+    public function jcUser(): BelongsTo
     {
-        return $this->hasOne(JcUser::class);
+        return $this->belongsTo(JcUser::class);
     }
 
     public function jcCoins(): HasMany

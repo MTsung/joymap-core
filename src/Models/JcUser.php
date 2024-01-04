@@ -3,7 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class JcUser extends Model
 {
@@ -13,8 +13,8 @@ class JcUser extends Model
 
     protected $guarded = ['id'];
 
-    public function member(): BelongsTo
+    public function member(): HasOne
     {
-        return $this->belongsTo(Member::class);
+        return $this->hasOne(Member::class);
     }
 }
