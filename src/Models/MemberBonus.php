@@ -79,12 +79,12 @@ class MemberBonus extends Model
     /**
      * 執行每一個有獲得分潤的會員該月實際刷卡金額和分潤金額
      * @param string $condition 語法
-     * @param bool $dealerGrade 經銷商身分
+     * @param int $dealerGrade 經銷商身分
      * @param string $firstDayOfMonth 月份(月初)
      * @param string $lastDayOfMonth 月份(月底)
      * @return mixed
      */
-    protected static function selectBonusPayAmount(string $condition, bool $dealerGrade, string $firstDayOfMonth, string $lastDayOfMonth): mixed
+    protected static function selectBonusPayAmount(string $condition, int $dealerGrade, string $firstDayOfMonth, string $lastDayOfMonth): mixed
     {
         return self::hydrate(DB::select("
             SELECT
