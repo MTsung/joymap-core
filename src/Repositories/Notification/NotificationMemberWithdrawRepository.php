@@ -23,7 +23,7 @@ class NotificationMemberWithdrawRepository implements RepositoryInterface
      * @param int $coinLogId
      * @return mixed
      */
-    public function createWithNotification(int $memberId, int $status, int $coin, int $coinLogId): mixed
+    public function createWithNotification(int $memberId, int $status, int $coin, int $coinLogId = null): mixed
     {
         return $this->model()
             ->query()
