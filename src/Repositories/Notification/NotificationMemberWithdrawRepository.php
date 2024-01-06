@@ -20,7 +20,7 @@ class NotificationMemberWithdrawRepository implements RepositoryInterface
      * @param int $memberId
      * @param int $status
      * @param int $coin
-     * @param int $coinLogId
+     * @param int|null $coinLogId
      * @return mixed
      */
     public function createWithNotification(int $memberId, int $status, int $coin, int $coinLogId = null): mixed
