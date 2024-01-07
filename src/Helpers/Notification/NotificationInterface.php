@@ -13,5 +13,7 @@ interface NotificationInterface
 
     public function send(array $tokens, string $title, string $body, int $badge, array $data): bool;
 
+    public function getRequest(): array;
+
     public function getResponses(): Collection;
 }

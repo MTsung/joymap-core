@@ -15,6 +15,7 @@ class Fcm implements NotificationInterface
     private string $baseUrl;
     private string $apiKey;
     protected mixed $log;
+    private array $request;
     private Collection $responses;
 
     public function __construct()
@@ -73,7 +74,7 @@ class Fcm implements NotificationInterface
     protected function callApi(array $tokens, string $title, string $body, int $badge, array $data): bool
     {
         try {
-            $postData = [
+            $postData = $this->request = [
                 'json' => [
                     'registration_ids' => $tokens,
                     'notification' => [
@@ -102,6 +103,11 @@ class Fcm implements NotificationInterface
         }
 
         return false;
+    }
+
+    public function getRequest(): array
+    {
+        return $this->request;
     }
 
     public function getResponses(): Collection

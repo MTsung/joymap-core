@@ -171,6 +171,11 @@ class Notification
         $this->data = [];
     }
 
+    public function getRequest(): array
+    {
+        return $this->service->getRequest();
+    }
+
     public function getResponses(): Collection
     {
         return $this->service->getResponses();

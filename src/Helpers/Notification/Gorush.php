@@ -20,6 +20,7 @@ class Gorush implements NotificationInterface
     public const PLATFORM_IOS = 1;
     public const PLATFORM_ANDROID = 2;
     protected mixed $log;
+    private array $request;
     private Collection $responses;
 
     public function __construct()
@@ -75,7 +76,7 @@ class Gorush implements NotificationInterface
             if (!is_array($tokens[self::PLATFORM_IOS]) || !is_array($tokens[self::PLATFORM_ANDROID])) {
                 throw new Exception('tokens 必須為陣列 [ 1 => [ios tokens], 2 => [android tokens]] 的形式');
             }
-            $postData = [
+            $postData = $this->request = [
                 'json' => [
                     'notifications' => [
                         [
@@ -119,6 +120,11 @@ class Gorush implements NotificationInterface
         }
 
         return false;
+    }
+
+    public function getRequest(): array
+    {
+        return $this->request;
     }
 
     public function getResponses(): Collection
