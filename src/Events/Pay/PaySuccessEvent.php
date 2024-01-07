@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Events\Order;
+namespace Mtsung\JoymapCore\Events\Pay;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

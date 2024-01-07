@@ -16,7 +16,7 @@ use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
-use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
+use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreFloor\StoreFloorDeletingListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableCreatedListener;

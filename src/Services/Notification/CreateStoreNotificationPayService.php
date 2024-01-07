@@ -4,7 +4,7 @@ namespace Mtsung\JoymapCore\Services\Notification;
 
 use Exception;
 use Mtsung\JoymapCore\Action\AsObject;
-use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
+use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
 use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\StoreNotification;
 use Mtsung\JoymapCore\Repositories\Store\StoreNotificationRepository;

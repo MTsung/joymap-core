@@ -5,7 +5,7 @@ namespace Mtsung\JoymapCore\Services\PushNotification\Store\Pay;
 use Carbon\Carbon;
 use Exception;
 use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
-use Mtsung\JoymapCore\Events\Order\PaySuccessEvent;
+use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
 use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
