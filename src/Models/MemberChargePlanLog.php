@@ -40,6 +40,6 @@ class MemberChargePlanLog extends Model
      */
     public function getTypeTextAttribute(): string
     {
-        return __('member_charge_plan_log.type.' . $this->type);
+        return __('joymap::member_charge_plan_log.type.' . $this->type);
     }
 }

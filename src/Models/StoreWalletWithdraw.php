@@ -13,6 +13,11 @@ class StoreWalletWithdraw extends Model
 
     protected $guarded = ['id'];
 
+    // 待處理
+    public const STATUS_PENDING = 0;
+    // 匯款完成
+    public const STATUS_COMPLETED = 1;
+
     public function storeWalletTransactionRecord(): BelongsTo
     {
         return $this->belongsTo(StoreWalletTransactionRecord::class);
