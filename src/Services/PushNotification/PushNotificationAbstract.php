@@ -51,7 +51,7 @@ abstract class PushNotificationAbstract implements PushNotificationInterface, Sh
         if (is_subclass_of($to, Model::class)) {
             $to = $to->id;
         } else if ($to instanceof Collection && is_subclass_of($to->first(), Model::class)) {
-            $to = $to->pluck('id');
+            $to = $to->pluck('id')->toArray();
         }
 
         $service = Notification::{$method}($to)
