@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Mtsung\JoymapCore\Action\AsJob;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Model\StoreFloor\StoreFloorUpdatedEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
@@ -22,7 +23,7 @@ use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
  */
 class WriteStoreFloorTableCombinationService
 {
-    use AsObject;
+    use AsObject, AsJob;
 
     public StoreFloor $storeFloor;
     public Collection $storeTables;

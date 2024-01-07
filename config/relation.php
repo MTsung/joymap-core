@@ -3,11 +3,11 @@
 return [
     // 階層最大會員數量
     'level_member_count_max' => env('LEVEL_MEMBER_COUNT_MAX', 10),
-    //獲得回饋最小累計付款金額
+    // 獲得回饋最小累計付款金額
     'bonus_min_amount' => env('BONUS_MIN_AMOUNT', 1000),
-    //提領手續費
+    // 提領手續費
     'withdraw_hand_fee' => env('HAND_FEE', 30),
-    //最低提款金額
+    // 最低提款金額
     'min_money_withdraw' => env('MIN_MONEY_WITHDRAW', 200),
 
     'joy_fans' => [
