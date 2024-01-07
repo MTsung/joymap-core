@@ -15,6 +15,9 @@ class StoreRestriction extends Model
 
     protected $guarded = ['id'];
 
+    // 預設的用餐限制ID (目前預設用餐限制兩小時)
+    public const STORE_RESTRICTION_ID_DEFAULT = 4;
+
     public function stores(): HasMany
     {
         return $this->hasMany(Store::class);

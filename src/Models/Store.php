@@ -78,6 +78,11 @@ class Store extends Model
     // TWDD
     public const FROM_SOURCE_TWDD = 1;
 
+    // 預設的店家來源(目前預設為享樂地圖)
+    public const FROM_SOURCE_DEFAULT = 0;
+
+    // 預設的店家營業狀況(目前預設為營業中)
+    public const iS_ACTIVE_DEFAULT = 1;
     public const AVG_PRICE_MIN = [0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000];
     public const AVG_PRICE_MAX = [100, 300, 500, 900, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 10000];
 

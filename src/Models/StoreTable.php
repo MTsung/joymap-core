@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableCreatedEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletingEvent;
@@ -42,5 +43,10 @@ class StoreTable extends Model
     public function combinedByTables(): BelongsToMany
     {
         return $this->belongsToMany(StoreTable::class, 'store_table_combine_setting', 'combine_table_id', 'store_table_id');
+    }
+
+    public function combineSettings(): HasMany
+    {
+        return $this->hasMany(StoreTableCombineSetting::class, 'store_table_id');
     }
 }
