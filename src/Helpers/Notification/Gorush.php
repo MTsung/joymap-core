@@ -72,6 +72,7 @@ class Gorush implements NotificationInterface
      */
     public function send(array $tokens, string $title, string $body, int $badge, array $data): bool
     {
+        $this->responses = collect();
         try {
             if (!is_array($tokens[self::PLATFORM_IOS]) || !is_array($tokens[self::PLATFORM_ANDROID])) {
                 throw new Exception('tokens 必須為陣列 [ 1 => [ios tokens], 2 => [android tokens]] 的形式');

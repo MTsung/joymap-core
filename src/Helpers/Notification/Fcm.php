@@ -59,6 +59,7 @@ class Fcm implements NotificationInterface
      */
     public function send(array $tokens, string $title, string $body, int $badge, array $data): bool
     {
+        $this->responses = collect();
         $res = false;
         $temp = collect($tokens)->chunk(1000);
         foreach ($temp as $sendTokens) {
