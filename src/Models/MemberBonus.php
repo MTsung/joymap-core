@@ -73,7 +73,7 @@ class MemberBonus extends Model
         $condition .= " AND relation_level < 5 ";
         $memberBonus = self::selectBonusPayAmount($condition, 0, $firstDayOfMonth, $lastDayOfMonth);
         //合併
-        return $memberBonus->concat($memberDealerBonus);
+        return $memberBonus->concat($memberDealerBonus)->load(['member']);
     }
 
     /**

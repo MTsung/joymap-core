@@ -20,6 +20,7 @@ class Gorush implements NotificationInterface
     public const PLATFORM_IOS = 1;
     public const PLATFORM_ANDROID = 2;
     protected mixed $log;
+    private Collection $responses;
 
     public function __construct()
     {
@@ -42,6 +43,8 @@ class Gorush implements NotificationInterface
             config('logging.default'),
             'gorush',
         ]);
+
+        $this->responses = collect();
     }
 
     public function topic(string $topic): Gorush
@@ -104,7 +107,11 @@ class Gorush implements NotificationInterface
 
             $res = $this->client->request('POST', $this->baseUrl, $postData);
 
-            $this->log->info('gorush res', [$res->getBody()->getContents()]);
+            $contents = $res->getBody()->getContents();
+
+            $this->responses->add($contents);
+
+            $this->log->info('gorush res', [$contents]);
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
@@ -112,5 +119,10 @@ class Gorush implements NotificationInterface
         }
 
         return false;
+    }
+
+    public function getResponses(): Collection
+    {
+        return $this->responses;
     }
 }

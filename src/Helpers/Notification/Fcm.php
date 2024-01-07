@@ -15,6 +15,7 @@ class Fcm implements NotificationInterface
     private string $baseUrl;
     private string $apiKey;
     protected mixed $log;
+    private Collection $responses;
 
     public function __construct()
     {
@@ -35,6 +36,8 @@ class Fcm implements NotificationInterface
             config('logging.default'),
             'fcm',
         ]);
+
+        $this->responses = collect();
     }
 
     public function topic(string $topic): Fcm
@@ -87,7 +90,11 @@ class Fcm implements NotificationInterface
 
             $res = $this->client->request('POST', $this->baseUrl, $postData);
 
-            $this->log->info('fcm res', [$res->getBody()->getContents()]);
+            $contents = $res->getBody()->getContents();
+
+            $this->responses->add($contents);
+
+            $this->log->info('fcm res', [$contents]);
 
             return $res->getStatusCode() === 200;
         } catch (Throwable $e) {
@@ -95,5 +102,10 @@ class Fcm implements NotificationInterface
         }
 
         return false;
+    }
+
+    public function getResponses(): Collection
+    {
+        return $this->responses;
     }
 }

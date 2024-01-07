@@ -21,6 +21,16 @@ abstract class PushNotificationAbstract implements PushNotificationInterface, Sh
 
     protected mixed $arguments;
 
+    public function success(Collection $responses): void
+    {
+        // 推播成功執行
+    }
+
+    public function fail(Collection $responses): void
+    {
+        // 推播失敗執行
+    }
+
     /**
      * @throws Exception
      */
@@ -44,11 +54,18 @@ abstract class PushNotificationAbstract implements PushNotificationInterface, Sh
             $to = $to->pluck('id');
         }
 
-        return Notification::{$method}($to)
+        $service = Notification::{$method}($to)
             ->title($this->title())
             ->body($this->body())
             ->action($this->action())
-            ->data($this->data())
-            ->send();
+            ->data($this->data());
+
+        if ($res = $service->send()) {
+            $this->success($service->getResponses());
+        } else {
+            $this->fail($service->getResponses());
+        }
+
+        return $res;
     }
 }

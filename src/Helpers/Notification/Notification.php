@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Helpers\Notification;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Mtsung\JoymapCore\Repositories\Member\MemberPushRepository;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreNotificationRepository;
@@ -168,5 +169,10 @@ class Notification
         $this->body = '';
         $this->badge = 1;
         $this->data = [];
+    }
+
+    public function getResponses(): Collection
+    {
+        return $this->service->getResponses();
     }
 }

@@ -12,4 +12,6 @@ interface NotificationInterface
     public function formatToken(Collection $tokens): array;
 
     public function send(array $tokens, string $title, string $body, int $badge, array $data): bool;
+
+    public function getResponses(): Collection;
 }
