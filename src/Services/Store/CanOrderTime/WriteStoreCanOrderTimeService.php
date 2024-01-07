@@ -45,7 +45,10 @@ class WriteStoreCanOrderTimeService
                 ] : [],
             );
 
-            $deleteCount = $this->canOrderTimeRepository->delete($store->id, $canOrderTime);
+            $deleteCount = $this->canOrderTimeRepository->delete(
+                $store->id,
+                $isNewDay ? $canOrderTime : null
+            );
 
             $log->info(__METHOD__ . ': deleteCount', [$deleteCount]);
 

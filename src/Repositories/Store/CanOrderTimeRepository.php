@@ -133,12 +133,12 @@ class CanOrderTimeRepository implements RepositoryInterface
     {
         return $this->model()->query()
             ->where('store_id', $storeId)
-            ->where(function ($query) use ($insertData) {
-                // 舊資料可移除
-                $query->orWhere('begin_time', '<', Carbon::now()->subDay());
-                // 避免新增重複資料
-                $query->when($insertData, function ($whenQuery) use ($insertData) {
-                    $whenQuery->orWhereIn('begin_time', $insertData->pluck('begin_time'));
+            ->when($insertData, function ($whenQuery) use ($insertData) {
+                $whenQuery->where(function ($query) use ($insertData) {
+                    // 舊資料可移除
+                    $query->orWhere('begin_time', '<', Carbon::now()->subDay());
+                    // 避免新增重複資料
+                    $query->orWhereIn('begin_time', $insertData->pluck('begin_time'));
                 });
             })
             ->delete();
