@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Services\Order;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Facades\Rand;
@@ -298,5 +299,35 @@ class CreateOrderService
         event(new OrderSuccessEvent($order->refresh()));
 
         return $order;
+    }
+
+    /**
+     * 讓 $this->fromSource 也能用 $this->from_source 賦予值
+     * @throws Exception
+     */
+    public function __set($key, $value): void
+    {
+        if (property_exists($this, $key)) {
+            $this->{$key} = $value;
+            return;
+        }
+
+        $camelKey = Str::camel($key);
+        if (property_exists($this, $camelKey)) {
+            $this->{$camelKey} = $value;
+            return;
+        }
+
+        throw new Exception('Undefined property $' . $key . ' or $' . $camelKey);
+    }
+
+    // 讓 $this->fromSource 可以用 $this->from_source 也拿到值
+    public function __get($key)
+    {
+        if (!property_exists($this, $key)) {
+            return $this->{Str::camel($key)};
+        }
+
+        return $this->{$key};
     }
 }

@@ -3,13 +3,14 @@
 namespace Mtsung\JoymapCore\Services\Order\UpdateBy;
 
 use Carbon\Carbon;
+use Exception;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\Order\FillTableService;
 
 class ByStore implements UpdateOrderInterface
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(
         Order  $order,
@@ -39,7 +40,7 @@ class ByStore implements UpdateOrderInterface
             ]);
         }
 
-        FillTableService::run($this, $tableIds);
+        FillTableService::run($order, $tableIds);
 
         $order->save();
 

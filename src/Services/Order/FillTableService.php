@@ -80,37 +80,37 @@ class FillTableService
             $canOrderTime = $this->canOrderTimeRepository->getCanOrderTimesAndTables(
                 $order->store,
                 [Carbon::now(), Carbon::now()->addDay()],
-                $order->fromSource != Order::FROM_SOURCE_RESTAURANT_BOOKING,
+                $order->from_source != Order::FROM_SOURCE_RESTAURANT_BOOKING,
                 $combination->id,
                 false,
             )->first(function (CanOrderTime $value) use ($order) {
-                return in_array($order->peopleNum, Arr::collapse($value->people_array));
+                return in_array($order->people_num, Arr::collapse($value->people_array));
             });
 
             if (!$canOrderTime) {
                 throw new Exception('該桌位於24小時內已無可用時間。', 422);
             }
 
-            $order->beginTime = Carbon::parse($canOrderTime['begin_time']);
+            $order->begin_time = Carbon::parse($canOrderTime['begin_time']);
 
-            $order->endTime = $order->beginTime->copy()->addMinutes($order->store->limit_minute);
+            $order->end_time = $order->begin_time->copy()->addMinutes($order->store->limit_minute);
 
-            $order->storeTableCombinationId = $combination->id;
+            $order->store_table_combination_id = $combination->id;
 
-            $order->storeTableCombinationName = $combination->combination_name;
+            $order->store_table_combination_name = $combination->combination_name;
 
             return $order;
         }
 
         $combination = $this->service->getTableCombination(
-            $order->reservationDatetime,
-            $order->peopleNum,
+            $order->reservation_datetime,
+            $order->people_num,
             $tableIds,
         );
 
-        $order->storeTableCombinationId = $combination->id;
+        $order->store_table_combination_id = $combination->id;
 
-        $order->storeTableCombinationName = $combination->combination_name;
+        $order->store_table_combination_name = $combination->combination_name;
 
         return $order;
     }

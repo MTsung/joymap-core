@@ -54,7 +54,7 @@ class UpdateTableService
             throw new Exception('該訂位狀態不可修改', 422);
         }
 
-        FillTableService::run($this, $tableIds);
+        FillTableService::run($order, $tableIds);
 
         $order->save();
     }
