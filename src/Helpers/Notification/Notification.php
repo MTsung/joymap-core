@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Helpers\Notification;
 
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Repositories\Member\MemberPushRepository;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreNotificationRepository;
@@ -140,7 +141,8 @@ class Notification
     public function send(): bool
     {
         if (count($this->tokens) === 0) {
-            throw new Exception('Tokens Empty.', 500);
+            Log::info('Tokens Empty.');
+            return true;
         }
         if (!$this->title) {
             throw new Exception('請呼叫 title()', 500);
