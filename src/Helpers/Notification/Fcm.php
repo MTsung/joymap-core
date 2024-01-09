@@ -49,7 +49,7 @@ class Fcm implements NotificationInterface
 
     public function formatToken(Collection $tokens): array
     {
-        return $tokens->pluck('device_token')->toArray();
+        return $tokens->pluck('device_token')->unique()->toArray();
     }
 
     /**

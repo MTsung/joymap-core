@@ -58,10 +58,14 @@ class Gorush implements NotificationInterface
     {
         $res[self::PLATFORM_IOS] = $tokens
             ->where('platform', self::PLATFORM_IOS)
+            ->pluck('device_token')
+            ->unique()
             ->toArray();
 
         $res[self::PLATFORM_ANDROID] = $tokens
             ->where('platform', self::PLATFORM_ANDROID)
+            ->pluck('device_token')
+            ->unique()
             ->toArray();
 
         return $res;

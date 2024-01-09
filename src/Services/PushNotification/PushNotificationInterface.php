@@ -18,7 +18,7 @@ interface PushNotificationInterface
 
     public function data(): array;
 
-    public function success(array $request, Collection $responses): void;
+    public function success(array $request, Collection $responses, mixed $to): void;
 
-    public function fail(array $request, Collection $responses): void;
+    public function fail(array $request, Collection $responses, mixed $to): void;
 }
