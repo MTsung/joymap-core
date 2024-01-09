@@ -108,11 +108,11 @@ class Fcm implements NotificationInterface
 
     public function getRequest(): array
     {
-        return $this->request;
+        return $this->request ?? [];
     }
 
     public function getResponses(): Collection
     {
-        return $this->responses;
+        return $this->responses ?? collect();
     }
 }
