@@ -27,7 +27,7 @@ class Store extends Model
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['lat_lng', 'summary'];
+    protected $hidden = ['lat_lng'];
 
     // 停用
     public const CAN_PAY_DISABLED = 0;
