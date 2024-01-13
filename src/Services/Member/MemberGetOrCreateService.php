@@ -33,7 +33,9 @@ class MemberGetOrCreateService
             if ($member = $this->memberRepository->getByAppleId($data['apple_id'])) {
                 return $member;
             }
-        } else {
+        }
+
+        if (isset($data['full_phone'])) {
             $phoneInfo = $this->formatPhone($data['full_phone']);
             if ($member = $this->memberRepository->getByPhone($phoneInfo['phone'], $phoneInfo['prefix'])) {
                 return $member;

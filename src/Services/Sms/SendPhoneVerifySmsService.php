@@ -6,8 +6,8 @@ use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 
 
 /**
- * @method static dispatch(string $to, array $replace)
- * @method static bool run(string $to, array $replace)
+ * @method static dispatch(string $to, string $code)
+ * @method static bool run(string $to, string $code)
  */
 class SendPhoneVerifySmsService extends SmsAbstract
 {
@@ -16,8 +16,8 @@ class SendPhoneVerifySmsService extends SmsAbstract
         return SmsToTypeEnum::phone;
     }
 
-    public function body($bodyArguments = []): string
+    public function body(): string
     {
-        return __('joymap::sms.phone_verify', $bodyArguments);
+        return __('joymap::sms.phone_verify', ['code' => $this->arguments]);
     }
 }

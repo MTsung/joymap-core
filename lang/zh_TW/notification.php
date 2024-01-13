@@ -58,4 +58,8 @@ return [
             NotificationMemberWithdraw::STATUS_NOTIFY_MEMBER_NO_REWARD => '嗨！ :name 您好，提醒您開通樂粉回饋，即可獲得回饋資格唷！',
         ],
     ],
+    'new_register' => [
+        'title' => '恭喜您，獲得新註冊獎勵',
+        'body' => '歡迎您加入享樂地圖，已發送 :coin 元享樂幣給您，請於期限內使用完畢唷！',
+    ],
 ];

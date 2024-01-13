@@ -29,6 +29,7 @@ use Throwable;
  * @property bool has_identity_account
  * @property bool has_identity
  * @property string full_phone
+ * @property array login_type
  *
  * @method Builder active()
  */
@@ -43,6 +44,16 @@ class Member extends User implements JWTSubject
     protected string $guard_name = 'store';
 
     public const GUEST_PHONE = '8787123456';
+
+    // 手機未驗證
+    public const PHONE_IS_INACTIVE = 0;
+    // 手機已驗證
+    public const PHONE_IS_ACTIVE = 1;
+
+    // 電子郵件未驗證
+    public const EMAIL_IS_INACTIVE = 0;
+    // 電子郵件已驗證
+    public const EMAIL_IS_ACTIVE = 1;
 
     // 正常
     public const STATUS_NORMAL = 1;
@@ -454,5 +465,29 @@ class Member extends User implements JWTSubject
         }
 
         return $fullPhone;
+    }
+
+    /**
+     * login_type
+     * @return array
+     */
+    public function getLoginTypeAttribute():array
+    {
+        $loginType = [];
+
+        if (isset($this->password) && !empty($this->password)) {
+            $loginType[] = 'general';
+        }
+        if (isset($this->google_id) && !empty($this->google_id)) {
+            $loginType[] = 'google';
+        }
+        if (isset($this->apple_id) && !empty($this->apple_id)) {
+            $loginType[] = 'apple';
+        }
+        if (isset($this->facebook_id) && !empty($this->facebook_id)) {
+            $loginType[] = 'facebook';
+        }
+
+        return $loginType;
     }
 }

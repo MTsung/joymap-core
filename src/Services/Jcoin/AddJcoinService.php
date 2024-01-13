@@ -75,6 +75,7 @@ class AddJcoinService
         int    $amount,
         Carbon $expiredAt,
         string $comment = '',
+        int    $systemTaskId = null,
     ): self
     {
         $coinLog = $member->coinLogs()->create([
@@ -85,7 +86,14 @@ class AddJcoinService
             'coin' => $amount,
             'body' => $title,
             'coin_deadline' => $expiredAt,
+            'system_task_id' => $systemTaskId,
         ]);
+
+        if(isset($systemTaskId)){
+            $member->systemTaskLogs()->create([
+                'system_task_id' => $systemTaskId,
+            ]);
+        }
 
         $params = AddJcoinParams::make([
             'title' => $title,
@@ -97,7 +105,7 @@ class AddJcoinService
             'transaction_type' => $type,
             'coins' => $amount,
             'comment' => $comment,
-            'expired_at' => $expiredAt,
+            'expired_at' => $expiredAt->toDateString(),
         ]);
         if ($coinRes = $this->jcoinApi->add($params)) {
             $coinLog->update([

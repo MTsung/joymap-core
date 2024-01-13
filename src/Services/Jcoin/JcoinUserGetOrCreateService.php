@@ -13,7 +13,7 @@ use Mtsung\JoymapCore\Action\AsObject;
 
 /**
  * @method static self make()
- * @method static Member run(Member $member)
+ * @method static array|bool run(Member $member)
  */
 class JcoinUserGetOrCreateService
 {

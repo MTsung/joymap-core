@@ -3,6 +3,14 @@
 use Mtsung\JoymapCore\Models\Member;
 
 return [
+    'is_active' => [
+        Member::PHONE_IS_INACTIVE => '未驗證',
+        Member::PHONE_IS_ACTIVE => '已驗證',
+    ],
+    'is_email_active' => [
+        Member::EMAIL_IS_INACTIVE => '未驗證',
+        Member::EMAIL_IS_ACTIVE => '已驗證',
+    ],
     'status' => [
         Member::STATUS_SUSPENDED => '停權',
         Member::STATUS_NORMAL => '正常',
@@ -26,6 +34,15 @@ return [
         Member::IS_FOREIGNER_FOREIGN => '外國人',
     ],
     'message' => [
+        'permission' => [
+            'attempt_fail' => '帳號或密碼錯誤',
+            'no_login' => '請登入',
+            'expired' => '請重新登入',
+            'denied' => '權限不足',
+            'account_is_deleted' => '您的帳號已刪除，如有疑問請洽客服',
+            'account_is_freeze' => '您的帳號尚在保護中，如有疑問請洽客服',
+            'phone_inactive' => '手機號碼尚未驗證',
+        ],
         'register' => [
             'phone_existed' => '該手機已註冊過，無法重新註冊，如有疑問請洽客服',
             'account_is_freeze' => '您的帳號尚在保護中，無法重新註冊，如有疑問請洽客服',
