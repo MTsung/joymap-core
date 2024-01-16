@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Store\CanOrderTime;
+namespace Mtsung\JoymapCore\Services\Store;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;

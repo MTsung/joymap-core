@@ -10,9 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Mtsung\JoymapCore\Services\Store\CanOrderTime\GetBusinessTimeService;
+use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
 
 /**
  * @property string full_address
