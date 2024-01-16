@@ -87,7 +87,7 @@ class GetStoreCanOrderTimeService
         $closeBusinessWeeks = $this->businessTimes->where('is_open', 0)->pluck('week');
         $res = $res->whereNotIn('week', $closeBusinessWeeks);
 
-        // 移除不在訂位時間內的時間
+        // 移除不在營業時間內的時間
         $res = $res->filter(function ($v) {
             $bs = $this->businessTimes->where('is_open', 1)->where('week', $v['week']);
 

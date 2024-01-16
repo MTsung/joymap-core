@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,13 +10,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Mtsung\JoymapCore\Services\Store\CanOrderTime\GetBusinessTimeService;
 
 /**
  * @property string full_address
  * @property string logo_url
  * @property int limit_minute
  * @property string food_type_full_name
+ * @property int business_status_now
+ * @property string business_status_now_text
+ * @property array business_time_week
+ * @property bool is_hot
+ * @property bool is_new
  */
 class Store extends Model
 {
@@ -77,6 +85,14 @@ class Store extends Model
     public const FROM_SOURCE_JOYMAP = 0;
     // TWDD
     public const FROM_SOURCE_TWDD = 1;
+
+    // (不是 Table 的欄位)
+    // 公休
+    public const BUSINESS_STATUS_NOW_CLOSED = 0;
+    // 營業中
+    public const BUSINESS_STATUS_NOW_OPEN = 1;
+    // 休息中
+    public const BUSINESS_STATUS_NOW_RESTING = 2;
 
     // 預設的店家來源(目前預設為享樂地圖)
     public const FROM_SOURCE_DEFAULT = 0;
@@ -286,6 +302,11 @@ class Store extends Model
         return $this->hasOne(StorePayRemindSetting::class);
     }
 
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class, 'activity_logs');
+    }
+
     /**
      * 取得完整地址
      * full_address
@@ -332,5 +353,125 @@ class Store extends Model
     public function getFoodTypeFullNameAttribute(): string
     {
         return $this->foodTypes->implode('name', '・');
+    }
+
+    /**
+     * is_hot
+     * 是否熱門
+     * @return bool
+     */
+    public function getIsHotAttribute(): bool
+    {
+        return $this->ranking()->exists();
+    }
+
+    /**
+     * is_new
+     * 是否為新上架(一個月內)
+     * @return bool
+     */
+    public function getIsNewAttribute(): bool
+    {
+        if (!isset($this->put_at)) {
+            return false;
+        }
+
+        return Carbon::create($this->put_at) >= Carbon::now()->subMonth();
+    }
+
+    /**
+     * business_status_now
+     * 目前營業狀況，與 is_open 不同的是多了一個 休息中狀態
+     *
+     * @return int 0=關店, 1=營業, 2=休息
+     */
+    public function getBusinessStatusNowAttribute(): int
+    {
+        $now = Carbon::now();
+
+        $businessTime = GetBusinessTimeService::run($this);
+
+        if ($businessTime->where('begin_time', '<=', $now)->where('end_time', '>=', $now)->isNotEmpty()) {
+            return self::BUSINESS_STATUS_NOW_OPEN;
+        }
+
+        if ($businessTime->where('date', $now->toDateString())->where('begin_time', '>', $now)->isNotEmpty()) {
+            return self::BUSINESS_STATUS_NOW_RESTING;
+        }
+
+        return self::BUSINESS_STATUS_NOW_CLOSED;
+    }
+
+
+    /**
+     * business_status_now_text
+     * 根據狀態顯示 營業結束時間 OR 下次營業時間 OR 下次營業日期
+     *
+     * @return string
+     */
+    public function getBusinessStatusNowTextAttribute(): string
+    {
+        $now = Carbon::now();
+
+        $businessTime = GetBusinessTimeService::run($this);
+
+        switch ($this->getBusinessStatusNowAttribute()) {
+            case self::BUSINESS_STATUS_NOW_OPEN:
+                $bs = $businessTime->where('begin_time', '<=', $now)
+                    ->where('end_time', '>=', $now)
+                    ->first();
+
+                return Carbon::parse($bs->end_time)->toTimeString();
+            case self::BUSINESS_STATUS_NOW_RESTING:
+                $bs = $businessTime->where('date', $now->toDateString())
+                    ->where('begin_time', '>', $now)
+                    ->first();
+
+                return Carbon::parse($bs->begin_time)->toTimeString();
+            case self::BUSINESS_STATUS_NOW_CLOSED:
+                if (!$bs = $businessTime->where('begin_time', '>', $now)->first()) {
+                    return '';
+                }
+
+                return Carbon::parse($bs->begin_time)->format('m月d日');
+        }
+
+        return '';
+    }
+
+    /**
+     * business_time_week
+     * 取得這七天的營業時間陣列
+     *
+     * @return array
+     */
+    public function getBusinessTimeWeekAttribute(): array
+    {
+        $res = [[], [], [], [], [], [], []];
+
+        $startDate = Carbon::today()->toDateString();
+        $endDate = Carbon::today()->addDays(6)->toDateString();
+        $specialBusinessTime = $this->specialBusinessTimes()->whereBetween('special_date', [$startDate, $endDate])->get();
+
+        $businessTimes = $this->businessTimes;
+
+        foreach ($res as $week => $value) {
+            $specialTimesForWeek = $specialBusinessTime->where('week', $week);
+
+            if ($specialTimesForWeek->isEmpty()) {
+                $res[$week] = $businessTimes->where('week', $week)->where('is_open', 1);
+            } else {
+                $res[$week] = $specialTimesForWeek->where('is_open', 1);
+            }
+
+            $res[$week] = collect($res[$week])->map(function ($v) {
+                return [
+                    'begin_time' => Carbon::parse($v['begin_time'])->format('H:i'),
+                    'end_time' => Carbon::parse($v['end_time'])->format('H:i'),
+                ];
+            });
+        }
+
+        return $res;
     }
 }

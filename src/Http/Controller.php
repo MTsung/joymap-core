@@ -44,13 +44,11 @@ class Controller extends BaseController
         ]));
     }
 
-    /**
-     * @throws Exception
-     */
     public function error(mixed $code, string $msg, $return = null): JsonResponse
     {
         if ($code == 1) {
-            throw new Exception('Error Code 不可為 1');
+            // Error Code 不可為 1
+            return response()->json(new ApiResource(['msg' => 'System Error.']), 500);
         }
 
         if (is_string($code)) {
