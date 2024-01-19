@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -88,5 +89,27 @@ class PayLog extends Model
     public function couponNumberTransactionLogs(): HasMany
     {
         return $this->hasMany(CouponNumberTransactionLog::class, 'pay_log_id');
+    }
+
+    /**
+     * 判斷是否有修改權
+     * @param Authenticatable $user
+     * @return bool
+     */
+    public function isOwns(Authenticatable $user): bool
+    {
+        if ($user instanceof StoreUser) {
+            return $this->store_id == $user->store_id;
+        }
+
+        if ($user instanceof Member) {
+            return $this->member_id == $user->id;
+        }
+
+        if ($user instanceof AdminUser) {
+            return true;
+        }
+
+        return false;
     }
 }

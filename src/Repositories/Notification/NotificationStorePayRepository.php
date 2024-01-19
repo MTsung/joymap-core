@@ -36,13 +36,11 @@ class NotificationStorePayRepository implements RepositoryInterface
             ->create();
     }
 
-    public function payLogHideButton(int $payLogId): int
+    public function hideCommentButton(int $payLogId): int
     {
         return $this->model()
             ->query()
             ->where('pay_log_id', $payLogId)
-            ->update([
-                'status' => NotificationStorePay::STATUS_HIDE_BUTTON,
-            ]);
+            ->update(['status' => NotificationStorePay::STATUS_HIDE_BUTTON]);
     }
 }

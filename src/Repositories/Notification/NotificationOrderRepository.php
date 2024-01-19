@@ -34,4 +34,13 @@ class NotificationOrderRepository implements RepositoryInterface
             ->notify()
             ->create();
     }
+
+    public function hideCommentButton(int $orderId): int
+    {
+        return $this->model()
+            ->query()
+            ->where('order_id', $orderId)
+            ->where('status', NotificationOrder::STATUS_SEATED)
+            ->update(['status' => NotificationOrder::STATUS_SEATED_NO_BUTTON]);
+    }
 }
