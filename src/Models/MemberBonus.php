@@ -44,7 +44,7 @@ class MemberBonus extends Model
     public function getMoneyAttribute(): int
     {
         $bonusMax = config('joymap.relation.bonus_max');
-        return min($bonusMax, (int)$this->coins);
+        return (int)min($bonusMax, $this->coins);
     }
 
     /**

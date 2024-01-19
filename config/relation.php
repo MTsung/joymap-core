@@ -11,6 +11,9 @@ return [
     'min_money_withdraw' => env('MIN_MONEY_WITHDRAW', 200),
     // 分潤獎金上限
     'bonus_max' => env('BONUS_MAX', 510000),
+    // 兌換比為樂粉現金回饋：享樂幣
+    'money_fee' => env('MONEY_FEE', 1),
+    'coin_fee' => env('COIN_FEE', 5),
     // 每月分潤獎金兌換享樂幣上限
     'per_month_bonus_change_max' => env('PER_MONTH_BONUS_CHANGE_MAX', 10000),
     // 分潤比例
