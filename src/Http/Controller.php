@@ -26,6 +26,11 @@ class Controller extends BaseController
             $e = new ModelNotFoundException('查無資料', 404);
         }
 
+        $code = $e->getCode();
+        if (is_int($code) && $code >= 400 && $code < 500) {
+            return $e->getMessage();
+        }
+
         $uuid = Config::get('__tracking_code__');
         $message = LineNotification::getMsgText($e, $uuid);
         event(new SendNotifyEvent($message));

@@ -43,14 +43,14 @@ class NotificationPlatform extends Model
     public function scopeNotifiable(Builder $query): Builder
     {
         $now = Carbon::now()->format('Y-m-d H:i:s');
-        return $query->where('status', 1)
+        return $query->where('notification_platform.status', 1)
             ->where(function ($q) use ($now) {
                 $q->where(function ($q) {
-                    $q->whereNull('end_time')
-                        ->whereNull('begin_time');
+                    $q->whereNull('notification_platform.end_time')
+                        ->whereNull('notification_platform.begin_time');
                 })->orWhere(function ($q) use ($now) {
-                    $q->where('begin_time', '<=', $now)
-                        ->where('end_time', '>=', $now);
+                    $q->where('notification_platform.begin_time', '<=', $now)
+                        ->where('notification_platform.end_time', '>=', $now);
                 });
             });
     }
