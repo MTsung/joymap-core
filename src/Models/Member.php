@@ -118,7 +118,10 @@ class Member extends User implements JWTSubject
      */
     public function getJWTCustomClaims(): array
     {
-        return [];
+        return [
+            // 密碼有改過的話要重新登入，給中介層檢查用
+            'ppp' => md5($this->password),
+        ];
     }
 
     public function orders(): HasMany

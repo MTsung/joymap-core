@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
 
 /**
+ * @method foodTypeIn(array $ids)
+ * @method foodTypeLikeName(string $name)
+ * @method activeTagsIn(array $ids)
  * @property string full_address
  * @property string logo_url
+ * @property string banner_url
  * @property int limit_minute
  * @property string food_type_full_name
  * @property int business_status_now
@@ -306,6 +310,29 @@ class Store extends Model
         return $this->belongsToMany(Activity::class, 'activity_logs');
     }
 
+    public function workingActivities(): BelongsToMany
+    {
+        return $this->activities()->where('activities.end_time', '>', Carbon::now());
+    }
+
+    // foodTypeIn($ids)
+    public function scopeFoodTypeIn(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('foodTypes', fn($q) => $q->whereIn('id', $ids));
+    }
+
+    // foodTypeLikeName($ids)
+    public function scopeFoodTypeLikeName(Builder $query, string $name): Builder
+    {
+        return $query->whereHas('foodTypes', fn($q) => $q->where('name', 'like', '%' . $name . '%'));
+    }
+
+    // activeTagsIn($ids)
+    public function scopeActiveTagsIn(Builder $query, array $ids): Builder
+    {
+        return $query->whereHas('activeTags', fn($q) => $q->whereIn('id', $ids));
+    }
+
     /**
      * 取得完整地址
      * full_address
@@ -335,6 +362,18 @@ class Store extends Model
     }
 
     /**
+     * 取得店家第一張 Banner 網址
+     * banner_url
+     * @return string
+     */
+    public function getBannerUrlAttribute(): string
+    {
+        $image = $this->images->where('type', StoreImage::TYPE_HOME)->first();
+
+        return $image?->url ?? '';
+    }
+
+    /**
      * 取得店家用餐時間
      * limit_minute
      * @return int
@@ -361,7 +400,7 @@ class Store extends Model
      */
     public function getIsHotAttribute(): bool
     {
-        return $this->ranking()->exists();
+        return isset($this->ranking);
     }
 
     /**
@@ -420,19 +459,19 @@ class Store extends Model
                     ->where('end_time', '>=', $now)
                     ->first();
 
-                return Carbon::parse($bs->end_time)->toTimeString();
+                return Carbon::parse($bs['end_time'])->toTimeString();
             case self::BUSINESS_STATUS_NOW_RESTING:
                 $bs = $businessTime->where('date', $now->toDateString())
                     ->where('begin_time', '>', $now)
                     ->first();
 
-                return Carbon::parse($bs->begin_time)->toTimeString();
+                return Carbon::parse($bs['begin_time'])->toTimeString();
             case self::BUSINESS_STATUS_NOW_CLOSED:
                 if (!$bs = $businessTime->where('begin_time', '>', $now)->first()) {
                     return '';
                 }
 
-                return Carbon::parse($bs->begin_time)->format('m月d日');
+                return Carbon::parse($bs['begin_time'])->format('m月d日');
         }
 
         return '';

@@ -165,21 +165,17 @@ class GetStoreCanOrderTimeService
 
         $this->orderSetting = $store->orderSettings;
 
-        $this->businessTimes = $store->businessTimes;
+        $this->businessTimes = $store->businessTimes ?? collect();
 
-        $this->orderHourSettings = $store->orderHourSettings;
+        $this->orderHourSettings = $store->orderHourSettings ?? collect();
 
-        $this->specialBusinessTimesSetting = $this->store->specialBusinessTimes()
-            ->when($this->calDateRange, function ($query) {
-                $query->whereBetween('special_date', $this->calDateRange);
-            })
-            ->get();
+        $this->specialBusinessTimesSetting = $this->store->specialBusinessTimes?->when($this->calDateRange, function ($query) {
+            $query->whereBetween('special_date', $this->calDateRange);
+        }) ?? collect();
 
-        $this->blockTimes = $this->store->blockOrderHour()
-            ->when($this->calDateRange, function ($query) {
-                $query->whereBetween('block_date', $this->calDateRange);
-            })
-            ->get();
+        $this->blockTimes = $this->store->blockOrderHour?->when($this->calDateRange, function ($query) {
+            $query->whereBetween('block_date', $this->calDateRange);
+        }) ?? collect();
     }
 
     // 取得正常訂位時間的 Time List

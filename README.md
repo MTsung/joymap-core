@@ -175,4 +175,13 @@ TWDD_JCOIN_PW=''
 
 # 會員凍結天數
 MEMBER_DELETE_DAYS=31
+
+# 萬用手機驗證碼
+SUPER_PHONE_CHECK_CODE='JM-112233'
+
+# 手機驗證碼存活時間(分鐘)
+PHONE_VERIFY_CODE_EXPIRED_MIN=10
+
+# 超過 N 秒就記 Slow Log
+SLOW_REQUEST_SECOND
 ```

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @property int money
+ */
 class MemberBonus extends Model
 {
     use HasFactory;
@@ -36,6 +39,12 @@ class MemberBonus extends Model
     public function payLog(): BelongsTo
     {
         return $this->belongsTo(PayLog::class, 'pay_log_id', 'id');
+    }
+
+    public function getMoneyAttribute(): int
+    {
+        $bonusMax = config('joymap.relation.bonus_max');
+        return min($bonusMax, (int)$this->coins);
     }
 
     /**

@@ -83,13 +83,11 @@ class GetBusinessTimeService
     {
         $this->store = $store;
 
-        $this->businessTimes = $store->businessTimes;
+        $this->businessTimes = $store->businessTimes ?? collect();
 
-        $this->specialBusinessTimesSetting = $this->store->specialBusinessTimes()
-            ->when($this->calDateRange, function ($query) {
-                $query->whereBetween('special_date', $this->calDateRange);
-            })
-            ->get();
+        $this->specialBusinessTimesSetting = $this->store->specialBusinessTimes?->when($this->calDateRange, function ($query) {
+            $query->whereBetween('special_date', $this->calDateRange);
+        }) ?? collect();
     }
 
     // 取得正常營業時間的 Time List

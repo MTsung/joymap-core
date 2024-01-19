@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Http;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -18,11 +19,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function addErrorLog(Throwable $e): string
+    public function addErrorLog(Throwable &$e): string
     {
-        $code = $e->getCode();
-        if (is_int($code) && $code >= 400 && $code < 500) {
-            return $e->getMessage();
+        // 不想讓他爆 500 所以重新 new 一個
+        if ($e instanceof ModelNotFoundException) {
+            $e = new ModelNotFoundException('查無資料', 404);
         }
 
         $uuid = Config::get('__tracking_code__');

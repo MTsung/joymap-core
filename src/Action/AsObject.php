@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Action;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Fluent;
+use Throwable;
 
 trait AsObject
 {
@@ -19,7 +20,17 @@ trait AsObject
      */
     public static function run(...$arguments): mixed
     {
-        Log::info(__CLASS__ . '::run($params)', [$arguments]);
+        $logData = [];
+        try {
+            // 怕太多 Log 只抓第一個值
+            $logData = collect($arguments)->map(fn($v) => [
+                'type' => gettype($v),
+                'data' => is_scalar($v) ? $v : collect($v)->take(1)->toArray(),
+            ])->toArray();
+        } catch (Throwable $e) {
+            Log::error(__CLASS__, [$e]);
+        }
+        Log::info(__CLASS__ . '::run($params)', $logData);
 
         return static::make()->handle(...$arguments);
     }

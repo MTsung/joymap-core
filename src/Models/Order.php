@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
  * @property string info_url
  * @property bool is_late
  * @property int people_num
+ * @property bool is_order_timeout
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -225,6 +226,25 @@ class Order extends Model
     {
         return $this->adult_num + $this->child_num;
     }
+
+    /**
+     * is_order_timeout
+     * @return bool
+     */
+    public function getIsOrderTimeoutAttribute(): bool
+    {
+        if (!in_array($this->status, Order::TO_BE_SEATED)) {
+            return false;
+        }
+
+        $reservationDatetime = $this->reservation_datetime->copy();
+        if ($this->status === Order::STATUS_RESERVED_SEAT) {
+            $reservationDatetime->addMinutes($this->store->storeSettings?->hold_order_minute ?? 10);
+        }
+
+        return Carbon::now()->greaterThan($reservationDatetime);
+    }
+
 
     /**
      * 判斷是否有修改權
