@@ -60,34 +60,9 @@ class CreateNotificationOrderService
                 NotificationOrder::STATUS_STORE_CANCEL :
                 NotificationOrder::STATUS_USER_CANCEL,
             $event instanceof OrderRemindEvent => NotificationOrder::STATUS_REMINDER,
-            $event instanceof OrderCommentRemindEvent =>
-            $this->hasVisitedInLastHours($order) ?
-                NotificationOrder::STATUS_SEATED_NO_BUTTON :
-                NotificationOrder::STATUS_SEATED,
+            $event instanceof OrderCommentRemindEvent => NotificationOrder::STATUS_SEATED,
         };
 
         self::run($order, $status);
-    }
-
-    private function hasVisitedInLastHours(Order $order, int $hour = 6): bool
-    {
-        $now = Carbon::now();
-        $checkDateRange = [
-            $now->copy()->subHours($hour),
-            $now,
-        ];
-
-        $storeId = $order->store_id;
-        $memberId = $order->member_id;
-
-        if ($this->orderRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->count() > 1) {
-            return true;
-        }
-
-        if ($this->payLogRepository->getSuccessLog($storeId, $memberId, $checkDateRange)->exists()) {
-            return true;
-        }
-
-        return false;
     }
 }

@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Services\Jcoin;
 use Carbon\Carbon;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Helpers\Jcoin\JcoinApi;
+use Mtsung\JoymapCore\Models\Activity;
 use Mtsung\JoymapCore\Models\CoinLog;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\PayLog;
@@ -24,6 +25,8 @@ class AddJcoinService
     private ?PayLog $payLog = null;
 
     private ?Store $store = null;
+
+    private ?Activity $activity = null;
 
     private int $fromSource = CoinLog::FROM_SOURCE_JOYMAP;
 
@@ -65,6 +68,13 @@ class AddJcoinService
         return $this;
     }
 
+    public function activity(Activity $activity): self
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
     /**
      * @throws \Exception
      */
@@ -81,6 +91,7 @@ class AddJcoinService
         $coinLog = $member->coinLogs()->create([
             'store_id' => $this->store?->id,
             'pay_log_id' => $this->payLog?->id,
+            'activity_id' => $this->activity?->Id,
             'from_source' => $this->fromSource,
             'type' => $type,
             'coin' => $amount,
@@ -89,7 +100,7 @@ class AddJcoinService
             'system_task_id' => $systemTaskId,
         ]);
 
-        if(isset($systemTaskId)){
+        if (isset($systemTaskId)) {
             $member->systemTaskLogs()->create([
                 'system_task_id' => $systemTaskId,
             ]);

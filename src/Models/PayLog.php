@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PayLog extends Model
 {
@@ -81,14 +82,19 @@ class PayLog extends Model
         return $this->hasMany(CoinLog::class, 'pay_log_id', 'id');
     }
 
-    public function comments(): HasMany
+    public function memberComment(): HasOne
     {
-        return $this->hasMany(Comment::class, 'pay_log_id', 'id');
+        return $this->hasOne(Comment::class);
     }
 
     public function couponNumberTransactionLogs(): HasMany
     {
         return $this->hasMany(CouponNumberTransactionLog::class, 'pay_log_id');
+    }
+
+    public function memberBonus(): HasMany
+    {
+        return $this->hasMany(MemberBonus::class);
     }
 
     /**

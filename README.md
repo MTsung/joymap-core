@@ -139,6 +139,8 @@ GORUSH_PATH='/api/push'
 GORUSH_TOPIC_MEMBER=
 GORUSH_TOPIC_STORE='com.ChyunYueh.JoyShop'
 
+# Joymap API Url
+API_URL='https://api-test.joymap.tw'
 # Joymap WEBAPI Url
 WEBAPI_URL='https://webapi-test.joymap.tw'
 # Joymap WWW Url

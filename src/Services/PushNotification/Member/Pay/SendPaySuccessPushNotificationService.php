@@ -8,6 +8,7 @@ use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
 use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\PayLog;
+use Mtsung\JoymapCore\Services\Pay\PayLogService;
 use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
 
 
@@ -17,6 +18,10 @@ use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
  */
 class SendPaySuccessPushNotificationService extends PushNotificationAbstract
 {
+    public function __construct(private PayLogService $payLogService)
+    {
+    }
+
     public function toType(): PushNotificationToTypeEnum
     {
         return PushNotificationToTypeEnum::member;
@@ -26,9 +31,11 @@ class SendPaySuccessPushNotificationService extends PushNotificationAbstract
     {
         $payLog = $this->arguments;
 
-        return __('joymap::notification.pay.title', [
-            'store_name' => $payLog->store->name,
-        ]);
+        $key = $this->payLogService->canComment($payLog) ?
+            'joymap::notification.pay.title' :
+            'joymap::notification.pay.title_no_comment';
+
+        return __($key, ['store_name' => $payLog->store->name]);
     }
 
     public function body(): string

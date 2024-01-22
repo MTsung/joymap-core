@@ -32,7 +32,7 @@ class SendCommentSuccessPushNotificationService extends PushNotificationAbstract
         $comment = $this->arguments;
 
         return __('joymap::notification.comment.body', [
-            'name' => Str::limit($comment->body, 30),
+            'body' => Str::limit($comment->body, 30),
         ]);
     }
 

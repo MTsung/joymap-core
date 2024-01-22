@@ -10,11 +10,12 @@ class Request extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {
-        if ($this->ajax()) {
+        if ($this->ajax() || $this->wantsJson()) {
             throw new HttpResponseException(response()->json(new ApiResource([
                 'msg' => $validator->errors()->first()
             ]), 422));
         }
+
         parent::failedValidation($validator);
     }
 }

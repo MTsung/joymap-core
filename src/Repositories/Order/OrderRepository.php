@@ -30,7 +30,9 @@ class OrderRepository implements RepositoryInterface
             ->query()
             ->select('orders.*')
             ->addReservationDatetime()
-            ->where('orders.store_id', $storeId)
+            ->when($storeId > 0, function ($query) use ($storeId) {
+                $query->where('orders.store_id', $storeId);
+            })
             ->when($memberId > 0, function ($query) use ($memberId) {
                 $query->where('orders.member_id', $memberId);
             });

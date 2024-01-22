@@ -25,7 +25,9 @@ class PayLogRepository implements RepositoryInterface
         return $this->model()
             ->query()
             ->select('pay_logs.*')
-            ->where('pay_logs.store_id', $storeId)
+            ->when($storeId > 0, function ($query) use ($storeId) {
+                $query->where('pay_logs.store_id', $storeId);
+            })
             ->when($memberId > 0, function ($query) use ($memberId) {
                 $query->where('pay_logs.member_id', $memberId);
             });
@@ -35,7 +37,7 @@ class PayLogRepository implements RepositoryInterface
     public function getSuccessLog(int $storeId, int $memberId, array $dateRange = [])
     {
         return $this->getByStoreAndMember($storeId, $memberId)
-            ->whereIn('pay_logs.status', PayLog::EFFECTIVE_USER_PAY_STATUS)
+            ->whereIn('pay_logs.user_pay_status', PayLog::EFFECTIVE_USER_PAY_STATUS)
             ->when(count($dateRange) == 2, function ($query) use ($dateRange) {
                 $query->whereBetween('pay_logs.created_at', $dateRange);
             });

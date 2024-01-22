@@ -30,6 +30,7 @@ return [
     ],
     'pay' => [
         'title' => '感謝您的光臨，:store_name，邀請您留下用餐評論',
+        'title_no_comment' => '感謝您的光臨，:store_name',
         'body' => '支付時間(:datetime) • 金額 :amount',
     ],
     'pay_to_store' => [
