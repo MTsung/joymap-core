@@ -29,7 +29,9 @@ class LogRequestMiddleware
                 'ip' => $request->ip(),
                 'url' => $request->fullUrl(),
                 'method' => $request->method(),
-                'data' => $request->all(),
+                'data' => Collection::make($request->all())
+                    ->filter(fn($v, $k) => !Str::contains($k, ['password', 'card_no']))
+                    ->toArray(),
                 'headers' => Collection::make($request->header())
                     ->filter(fn($v, $k) => $k != 'cookie')
                     ->toArray(),

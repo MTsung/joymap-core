@@ -345,7 +345,7 @@ class Store extends Model
             'district',
         ]);
 
-        return $this->district->name . $this->city->name . $this->address;
+        return $this->city->name . $this->district->name . $this->address;
     }
 
     /**
