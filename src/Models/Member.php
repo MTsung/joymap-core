@@ -289,6 +289,11 @@ class Member extends User implements JWTSubject
         return $this->hasMany(SystemTaskLog::class, 'member_id');
     }
 
+    public function subscriptionProgramOrders(): HasMany
+    {
+        return $this->hasMany(SubscriptionProgramOrder::class);
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {

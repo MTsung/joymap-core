@@ -64,4 +64,19 @@ class MemberDealer extends Model
     {
         return $this->hasMany(MemberBank::class, 'member_id', 'member_id');
     }
+
+    public function subscriptionProgram(): BelongsTo
+    {
+        return $this->belongsTo(SubscriptionProgram::class);
+    }
+
+    public function nextSubscriptionProgram(): BelongsTo
+    {
+        return $this->belongsTo(SubscriptionProgram::class, 'next_subscription_program_id', 'id');
+    }
+
+    public function subscriptionProgramOrders(): HasMany
+    {
+        return $this->hasMany(SubscriptionProgramOrder::class);
+    }
 }

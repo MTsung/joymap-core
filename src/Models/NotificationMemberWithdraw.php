@@ -20,11 +20,11 @@ class NotificationMemberWithdraw extends Model
     public const STATUS_REMITTANCE_COMPLETED = 1;
     // 2 預估分潤
     public const STATUS_ESTIMATED_PROFIT = 2;
-    // 3 未加入方案通知
+    // 3 未加入方案通知 (2024-03-01 後不會再有新資料)
     public const STATUS_NOTIFY_REGISTER_NO_PLAN = 3;
-    // 4 付費方案獎勵
+    // 4 付費方案獎勵 (2024-03-01 後不會再有新資料)
     public const STATUS_PAID_PLAN_REWARD = 4;
-    // 5 未加入回饋通知
+    // 5 未加入回饋通知 (2024-03-01 後不會再有新資料)
     public const STATUS_NOTIFY_MEMBER_NO_REWARD = 5;
 
     public function getMorphClass(): string

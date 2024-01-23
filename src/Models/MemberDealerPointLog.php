@@ -48,4 +48,8 @@ class MemberDealerPointLog extends Model
         return $this->hasOne(MemberDealerPointWithdraw::class);
     }
 
+    public function subscriptionProgramOrder(): BelongsTo
+    {
+        return $this->belongsTo(SubscriptionProgramOrder::class);
+    }
 }
