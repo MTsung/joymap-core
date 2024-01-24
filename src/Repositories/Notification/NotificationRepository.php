@@ -10,6 +10,7 @@ use Mtsung\JoymapCore\Models\NotificationMemberWithdraw;
 use Mtsung\JoymapCore\Models\NotificationOrder;
 use Mtsung\JoymapCore\Models\NotificationPlatform;
 use Mtsung\JoymapCore\Models\NotificationStorePay;
+use Mtsung\JoymapCore\Models\NotificationGeneral;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
 
 class NotificationRepository implements RepositoryInterface
@@ -38,21 +39,34 @@ class NotificationRepository implements RepositoryInterface
 
         return $this->model()
             ->query()
+            ->with(['notify' => function ($morphTo) {
+                $morphTo->morphWith([
+                    NotificationOrder::class => ['order', 'order.store'],
+                    NotificationStorePay::class => ['store', 'payLog'],
+                ]);
+            }])
             ->withExists('notificationMemberRead')
             ->whereHasMorph(
                 'notify',
-                [NotificationOrder::class, NotificationPlatform::class, NotificationStorePay::class],
+                [
+                    NotificationOrder::class,
+                    NotificationPlatform::class,
+                    NotificationStorePay::class,
+                    NotificationMemberWithdraw::class,
+                    NotificationGeneral::class,
+                ],
                 function ($query, $type) use ($memberId) {
+                    if ($type == NotificationPlatform::class) {
+                        $query->notifiable(); // NotificationPlatform scopeNotifiable
+                        return;
+                    }
+
                     if ($type == NotificationOrder::class) {
-                        $query->where('member_id', $memberId);
+                        $query->with(['order', 'order.store']);
                         $query->where('status', '!=', 999);
                     }
-                    if ($type == NotificationPlatform::class) {
-                        $query->notifiable(); //NotificationPlatform scopeNotifiable
-                    }
-                    if ($type == NotificationStorePay::class || $type == NotificationMemberWithdraw::class) {
-                        $query->where('member_id', $memberId);
-                    }
+
+                    $query->where('member_id', $memberId);
                 }
             )
             ->where('created_at', '>=', $createdAt);

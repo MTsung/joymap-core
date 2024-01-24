@@ -49,6 +49,8 @@ class Notification extends Model
                 return 'member_withdraw';
             case 'notification_new_register':
                 return 'new_register';
+            case 'notification_general':
+                return 'general';
             default:
                 return null;
         }

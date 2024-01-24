@@ -119,6 +119,8 @@ class Member extends User implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [
+            // 因為要相容舊的 JWT 所以給這個值，這個值底層是把 Auth Model Hash 起來判斷用的
+            'prv' => '8665ae9775cf26f6b8e496f86fa536d68dd71818',
             // 密碼有改過的話要重新登入，給中介層檢查用
             'ppp' => md5($this->password),
         ];

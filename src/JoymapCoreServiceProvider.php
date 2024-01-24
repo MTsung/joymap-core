@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Mtsung\JoymapCore\Models\AdminUser;
+use Mtsung\JoymapCore\Models\NotificationGeneral;
 use Mtsung\JoymapCore\Models\NotificationMemberWithdraw;
 use Mtsung\JoymapCore\Models\NotificationNewRegister;
 use Mtsung\JoymapCore\Models\NotificationOrder;
@@ -28,6 +29,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'notification_store_pay' => NotificationStorePay::class,
             'notification_member_withdraw' => NotificationMemberWithdraw::class,
             'notification_new_register' => NotificationNewRegister::class,
+            'notification_general' => NotificationGeneral::class,
             'App\Models\AdminUser' => AdminUser::class,
         ]);
 

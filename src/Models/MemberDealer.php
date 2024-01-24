@@ -15,6 +15,11 @@ class MemberDealer extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'subscription_start_at' => 'datetime',
+        'subscription_end_at' => 'datetime',
+    ];
+
     // 停用退出
     const STATUS_DISABLED = 0;
     // 正常啟用

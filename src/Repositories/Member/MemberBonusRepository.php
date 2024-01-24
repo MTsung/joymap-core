@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Repositories\Member;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Mtsung\JoymapCore\Models\MemberBonus;
 use Mtsung\JoymapCore\Repositories\RepositoryInterface;
@@ -13,29 +14,14 @@ class MemberBonusRepository implements RepositoryInterface
         return app(MemberBonus::class);
     }
 
-    public function updateMemberBonusStatus($memberId, $year, $month, $oldStatus, $newStatus): int
+    public function updateMemberBonusStatus(int $memberId, Carbon $startAt, Carbon $endAt, int $oldStatus, int $newStatus): int
     {
         return $this->model()
             ->query()
-            ->where([
-                'status' => $oldStatus,
-                'member_id' => $memberId,
-                'year' => $year,
-                'month' => $month,
-            ])->update(['status' => $newStatus]);
-    }
-
-    public function updateMemberBonusStatusByNotDealer($memberId, $year, $month, $oldStatus, $newStatus): int
-    {
-        return $this->model()
-            ->query()
-            ->where([
-                'status' => $oldStatus,
-                'member_id' => $memberId,
-                'year' => $year,
-                'month' => $month,
-            ])
-            ->where('relation_level', '>', 4)
-            ->update(['status' => $newStatus]);
+            ->leftJoin('pay_logs', 'pay_logs.id', 'member_bonus.pay_log_id')
+            ->where('member_bonus.status', $oldStatus)
+            ->where('member_bonus.member_id', $memberId)
+            ->whereBetween('pay_logs.created_at', [$startAt, $endAt])
+            ->update(['member_bonus.status' => $newStatus]);
     }
 }
