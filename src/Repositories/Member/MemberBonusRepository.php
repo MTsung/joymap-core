@@ -16,12 +16,19 @@ class MemberBonusRepository implements RepositoryInterface
 
     public function updateMemberBonusStatus(int $memberId, Carbon $startAt, Carbon $endAt, int $oldStatus, int $newStatus): int
     {
+        $now = Carbon::now();
+
         return $this->model()
             ->query()
             ->leftJoin('pay_logs', 'pay_logs.id', 'member_bonus.pay_log_id')
             ->where('member_bonus.status', $oldStatus)
             ->where('member_bonus.member_id', $memberId)
             ->whereBetween('pay_logs.created_at', [$startAt, $endAt])
-            ->update(['member_bonus.status' => $newStatus]);
+            ->update([
+                'member_bonus.status' => $newStatus,
+                // 訂閱制度的分潤列表要顯示發送的月份
+                'year' => $now->year,
+                'month' => $now->month,
+            ]);
     }
 }
