@@ -52,6 +52,11 @@ return [
             'path' => storage_path('logs/pay/refund.log'),
             'days' => 365,
         ],
+        'subscription' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/subscription/subscription.log'),
+            'days' => 365,
+        ],
         'request' => [
             'driver' => 'daily',
             'path' => storage_path('logs/request/request.log'),

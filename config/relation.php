@@ -17,9 +17,22 @@ return [
     // 每月分潤獎金兌換享樂幣上限
     'per_month_bonus_change_max' => env('PER_MONTH_BONUS_CHANGE_MAX', 10000),
     // 分潤比例
-    'bonus_percent_array' => json_decode(env('BONUS_PERCENT_ARRAY', '[0.0016,0.0016,0.0012,0.001,0.0006,0.0004,0.0002]'), true),
+    'bonus_percent_array' => json_decode(env('BONUS_PERCENT_ARRAY', '[0.16, 0.16, 0.12, 0.1, 0.06, 0.04, 0.02]'), true),
     // 店家推薦獎勵比例
     'recommend_store_bonus_percent' => env('RECOMMEND_STORE_BONUS_PERCENT', 0.001),
     // 天使點數兌換現金匯率 1:POINT_CHANGE_MONEY_FEE
     'point_change_money_fee' => env('POINT_CHANGE_MONEY_FEE', 300),
+
+    // 訂閱一期計算天數
+    'subscription_period_days' => env('SUBSCRIPTION_PERIOD_DAYS', 30),
+    // 訂閱十二期計算天數
+    'subscription_period_year' => env('SUBSCRIPTION_PERIOD_YEAR', 365),
+    // 訂閱額外分潤比例
+    'subscription_bonus_percent' => env('SUBSCRIPTION_BONUS_PERCENT', 0.15),
+    // 訂閱額外分潤金額上限
+    'subscription_bonus_amount_max' => env('SUBSCRIPTION_BONUS_AMOUNT_MAX', 3000),
+    // 訂閱自動付款提前天數
+    'subscription_auto_payment_days' => env('SUBSCRIPTION_AUTO_PAYMENT_DAYS', 2),
+    // 訂閱邀請分紅點數
+    'subscription_invite_point' => env('SUBSCRIPTION_INVITE_POINT', 5),
 ];

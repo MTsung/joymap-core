@@ -226,9 +226,9 @@ class Member extends User implements JWTSubject
         return $this->belongsTo(MemberGrade::class);
     }
 
-    public function memberDealers(): HasMany
+    public function memberDealer(): hasOne
     {
-        return $this->hasMany(MemberDealer::class);
+        return $this->hasOne(MemberDealer::class);
     }
 
     public function memberGradeChangeLogs(): HasMany
@@ -241,9 +241,9 @@ class Member extends User implements JWTSubject
         return $this->belongsToMany(StoreTag::class, 'member_tag_settings', 'member_id', 'store_tag_id');
     }
 
-    public function notificationMemberRead(): HasOne
+    public function notificationMemberRead(): HasMany
     {
-        return $this->hasOne(NotificationMemberRead::class);
+        return $this->hasMany(NotificationMemberRead::class);
     }
 
     public function coinLogs(): HasMany

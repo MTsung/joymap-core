@@ -30,6 +30,10 @@ class MemberDealerPointLog extends Model
     const STATUS_FAIL = 2;
     // 取消
     const STATUS_CANCEL = 3;
+    // 不符合資格(取消訂閱)
+    const STATUS_CANCEL_SUBSCRIPTION = 4;
+    // 不符合資格(未有介紹人)
+    const STATUS_NO_INVITE = 5;
     // 備存
     const STATUS_KEEP = 99;
 

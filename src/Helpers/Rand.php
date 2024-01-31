@@ -9,14 +9,18 @@ use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Repositories\MemberDealer\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
+use Mtsung\JoymapCore\Repositories\Store\StoreRepository;
+use Mtsung\JoymapCore\Repositories\Subscription\SubscriptionProgramPayLogRepository;
 
 class Rand
 {
     public function __construct(
-        private MemberRepository       $memberRepository,
-        private MemberDealerRepository $memberDealerRepository,
-        private OrderRepository        $orderRepository,
-        private PayLogRepository       $payLogRepository,
+        private MemberRepository                    $memberRepository,
+        private MemberDealerRepository              $memberDealerRepository,
+        private OrderRepository                     $orderRepository,
+        private PayLogRepository                    $payLogRepository,
+        private StoreRepository                     $storeRepository,
+        private SubscriptionProgramPayLogRepository $subscriptionProgramPayLogRepository,
     )
     {
     }
@@ -29,6 +33,17 @@ class Rand
         }
 
         return $memberNo;
+    }
+
+    public function storeNo(): string
+    {
+        $dateString = Carbon::now()->format('ymd');
+        $storeNo = $this->numberString(prefix: 'JMS-' . $dateString);
+        if ($this->storeRepository->hasByStoreNo($storeNo)) {
+            return $this->storeNo();
+        }
+
+        return $storeNo;
     }
 
     public function phoneVerifyCode(): string
@@ -68,6 +83,17 @@ class Rand
         $payNo = $this->numberString(5, 'JP-' . $dateString);
         if ($this->payLogRepository->hasByPayNo($payNo)) {
             return $this->payNo();
+        }
+
+        return $payNo;
+    }
+
+    public function subscriptionPayNo(): string
+    {
+        $dateString = Carbon::now()->format('ymd');
+        $payNo = $this->numberString(5, 'JSP-' . $dateString);
+        if ($this->subscriptionProgramPayLogRepository->hasByPayNo($payNo)) {
+            return $this->subscriptionPayNo();
         }
 
         return $payNo;
