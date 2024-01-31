@@ -18,7 +18,7 @@ class MemberDealerService
         private MemberDealerPointLogRepository $memberDealerPointLogRepository,
     )
     {
-        $this->subscriptionInvitePoint = config('relation.subscription_invite_point');
+        $this->subscriptionInvitePoint = config('joymap.relation.subscription_invite_point');
     }
 
     /**

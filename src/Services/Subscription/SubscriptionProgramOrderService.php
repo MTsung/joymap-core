@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Pay;
+namespace Mtsung\JoymapCore\Services\Subscription;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -87,6 +87,6 @@ class SubscriptionProgramOrderService
             $subscriptionProgram->period == 12 ?
                 $this->subscriptionPeriodYear :
                 $this->subscriptionPeriodDays
-        );
+        )->subDay()->endOfDay();
     }
 }

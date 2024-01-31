@@ -5,6 +5,8 @@ namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Joymap\Models\MemberDealerPointLog;
 
 class SubscriptionProgramOrder extends Model
 {
@@ -44,8 +46,8 @@ class SubscriptionProgramOrder extends Model
         return $this->belongsTo(Member::class);
     }
 
-    public function memberBonus(): HasMany
+    public function memberDealerPointLog(): HasOne
     {
-        return $this->hasMany(MemberBonus::class, 'member_id', 'member_id');
+        return $this->hasOne(MemberDealerPointLog::class);
     }
 }

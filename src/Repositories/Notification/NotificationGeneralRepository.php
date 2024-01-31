@@ -33,7 +33,7 @@ class NotificationGeneralRepository implements RepositoryInterface
                 'title' => $title,
                 'body' => $body,
                 'action' => $action,
-                'data' => $data,
+                'data' => json_encode($data),
             ])
             ->notify()
             ->create();

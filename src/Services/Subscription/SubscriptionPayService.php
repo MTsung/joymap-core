@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtsung\JoymapCore\Services\Pay;
+namespace Mtsung\JoymapCore\Services\Subscription;
 
 use Carbon\Carbon;
 use Exception;
@@ -91,9 +91,9 @@ class SubscriptionPayService
 
         $this->member = $member;
 
-        $this->validate();
-
         $this->subscriptionProgram = $subscriptionProgram;
+
+        $this->validate();
 
         $this->subscriptionProgramPayLog = $this->createDefaultPayLog();
 
@@ -111,6 +111,8 @@ class SubscriptionPayService
                 $this->subscriptionProgramOrderIds,
                 ['status' => SubscriptionProgramOrder::STATUS_FAILURE],
             );
+
+            return false;
         }
 
         $subscriptionBonusAmountMax = config('joymap.relation.subscription_bonus_amount_max');
@@ -147,6 +149,10 @@ class SubscriptionPayService
             ->each(function ($V) use ($dealer) {
                 $this->memberDealerService->setDealerSubscriptionGivePoint($dealer, $V);
             });
+
+        $member->update([
+            'is_joy_dealer' => Member::IS_JOY_FAN_ACTIVATED,
+        ]);
 
         return true;
     }
@@ -192,7 +198,7 @@ class SubscriptionPayService
             $this->subscriptionProgramCreditcardLog->update([
                 'bank_no' => $resResult['TradeNo'] ?? '',
                 'credit_id' => $this->memberCreditCard->id,
-                'pay_log_id' => $this->subscriptionProgramPayLog->id,
+                'subscription_program_pay_log_id' => $this->subscriptionProgramPayLog->id,
                 'status' => (int)$success,
                 'ret_code' => $status,
                 'traded_at' => isset($resResult['AuthDate'], $resResult['AuthTime']) ?
