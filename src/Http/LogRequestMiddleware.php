@@ -15,7 +15,10 @@ class LogRequestMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $needLog = $request->isMethod('post') || $request->isMethod('put');
+        $needLog = (
+                $request->isMethod('post') ||
+                $request->isMethod('put')
+            ) && empty($request->page) && empty($request->meter);
         $uuid = Str::uuid();
         Config::set('__tracking_code__', $uuid);
 
@@ -43,7 +46,8 @@ class LogRequestMiddleware
         $end = microtime(true);
         if (($end - $start) > env('SLOW_REQUEST_SECOND', 1)) {
             Log::channel('slow_request')->info(
-                $uuid . ' ' . $request->method() . ' ' . $request->fullUrl()
+                $uuid . ' ' . $request->method() . ' ' . $request->fullUrl(),
+                [$end - $start]
             );
         }
 
@@ -51,6 +55,7 @@ class LogRequestMiddleware
             $resContent = $response->getContent();
 
             Log::channel('request')->info($uuid . '-Response: ', [
+                'run-time' => $end - $start,
                 'ip' => $request->ip(),
                 'url' => $request->fullUrl(),
                 'response' => Str::isJson($resContent) ? json_decode($resContent) : $resContent,

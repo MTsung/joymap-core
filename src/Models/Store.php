@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
+use stdClass;
 
 /**
  * @method foodTypeIn(array $ids)
@@ -24,7 +25,7 @@ use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
  * @property string food_type_full_name
  * @property int business_status_now
  * @property string business_status_now_text
- * @property array business_time_week
+ * @property stdClass business_time_week
  * @property bool is_hot
  * @property bool is_new
  */
@@ -481,11 +482,11 @@ class Store extends Model
      * business_time_week
      * 取得這七天的營業時間陣列
      *
-     * @return array
+     * @return stdClass
      */
-    public function getBusinessTimeWeekAttribute(): array
+    public function getBusinessTimeWeekAttribute(): stdClass
     {
-        $res = [[], [], [], [], [], [], []];
+        $res = (object)[[], [], [], [], [], [], []];
 
         $startDate = Carbon::today()->toDateString();
         $endDate = Carbon::today()->addDays(6)->toDateString();
@@ -497,17 +498,17 @@ class Store extends Model
             $specialTimesForWeek = $specialBusinessTime->where('week', $week);
 
             if ($specialTimesForWeek->isEmpty()) {
-                $res[$week] = $businessTimes->where('week', $week)->where('is_open', 1);
+                $res->$week = $businessTimes->where('week', $week)->where('is_open', 1);
             } else {
-                $res[$week] = $specialTimesForWeek->where('is_open', 1);
+                $res->$week = $specialTimesForWeek->where('is_open', 1);
             }
 
-            $res[$week] = collect($res[$week])->map(function ($v) {
+            $res->$week = collect($res->$week)->map(function ($v) {
                 return [
                     'begin_time' => Carbon::parse($v['begin_time'])->format('H:i'),
                     'end_time' => Carbon::parse($v['end_time'])->format('H:i'),
                 ];
-            });
+            })->values();
         }
 
         return $res;
