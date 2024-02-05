@@ -228,7 +228,9 @@ class Member extends User implements JWTSubject
 
     public function memberDealer(): hasOne
     {
-        return $this->hasOne(MemberDealer::class);
+        return $this->hasOne(MemberDealer::class)->ofMany(function ($query) {
+            $query->where('member_dealers.status', '!=', MemberDealer::STATUS_MOTHBALL);
+        });
     }
 
     public function memberGradeChangeLogs(): HasMany
@@ -347,7 +349,7 @@ class Member extends User implements JWTSubject
     /**
      * 大頭貼網址 avatar_url
      */
-    public function getAvatarUrlAttribute():string
+    public function getAvatarUrlAttribute(): string
     {
         if ($this->avatar) return $this->avatar;
 
@@ -481,7 +483,7 @@ class Member extends User implements JWTSubject
      * login_type
      * @return array
      */
-    public function getLoginTypeAttribute():array
+    public function getLoginTypeAttribute(): array
     {
         $loginType = [];
 

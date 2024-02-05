@@ -24,6 +24,7 @@ class MemberDealer extends Model
     const STATUS_DISABLED = 0;
     // 正常啟用
     const STATUS_ENABLE = 1;
+    const STATUS_MOTHBALL = 99;
 
     public function member(): BelongsTo
     {
