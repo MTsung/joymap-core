@@ -65,11 +65,15 @@ class Comment extends Model
 
     /**
      * 判斷是否有修改權
-     * @param Authenticatable $user
+     * @param ?Authenticatable $user
      * @return bool
      */
-    public function isOwns(Authenticatable $user): bool
+    public function isOwns(?Authenticatable $user): bool
     {
+        if (is_null($user)) {
+            return false;
+        }
+
         if ($user instanceof StoreUser) {
             return $this->store_id == $user->store_id;
         }

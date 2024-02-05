@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Helpers;
 use Faker\Generator as Faker;
 use Faker\Provider\Base as FakerBase;
 use Carbon\Carbon;
+use Mtsung\JoymapCore\Repositories\JoyPay\PayReserveRepository;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Repositories\MemberDealer\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
@@ -21,6 +22,7 @@ class Rand
         private PayLogRepository                    $payLogRepository,
         private StoreRepository                     $storeRepository,
         private SubscriptionProgramPayLogRepository $subscriptionProgramPayLogRepository,
+        private PayReserveRepository $payReserveRepository,
     )
     {
     }
@@ -97,6 +99,17 @@ class Rand
         }
 
         return $payNo;
+    }
+
+    public function payReserveNo(): string
+    {
+        $dateString = Carbon::now()->format('ymd');
+        $reserveNo = $this->numberString(5, 'JPR' . $dateString);
+        if ($this->payReserveRepository->hasByReserveNo($reserveNo)) {
+            return $this->payReserveNo();
+        }
+
+        return $reserveNo;
     }
 
     public function orderNo(): string

@@ -70,7 +70,7 @@ class Controller extends BaseController
         }
 
         return response()->json(new ApiResource([
-            'code' => $code,
+            'code' => (int)$code,
             'msg' => $msg,
             'return' => $return,
         ]), $httpStatus);

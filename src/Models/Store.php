@@ -316,6 +316,11 @@ class Store extends Model
         return $this->activities()->where('activities.end_time', '>', Carbon::now());
     }
 
+    public function joyPayStoreSetting(): hasOne
+    {
+        return $this->hasOne(JoyPayStoreSetting::class);
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {

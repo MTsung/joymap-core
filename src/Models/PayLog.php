@@ -97,13 +97,22 @@ class PayLog extends Model
         return $this->hasMany(MemberBonus::class);
     }
 
+    public function payReserve(): HasOne
+    {
+        return $this->hasOne(PayReserve::class);
+    }
+
     /**
      * 判斷是否有修改權
-     * @param Authenticatable $user
+     * @param ?Authenticatable $user
      * @return bool
      */
-    public function isOwns(Authenticatable $user): bool
+    public function isOwns(?Authenticatable $user): bool
     {
+        if (is_null($user)) {
+            return false;
+        }
+
         if ($user instanceof StoreUser) {
             return $this->store_id == $user->store_id;
         }

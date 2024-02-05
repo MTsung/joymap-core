@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string creditNo()
  * @method static string payNo()
  * @method static string subscriptionPayNo()
+ * @method static string payReserveNo()
  * @method static string orderNo()
  * @method static string numberString(int $length = 8, string $prefix = '')
  * @method static string englishNumberString(int $length = 6, string $prefix = '')
