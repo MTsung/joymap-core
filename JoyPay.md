@@ -147,11 +147,11 @@ participant JoymapApp as 享樂地圖 APP
 | return.reserve_no | 預約支付單號   | String     | 享樂地圖預約支付單號                                                 |
 | return.order_no   | 店家自訂編號   | String     | 店家自訂編號                                                     |
 | return.amount     | 金額       | String     | 支付金額                                                       |
-| return.card_4_num | 信用卡末四碼   | String     | 可能為 NULL，如有信用卡支付產生，會提供                                     |
+| return.card_4_num | 信用卡末四碼   | String     | 可能為 NULL，如有信用卡支付才有值                                        |
 | return.created_at | 預約支付建立時間 | String     | 格式: Y-m-d H:i:s                                            |
-| return.pay_at     | 支付時間     | String     | 可能為 NULL，如使用者有支付動作此欄位才有值，格式: Y-m-d H:i:s                   |
+| return.pay_at     | 支付時間     | String     | 可能為 NULL，如使用者有支付動作才有值<br>格式: Y-m-d H:i:s                   |
 | return.expired_at | 支付過期時間   | String     | 格式: Y-m-d H:i:s                                            |
-| return.timestamp  | 現在時間戳記   | String     | 現在時間戳記，享樂地圖伺服器使用 UTC+08:00 時區                              |
+| return.timestamp  | 現在時間戳記   | String     | 現在時間戳記，享樂地圖伺服器使用 UTC+8 時區                                  |
 | return.check_code | 檢查碼      | String(64) | 詳見 ++[檢查碼](#檢查碼)++                                         |
 
 <div style="page-break-after: always;"></div>
