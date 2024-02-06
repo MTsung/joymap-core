@@ -61,9 +61,6 @@ class SubscriptionPayService
         private MemberDealerRepository              $memberDealerRepository,
     )
     {
-        $this->subscriptionPeriodDays = config('joymap.relation.subscription_period_days');
-        $this->subscriptionPeriodYear = config('joymap.relation.subscription_period_year');
-
         $this->log = Log::stack([
             config('logging.default'),
             'subscription',
@@ -126,7 +123,7 @@ class SubscriptionPayService
             'rebate_balance_amount' => $subscriptionBonusAmountMax,
             'subscription_program_id' => $subscriptionProgram->id,
             'next_subscription_program_id' => $subscriptionProgram->id,
-            'subscription_start_at' => $startAt,
+            'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,
             'subscription_end_at' => $endAt,
             'from_invite_id' => $member->memberDealer?->from_invite_id ?? $fromInvite?->id,
             'join_at' => $member->memberDealer?->join_at ?? $this->subscriptionProgramCreditcardLog->created_at,

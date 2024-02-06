@@ -228,7 +228,7 @@ class Member extends User implements JWTSubject
 
     public function memberDealer(): hasOne
     {
-        return $this->hasOne(MemberDealer::class)->ofMany(function ($query) {
+        return $this->hasOne(MemberDealer::class)->ofMany(['id' => 'max'], function ($query) {
             $query->where('member_dealers.status', '!=', MemberDealer::STATUS_MOTHBALL);
         });
     }
@@ -298,6 +298,11 @@ class Member extends User implements JWTSubject
         return $this->hasMany(SubscriptionProgramOrder::class);
     }
 
+    public function memberCreditCards(): HasMany
+    {
+        return $this->hasMany(MemberCreditCard::class);
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {
@@ -334,12 +339,6 @@ class Member extends User implements JWTSubject
      */
     public function getChildrenCountAttribute(): int
     {
-        // 一般樂粉 4 層
-        $level = 4;
-        if ($this->is_joy_dealer) {
-            // 經銷 7 層
-            $level = 7;
-        }
         if (!$this->memberInviteRelation) {
             return 0;
         }
