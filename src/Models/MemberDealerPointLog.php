@@ -56,4 +56,9 @@ class MemberDealerPointLog extends Model
     {
         return $this->belongsTo(SubscriptionProgramOrder::class);
     }
+
+    public function childMemberDealer(): BelongsTo
+    {
+        return $this->belongsTo(MemberDealer::class, 'child_dealer_id', 'id');
+    }
 }

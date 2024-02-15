@@ -7,7 +7,7 @@ use Faker\Provider\Base as FakerBase;
 use Carbon\Carbon;
 use Mtsung\JoymapCore\Repositories\JoyPay\PayReserveRepository;
 use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
-use Mtsung\JoymapCore\Repositories\MemberDealer\MemberDealerRepository;
+use Mtsung\JoymapCore\Repositories\Member\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreRepository;

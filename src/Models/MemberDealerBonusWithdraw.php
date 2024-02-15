@@ -11,6 +11,11 @@ class MemberDealerBonusWithdraw extends Model
 
     protected $guarded = ['id'];
 
+    // 申請提領審核中
+    const STATUS_UNDER_REVIEW = 0;
+    // 提領已完成匯款
+    const STATUS_COMPLETE_REMITTANCE = 1;
+
     public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);

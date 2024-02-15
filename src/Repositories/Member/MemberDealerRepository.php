@@ -14,6 +14,13 @@ class MemberDealerRepository implements RepositoryInterface
         return app(MemberDealer::class);
     }
 
+    public function hasByDealerNo(string $dealerNo): bool
+    {
+        return $this->model()->query()
+            ->where('dealer_no', $dealerNo)
+            ->exists();
+    }
+
     public function getByPhoneOrNo(string $keyword): MemberDealer|Model|null
     {
         return $this->model()->query()
