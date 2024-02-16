@@ -94,64 +94,75 @@ class SubscriptionPayService
 
         $this->subscriptionProgramPayLog = $this->createDefaultPayLog();
 
-        $this->subscriptionProgramCreditcardLog = $this->createDefaultCreditCardLog();
+        try {
 
-        $this->subscriptionProgramOrderIds = $this->subscriptionProgramOrderService->createDefault(
-            $member,
-            $this->subscriptionProgramPayLog,
-            $subscriptionProgram,
-            $startAt
-        );
+            $this->subscriptionProgramCreditcardLog = $this->createDefaultCreditCardLog();
 
-        if (!$this->swipeMemberCard()) {
-            $this->subscriptionProgramOrderRepository->updateByIds(
-                $this->subscriptionProgramOrderIds,
-                ['status' => SubscriptionProgramOrder::STATUS_FAILURE],
+            $this->subscriptionProgramOrderIds = $this->subscriptionProgramOrderService->createDefault(
+                $member,
+                $this->subscriptionProgramPayLog,
+                $subscriptionProgram,
+                $startAt
             );
 
-            return false;
+            if (!$this->swipeMemberCard()) {
+                $this->subscriptionProgramOrderRepository->updateByIds(
+                    $this->subscriptionProgramOrderIds,
+                    ['status' => SubscriptionProgramOrder::STATUS_FAILURE],
+                );
+
+                return false;
+            }
+
+            $subscriptionBonusAmountMax = config('joymap.relation.subscription_bonus_amount_max');
+
+            $endAt = $this->subscriptionProgramOrderService->getEndAt($startAt, $subscriptionProgram);
+
+            /** @var MemberDealer $dealer */
+            $dealer = $member->memberDealer()->updateOrCreate([], [
+                'dealer_no' => $member->memberDealer?->dealer_no ?? Rand::dealerNo(),
+                'status' => MemberDealer::STATUS_ENABLE,
+                'rebate_balance_amount' => $subscriptionBonusAmountMax,
+                'subscription_program_id' => $subscriptionProgram->id,
+                'next_subscription_program_id' => $subscriptionProgram->id,
+                'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,
+                'subscription_end_at' => $endAt,
+                'from_invite_id' => $member->memberDealer?->from_invite_id ?? $fromInvite?->id,
+                'join_at' => $member->memberDealer?->join_at ?? $this->subscriptionProgramCreditcardLog->created_at,
+            ]);
+
+            if ($fromInvite) {
+                $fromInvite->children_total = $fromInvite->inviteChildren()->count();
+                $fromInvite->save();
+            }
+
+            $this->subscriptionProgramOrderRepository->updateByIds(
+                $this->subscriptionProgramOrderIds,
+                [
+                    'status' => SubscriptionProgramOrder::STATUS_SUCCESS,
+                    'member_dealer_id' => $dealer->id,
+                ],
+            );
+
+            $this->subscriptionProgramOrderRepository->getByInIds($this->subscriptionProgramOrderIds)
+                ->each(function ($v) use ($dealer) {
+                    $this->memberDealerService->setDealerSubscriptionGivePoint($dealer, $v);
+                });
+
+            $member->update([
+                'is_joy_dealer' => Member::IS_JOY_FAN_ACTIVATED,
+            ]);
+
+            return true;
+        } catch (Throwable $e) {
+            $this->subscriptionProgramPayLog->update(['status' => SubscriptionProgramPayLog::STATUS_FAIL]);
+
+            Log::error(__METHOD__, [$e->getMessage(), $e]);
+            $message = LineNotification::getMsgText($e, __METHOD__);
+            event(new SendNotifyEvent($message));
+
+            throw $e;
         }
-
-        $subscriptionBonusAmountMax = config('joymap.relation.subscription_bonus_amount_max');
-
-        $endAt = $this->subscriptionProgramOrderService->getEndAt($startAt, $subscriptionProgram);
-
-        /** @var MemberDealer $dealer */
-        $dealer = $member->memberDealer()->updateOrCreate([], [
-            'dealer_no' => $member->memberDealer?->dealer_no ?? Rand::dealerNo(),
-            'status' => MemberDealer::STATUS_ENABLE,
-            'rebate_balance_amount' => $subscriptionBonusAmountMax,
-            'subscription_program_id' => $subscriptionProgram->id,
-            'next_subscription_program_id' => $subscriptionProgram->id,
-            'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,
-            'subscription_end_at' => $endAt,
-            'from_invite_id' => $member->memberDealer?->from_invite_id ?? $fromInvite?->id,
-            'join_at' => $member->memberDealer?->join_at ?? $this->subscriptionProgramCreditcardLog->created_at,
-        ]);
-
-        if ($fromInvite) {
-            $fromInvite->children_total = $fromInvite->inviteChildren()->count();
-            $fromInvite->save();
-        }
-
-        $this->subscriptionProgramOrderRepository->updateByIds(
-            $this->subscriptionProgramOrderIds,
-            [
-                'status' => SubscriptionProgramOrder::STATUS_SUCCESS,
-                'member_dealer_id' => $dealer->id,
-            ],
-        );
-
-        $this->subscriptionProgramOrderRepository->getByInIds($this->subscriptionProgramOrderIds)
-            ->each(function ($V) use ($dealer) {
-                $this->memberDealerService->setDealerSubscriptionGivePoint($dealer, $V);
-            });
-
-        $member->update([
-            'is_joy_dealer' => Member::IS_JOY_FAN_ACTIVATED,
-        ]);
-
-        return true;
     }
 
     private function validate(): void
