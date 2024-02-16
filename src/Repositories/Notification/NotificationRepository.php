@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Mtsung\JoymapCore\Models\Notification;
 use Mtsung\JoymapCore\Models\NotificationMemberWithdraw;
+use Mtsung\JoymapCore\Models\NotificationNewRegister;
 use Mtsung\JoymapCore\Models\NotificationOrder;
 use Mtsung\JoymapCore\Models\NotificationPlatform;
 use Mtsung\JoymapCore\Models\NotificationStorePay;
@@ -53,6 +54,7 @@ class NotificationRepository implements RepositoryInterface
                     NotificationPlatform::class,
                     NotificationStorePay::class,
                     NotificationMemberWithdraw::class,
+                    NotificationNewRegister::class,
                     NotificationGeneral::class,
                 ],
                 function ($query, $type) use ($memberId) {

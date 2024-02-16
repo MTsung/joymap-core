@@ -24,6 +24,7 @@ class MemberDealerRepository implements RepositoryInterface
     public function getByPhoneOrNo(string $keyword): MemberDealer|Model|null
     {
         return $this->model()->query()
+            ->select(['member_dealers.*'])
             ->join('members', 'members.id', 'member_dealers.member_id')
             ->where(function ($query) use ($keyword) {
                 $query->orWhere('members.phone', $keyword);
