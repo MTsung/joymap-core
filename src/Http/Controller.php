@@ -2,7 +2,6 @@
 
 namespace Mtsung\JoymapCore\Http;
 
-use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -27,7 +26,7 @@ class Controller extends BaseController
         }
 
         $code = $e->getCode();
-        if (is_int($code) && $code >= 400 && $code < 500) {
+        if (is_int($code) && Str::startsWith((string)$code, '4')) {
             return $e->getMessage();
         }
 
