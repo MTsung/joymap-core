@@ -186,9 +186,9 @@ class Member extends User implements JWTSubject
         return $this->hasMany(MemberBonus::class, 'member_id', 'id');
     }
 
-    public function memberBanks(): HasMany
+    public function memberBank(): HasOne
     {
-        return $this->hasMany(MemberBank::class, 'member_id', 'id');
+        return $this->hasOne(MemberBank::class, 'member_id', 'id');
     }
 
     public function deleteLogs(): HasMany

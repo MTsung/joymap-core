@@ -66,9 +66,9 @@ class MemberDealer extends Model
         return $this->hasMany(MemberDealerBonusWithdraw::class);
     }
 
-    public function memberBanks(): HasMany
+    public function memberBank(): HasOne
     {
-        return $this->hasMany(MemberBank::class, 'member_id', 'member_id');
+        return $this->hasOne(MemberBank::class, 'member_id', 'member_id');
     }
 
     public function subscriptionProgram(): BelongsTo
