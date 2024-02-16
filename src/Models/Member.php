@@ -342,7 +342,8 @@ class Member extends User implements JWTSubject
         if (!$this->memberInviteRelation) {
             return 0;
         }
-        return $this->memberInviteRelation->descendants($level)->count();
+
+        return $this->memberInviteRelation->descendants(7)->count();
     }
 
     /**
