@@ -26,6 +26,13 @@ class MemberDealer extends Model
     const STATUS_ENABLE = 1;
     const STATUS_MOTHBALL = 99;
 
+    protected static function booted()
+    {
+        static::addGlobalScope('skip_status_mothball', function ($builder) {
+            $builder->where('member_dealers.status', '!=', self::STATUS_MOTHBALL);
+        });
+    }
+
     public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class);

@@ -12,6 +12,7 @@ use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Params\Jcoin\AddJcoinParams;
 use Mtsung\JoymapCore\Repositories\Jcoin\JcUserRepository;
+use Mtsung\JoymapCore\Repositories\Jcoin\SystemTasksRepository;
 
 
 /**
@@ -31,8 +32,9 @@ class AddJcoinService
     private int $fromSource = CoinLog::FROM_SOURCE_JOYMAP;
 
     public function __construct(
-        private JcoinApi         $jcoinApi,
-        private JcUserRepository $jcUserRepository
+        private JcoinApi              $jcoinApi,
+        private JcUserRepository      $jcUserRepository,
+        private SystemTasksRepository $systemTasksRepository,
     )
     {
         $this->jcoinApi->byJoymap();
@@ -88,6 +90,10 @@ class AddJcoinService
         int    $systemTaskId = null,
     ): self
     {
+        if ($type == CoinLog::TYPE_SYSTEM_TASK && is_null($systemTaskId)) {
+            $systemTaskId = $this->systemTasksRepository->createOrFirst($title)?->id;
+        }
+
         $coinLog = $member->coinLogs()->create([
             'store_id' => $this->store?->id,
             'pay_log_id' => $this->payLog?->id,
