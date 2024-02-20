@@ -12,8 +12,8 @@ return [
         CoinLog::TYPE_SYSTEM_COMPENSATION => '系統回補',
         CoinLog::TYPE_SYSTEM_TASK => '系統任務',
         CoinLog::TYPE_ACTIVITY_BONUS => '活動加碼',
-        CoinLog::TYPE_JOY_FAN_REWARD => '樂粉回饋',
-        CoinLog::TYPE_WITHDRAW_FUN_REWARD => '提領樂粉回饋',
+        CoinLog::TYPE_JOY_FAN_REWARD => '天使紅利',
+        CoinLog::TYPE_WITHDRAW_FUN_REWARD => '提領天使紅利',
         CoinLog::TYPE_ACTIVITY_TASK => '活動任務',
     ],
     'jc_transactions_type' => [
@@ -34,5 +34,5 @@ return [
         JcTransaction::STATUS_SUCCESS => '成功',
         JcTransaction::STATUS_MANUAL_RESEND => '手動補發',
     ],
-    'bonus_comment' => '樂粉回饋：:year年 :month月',
+    'bonus_comment' => '天使紅利：:year年 :month月',
 ];

@@ -71,15 +71,16 @@ participant JoymapApp as 享樂地圖 APP
 
 #### 請求參數
 
-| 參數名稱        | 說明       | 必填  | 型態          | 備註                                                    |
-|-------------|----------|:---:|-------------|-------------------------------------------------------|
-| merchant_id | 店家代號     |  Ｏ  | String(20)  | 由享樂地圖提供                                               |
-| order_no    | 自訂編號     |  Ｏ  | String(25)  | 店家自訂編號，限英文及數字，長度限制為 25 個字元，編號不可重覆                     |
-| timestamp   | 現在時間戳記   |  Ｏ  | Integer     | 現在時間戳記，容許誤差±30秒，享樂地圖伺服器使用 UTC+08:00 時區                |
-| amount      | 金額       |  Ｏ  | Integer(5)  | 新台幣整數                                                 |
-| return_url  | 支付結果返回網址 |  Ｏ  | String(500) | 會將結果以 GET 方式轉跳到這個網址，與 notify_url 相同參數，實際支付只有一次，請自行做好判斷 |
+| 參數名稱        | 說明       | 必填  | 型態          | 備註                                                      |
+|-------------|----------|:---:|-------------|---------------------------------------------------------|
+| merchant_id | 店家代號     |  Ｏ  | String(20)  | 由享樂地圖提供                                                 |
+| order_no    | 自訂編號     |  Ｏ  | String(25)  | 店家自訂編號，限英文及數字，長度限制為 25 個字元，編號不可重覆                       |
+| timestamp   | 現在時間戳記   |  Ｏ  | Integer     | 現在時間戳記，容許誤差±30秒，享樂地圖伺服器使用 UTC+08:00 時區                  |
+| comment     | 備註       |  Ｏ  | String(100) | 店家自訂備註                                                  |
+| amount      | 金額       |  Ｏ  | Integer(5)  | 新台幣整數                                                   |
+| return_url  | 支付結果返回網址 |  Ｏ  | String(500) | 會將結果以 GET 方式轉跳到這個網址，與 notify_url 相同參數，實際支付只有一次，請自行做好判斷  |
 | notify_url  | 支付結果通知網址 |  Ｏ  | String(500) | 會將結果以 POST 方式請求到這個網址，與 return_url 相同參數，實際支付只有一次，請自行做好判斷 |
-| check_code  | 檢查碼      |  Ｏ  | String(64)  | 詳見 ++[檢查碼](#檢查碼)++                                    |
+| check_code  | 檢查碼      |  Ｏ  | String(64)  | 詳見 ++[檢查碼](#檢查碼)++                                      |
 
 
 <div style="page-break-after: always;"></div>
@@ -100,18 +101,20 @@ participant JoymapApp as 享樂地圖 APP
 
 #### 支付結果請求參數
 
-| 參數名稱       | 說明       | 型態         | 備註                                                         |
-|------------|----------|------------|------------------------------------------------------------|
-| status     | 支付狀態     | String     | -1=支付失敗<br>0=等待支付中<br>1=支付成功<br>2=支付過期<br>3=部分退款<br>4=全額退款 |
-| reserve_no | 預約支付單號   | String     | 享樂地圖預約支付單號                                                 |
-| order_no   | 店家自訂編號   | String     | 店家自訂編號                                                     |
-| amount     | 金額       | String     | 支付金額                                                       |
-| card_4_num | 信用卡末四碼   | String     | 可能為 NULL，如有信用卡支付產生，會提供                                     |
-| created_at | 預約支付建立時間 | String     | 格式: Y-m-d H:i:s                                            |
-| pay_at     | 支付時間     | String     | 可能為 NULL，如使用者有支付動作此欄位才有值，格式: Y-m-d H:i:s                   |
-| expired_at | 支付過期時間   | String     | 格式: Y-m-d H:i:s                                            |
-| timestamp  | 現在時間戳記   | String     | 現在時間戳記，享樂地圖伺服器使用 UTC+08:00 時區                              |
-| check_code | 檢查碼      | String(64) | 詳見 ++[檢查碼](#檢查碼)++                                         |
+| 參數名稱         | 說明       | 型態         | 備註                                                         |
+|--------------|----------|------------|------------------------------------------------------------|
+| status       | 支付狀態     | String     | -1=支付失敗<br>0=等待支付中<br>1=支付成功<br>2=支付過期<br>3=部分退款<br>4=全額退款 |
+| reserve_no   | 預約支付單號   | String     | 享樂地圖預約支付單號                                                 |
+| order_no     | 店家自訂編號   | String     | 店家自訂編號                                                     |
+| amount       | 支付金額     | String     | 支付金額                                                       |
+| card_amount  | 刷卡金額     | String     | 刷卡金額                                                       |
+| jcoin_amount | 折抵金額     | String     | 享樂幣折抵金額                                                    |
+| card_4_num   | 信用卡末四碼   | String     | 可能為 NULL，如有信用卡支付產生，會提供                                     |
+| created_at   | 預約支付建立時間 | String     | 格式: Y-m-d H:i:s                                            |
+| pay_at       | 支付時間     | String     | 可能為 NULL，如使用者有支付動作此欄位才有值，格式: Y-m-d H:i:s                   |
+| expired_at   | 支付過期時間   | String     | 格式: Y-m-d H:i:s                                            |
+| timestamp    | 現在時間戳記   | String     | 現在時間戳記，享樂地圖伺服器使用 UTC+08:00 時區                              |
+| check_code   | 檢查碼      | String(64) | 詳見 ++[檢查碼](#檢查碼)++                                         |
 
 <div style="page-break-after: always;"></div>
 

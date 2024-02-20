@@ -19,9 +19,9 @@ class CoinLog extends Model
     public const TYPE_SYSTEM_TASK = 5;
     // 活動加碼
     public const TYPE_ACTIVITY_BONUS = 6;
-    // 樂粉回饋
+    // 天使紅利
     public const TYPE_JOY_FAN_REWARD = 7;
-    // 提領樂粉回饋
+    // 提領天使紅利
     public const TYPE_WITHDRAW_FUN_REWARD = 8;
     // 活動任務
     public const TYPE_ACTIVITY_TASK = 9;

@@ -16,7 +16,7 @@ class SystemTaskLog extends Model
 
     // 新註冊獎勵
     public const TASK_ID_REGISTER_REWARD = 1;
-    // 開通樂粉回饋
+    // 開通天使紅利
     public const TASK_ID_ACTIVATE_JOY_FAN_CASHBACK_SYSTEM = 2;
     // 群悅春酒獎金
     public const TASK_ID_SPRING_FEAST_BONUS = 3;
