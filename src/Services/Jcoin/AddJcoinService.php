@@ -109,6 +109,7 @@ class AddJcoinService
         if (isset($systemTaskId)) {
             $member->systemTaskLogs()->create([
                 'system_task_id' => $systemTaskId,
+                'created_at' => Carbon::now(),
             ]);
         }
 
