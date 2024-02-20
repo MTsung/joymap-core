@@ -2,11 +2,13 @@
 
 namespace Mtsung\JoymapCore\Http;
 
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -73,5 +75,16 @@ class Controller extends BaseController
             'msg' => $msg,
             'return' => $return,
         ]), $httpStatus);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function manageLock(string $key, int $seconds = 5): void
+    {
+        $lock = Cache::lock($key, $seconds);
+        if (!$lock->get()) {
+            throw new Exception('系統繁忙，請稍後再試', 429);
+        }
     }
 }
