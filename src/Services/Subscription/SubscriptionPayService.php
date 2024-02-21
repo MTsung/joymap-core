@@ -122,7 +122,7 @@ class SubscriptionPayService
             $dealer = $member->memberDealer()->updateOrCreate([], [
                 'dealer_no' => $member->memberDealer?->dealer_no ?? Rand::dealerNo(),
                 'status' => MemberDealer::STATUS_ENABLE,
-                'rebate_balance_amount' => $subscriptionBonusAmountMax,
+                'rebate_balance_amount' => $member->memberDealer?->rebate_balance_amount ?? $subscriptionBonusAmountMax,
                 'subscription_program_id' => $subscriptionProgram->id,
                 'next_subscription_program_id' => $subscriptionProgram->id,
                 'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,

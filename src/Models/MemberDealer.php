@@ -20,10 +20,11 @@ class MemberDealer extends Model
         'subscription_end_at' => 'datetime',
     ];
 
-    // 停用退出
+    // 不再續訂
     const STATUS_DISABLED = 0;
-    // 正常啟用
+    // 自動續訂
     const STATUS_ENABLE = 1;
+    // 封存資料不撈取
     const STATUS_MOTHBALL = 99;
 
     protected static function booted()
