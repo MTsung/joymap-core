@@ -24,6 +24,7 @@ use Mtsung\JoymapCore\Repositories\Member\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Subscription\SubscriptionProgramOrderRepository;
 use Mtsung\JoymapCore\Repositories\Subscription\SubscriptionProgramPayLogRepository;
 use Mtsung\JoymapCore\Services\Member\MemberDealerService;
+use Mtsung\JoymapCore\Services\Member\MemberGradeService;
 use Throwable;
 
 
@@ -55,6 +56,7 @@ class SubscriptionPayService
     public function __construct(
         private SubscriptionProgramOrderService     $subscriptionProgramOrderService,
         private MemberDealerService                 $memberDealerService,
+        private MemberGradeService                 $memberGradeService,
         private SubscriptionProgramPayLogRepository $subscriptionProgramPayLogRepository,
         private SubscriptionProgramOrderRepository  $subscriptionProgramOrderRepository,
         private MemberCreditCardRepository          $memberCreditCardRepository,
@@ -122,7 +124,9 @@ class SubscriptionPayService
             $dealer = $member->memberDealer()->updateOrCreate([], [
                 'dealer_no' => $member->memberDealer?->dealer_no ?? Rand::dealerNo(),
                 'status' => MemberDealer::STATUS_ENABLE,
-                'rebate_balance_amount' => $member->memberDealer?->rebate_balance_amount ?? $subscriptionBonusAmountMax,
+                'rebate_balance_amount' => $member->is_joy_dealer ?
+                    $member->memberDealer?->rebate_balance_amount :
+                    $subscriptionBonusAmountMax,
                 'subscription_program_id' => $subscriptionProgram->id,
                 'next_subscription_program_id' => $subscriptionProgram->id,
                 'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,
@@ -149,9 +153,7 @@ class SubscriptionPayService
                     $this->memberDealerService->setDealerSubscriptionGivePoint($dealer, $v);
                 });
 
-            $member->update([
-                'is_joy_dealer' => Member::IS_JOY_FAN_ACTIVATED,
-            ]);
+            $this->memberGradeService->upgradeToDealer($member);
 
             return true;
         } catch (Throwable $e) {
