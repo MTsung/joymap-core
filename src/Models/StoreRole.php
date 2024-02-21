@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -38,5 +39,23 @@ class StoreRole extends Model
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(StorePermission::class, 'store_user_permissions', 'store_role_id', 'store_permission_id');
+    }
+
+    /**
+     * 判斷是否有修改權
+     * @param ?Authenticatable $user
+     * @return bool
+     */
+    public function isOwns(?Authenticatable $user): bool
+    {
+        if (is_null($user)) {
+            return false;
+        }
+
+        if ($user instanceof StoreUser) {
+            return $this->store_id == $user->store_id;
+        }
+
+        return false;
     }
 }

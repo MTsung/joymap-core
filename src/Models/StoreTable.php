@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -48,5 +49,23 @@ class StoreTable extends Model
     public function combineSettings(): HasMany
     {
         return $this->hasMany(StoreTableCombineSetting::class, 'store_table_id');
+    }
+
+    /**
+     * 判斷是否有修改權
+     * @param ?Authenticatable $user
+     * @return bool
+     */
+    public function isOwns(?Authenticatable $user): bool
+    {
+        if (is_null($user)) {
+            return false;
+        }
+
+        if ($user instanceof StoreUser) {
+            return $this->storeFloor->store_id == $user->store_id;
+        }
+
+        return false;
     }
 }
