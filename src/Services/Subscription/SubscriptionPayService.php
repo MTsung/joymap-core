@@ -133,6 +133,7 @@ class SubscriptionPayService
                 'subscription_end_at' => $endAt,
                 'from_invite_id' => $member->memberDealer?->from_invite_id ?? $fromInvite?->id,
                 'join_at' => $member->memberDealer?->join_at ?? $this->subscriptionProgramCreditcardLog->created_at,
+                'quit_at' => null,
             ]);
 
             if ($fromInvite) {
