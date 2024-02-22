@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -18,9 +19,13 @@ use Illuminate\Support\Facades\DB;
  * @property bool is_late
  * @property int people_num
  * @property bool is_order_timeout
+ * @property Collection|array|null table_info
+ * @property ?Collection member_tag_names
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
+ * @method  Builder resourceWith()
+ * @method  Builder storeMemberComments()
  */
 class Order extends Model
 {
@@ -111,8 +116,37 @@ class Order extends Model
         self::STATUS_NO_SHOW,
     ];
 
+    // 可以延長用餐時間的訂單狀態
+    public const CAN_EXPAND_STATUS = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+        self::STATUS_RESERVED_SEAT,
+        self::STATUS_SEATED,
+    ];
+
+    // 可以轉入座的訂單狀態
+    public const CAN_UPDATE_TO_SEAT_STATUS = [
+        self::STATUS_SUCCESS_BOOKING_BY_USER,
+        self::STATUS_SUCCESS_BOOKING_BY_STORE,
+        self::STATUS_RESERVED_SEAT,
+        self::STATUS_NO_SHOW,
+    ];
+
+    // 可以轉離席(已結帳)的訂單狀態
+    public const CAN_UPDATE_TO_LEAVE_STATUS = [
+        self::STATUS_SEATED,
+    ];
+
     // 組合預約日期時間 RAW SQL
     public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';
+
+    // resource 需要用到的關聯
+    public const RESOURCE_WITH_ARRAY = [
+        'member',
+        'orderTags',
+        'memberTags',
+        'goal',
+    ];
 
     public function member(): BelongsTo
     {
@@ -159,6 +193,11 @@ class Order extends Model
         return $this->hasMany(StoreNotification::class);
     }
 
+    public function storeTableCombination(): BelongsTo
+    {
+        return $this->belongsTo(StoreTableCombination::class);
+    }
+
     /**
      * 會是抓全部店家的會員標籤，要再 where store_id
      */
@@ -187,6 +226,29 @@ class Order extends Model
         return $query->addSelect(
             DB::raw("(orders.adult_num + orders.child_num) AS people_num"),
         );
+    }
+
+    /**
+     * resourceWith
+     * load resource 需要用到的關聯
+     */
+    public function scopeResourceWith($query)
+    {
+        return $query->with(self::RESOURCE_WITH_ARRAY);
+    }
+
+    /**
+     * storeMemberComments
+     * join 店家的會員備註 scope
+     */
+    public function scopeStoreMemberComments($query)
+    {
+        return $query->leftJoin('store_member_comments', function ($join) {
+            $join->on('store_member_comments.store_id', 'orders.store_id');
+            $join->on('store_member_comments.member_id', 'orders.member_id');
+        })->addSelect([
+            'store_member_comments.comment as store_member_comment'
+        ]);
     }
 
     /**
@@ -245,6 +307,35 @@ class Order extends Model
         return Carbon::now()->greaterThan($reservationDatetime);
     }
 
+    /**
+     * table_info
+     * 取得訂單桌子
+     * @return Collection|array|null
+     */
+    public function getTableInfoAttribute(): Collection|array|null
+    {
+        if ($combinations = $this->storeTableCombination->combination ?? null) {
+            return StoreTable::query()->whereIn('id', $combinations)->get();
+        }
+
+        return null;
+    }
+
+    /**
+     * member_tag_names
+     * 取得會員標籤
+     * @return Collection|null
+     */
+    public function getMemberTagNamesAttribute(): ?Collection
+    {
+        if ($this->store_id && $this->memberTags) {
+            return $this->memberTags
+                ->where('store_id', $this->store_id)
+                ->pluck('name');
+        }
+
+        return null;
+    }
 
     /**
      * 判斷是否有修改權
@@ -256,7 +347,7 @@ class Order extends Model
         if (is_null($user)) {
             return false;
         }
-        
+
         if ($user instanceof StoreUser) {
             return $this->store_id == $user->store_id;
         }
