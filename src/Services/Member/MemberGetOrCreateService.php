@@ -76,7 +76,7 @@ class MemberGetOrCreateService
         // 現場入座貴賓
         if ($fullPhone == Member::GUEST_PHONE) {
             return [
-                'prefix' => null,
+                'prefix' => '886',
                 'phone' => $fullPhone,
             ];
         }

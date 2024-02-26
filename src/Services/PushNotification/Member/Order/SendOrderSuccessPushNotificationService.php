@@ -34,6 +34,10 @@ class SendOrderSuccessPushNotificationService extends OrderAbstract
      */
     public function asListener(OrderSuccessEvent $event): bool
     {
+        if ($event->order->type != Order::TYPE_RESERVE) {
+            return true;
+        }
+
         return self::run($event->order->member, $event->order);
     }
 }

@@ -34,10 +34,6 @@ class SendOrderSuccessPushNotificationService extends OrderAbstract
             return true;
         }
 
-        if ($event->order->from_source != Order::FROM_SOURCE_RESTAURANT_BOOKING) {
-            return true;
-        }
-
         return self::run($event->order->store, $event->order);
     }
 }

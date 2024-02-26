@@ -40,6 +40,10 @@ class SendOrderSuccessSmsService extends SmsAbstract
      */
     public function asListener(OrderSuccessEvent $event): bool
     {
+        if ($event->order->type != Order::TYPE_RESERVE) {
+            return true;
+        }
+
         return self::run($event->order->member?->phone, $event->order);
     }
 }

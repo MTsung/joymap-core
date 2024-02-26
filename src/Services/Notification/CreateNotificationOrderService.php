@@ -49,6 +49,11 @@ class CreateNotificationOrderService
     public function asListener(object $event): void
     {
         $order = $event->order;
+
+        if ($order->type != Order::TYPE_RESERVE) {
+            return;
+        }
+
         $status = match (true) {
             $event instanceof OrderSuccessEvent =>
             $order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING ?

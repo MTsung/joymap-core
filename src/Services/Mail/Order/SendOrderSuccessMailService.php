@@ -31,6 +31,10 @@ class SendOrderSuccessMailService extends MailAbstract
     {
         $order = $event->order;
 
+        if ($order->type != Order::TYPE_RESERVE) {
+            return true;
+        }
+
         return self::run($order);
     }
 }
