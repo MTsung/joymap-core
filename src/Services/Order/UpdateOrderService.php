@@ -17,7 +17,7 @@ use Mtsung\JoymapCore\Services\Order\UpdateBy\UpdateOrderInterface;
 use StdClass;
 
 /**
- * @method static void run(Order $order, array $tableIds)
+ * @method static void run(Order $order, int $adultNum, int $childNum, int $childSeatNum, Carbon $reservationDatetime, int $goalId, string $storeComment, array $tagIds, array $tableIds)
  * @method static self make()
  */
 class UpdateOrderService

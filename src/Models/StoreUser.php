@@ -46,7 +46,10 @@ class StoreUser extends User implements JWTSubject
      */
     public function getJWTCustomClaims(): array
     {
-        return [];
+        return [
+            // 因為要相容舊的 JWT 所以給這個值，這個值底層是把 Auth Model Hash 起來判斷用的
+            'prv' => '2feb025d33cc450eaba533bb46d90be4660aa413',
+        ];
     }
 
     public function store(): BelongsTo

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Traits\SerializeDateTrait;
@@ -307,6 +308,23 @@ class Member extends User implements JWTSubject
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', self::STATUS_NORMAL);
+    }
+
+    /**
+     * storeMemberComments
+     * join 店家的會員備註 scope
+     */
+    public function scopeStoreMemberComments($query)
+    {
+        if (!Auth::check()) return $query;
+        if (!$storeId = Auth::user()?->store_id) return $query;
+
+        return $query->leftJoin('store_member_comments', function ($join) use ($storeId) {
+            $join->on('store_member_comments.member_id', 'members.id');
+            $join->where('store_member_comments.store_id', $storeId);
+        })->addSelect([
+            'store_member_comments.comment as store_member_comment'
+        ]);
     }
 
     /**

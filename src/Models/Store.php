@@ -15,9 +15,6 @@ use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
 use stdClass;
 
 /**
- * @method foodTypeIn(array $ids)
- * @method foodTypeLikeName(string $name)
- * @method activeTagsIn(array $ids)
  * @property string full_address
  * @property string logo_url
  * @property string banner_url
@@ -28,6 +25,13 @@ use stdClass;
  * @property stdClass business_time_week
  * @property bool is_hot
  * @property bool is_new
+ *
+ * @method Builder foodTypeIn(array $ids)
+ * @method Builder foodTypeLikeName(string $name)
+ * @method Builder activeTagsIn(array $ids)
+ * @method Builder whereAccount(string $account)
+ * @method Builder whereVerifyCode(string $code)
+ * @method Builder withWhereHas($relation, $constraint)
  */
 class Store extends Model
 {
@@ -337,6 +341,30 @@ class Store extends Model
     public function scopeActiveTagsIn(Builder $query, array $ids): Builder
     {
         return $query->whereHas('activeTags', fn($q) => $q->whereIn('id', $ids));
+    }
+
+    // whereAccount
+    public function scopeWhereAccount($query, string $account): Builder
+    {
+        return $query->withWhereHas(
+            'users',
+            fn($query) => $query->where('account', $account)
+        );
+    }
+
+    // whereVerifyCode
+    public function scopeWhereVerifyCode($query, string $code): Builder
+    {
+        return $query->withWhereHas(
+            'userPasswordValidates',
+            fn($query) => $query->where('code', $code)
+        );
+    }
+
+    // withWhereHas
+    public function scopeWithWhereHas($query, $relation, $constraint): Builder
+    {
+        return $query->whereHas($relation, $constraint)->with([$relation => $constraint]);
     }
 
     /**

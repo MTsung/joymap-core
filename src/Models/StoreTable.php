@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,9 @@ use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletedEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableDeletingEvent;
 use Mtsung\JoymapCore\Events\Model\StoreTable\StoreTableUpdatedEvent;
 
+/**
+ * @property Collection combine_list
+ */
 class StoreTable extends Model
 {
     use HasFactory;
@@ -49,6 +53,18 @@ class StoreTable extends Model
     public function combineSettings(): HasMany
     {
         return $this->hasMany(StoreTableCombineSetting::class, 'store_table_id');
+    }
+
+    /**
+     * combine_list
+     * 取得可併桌的桌子ID和名稱清單
+     */
+    public function getCombineListAttribute(): Collection
+    {
+        return $this->combineTables()
+            ->select('id', 'name')
+            ->get()
+            ->makeHidden('pivot');
     }
 
     /**

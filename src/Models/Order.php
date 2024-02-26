@@ -116,27 +116,6 @@ class Order extends Model
         self::STATUS_NO_SHOW,
     ];
 
-    // 可以延長用餐時間的訂單狀態
-    public const CAN_EXPAND_STATUS = [
-        self::STATUS_SUCCESS_BOOKING_BY_USER,
-        self::STATUS_SUCCESS_BOOKING_BY_STORE,
-        self::STATUS_RESERVED_SEAT,
-        self::STATUS_SEATED,
-    ];
-
-    // 可以轉入座的訂單狀態
-    public const CAN_UPDATE_TO_SEAT_STATUS = [
-        self::STATUS_SUCCESS_BOOKING_BY_USER,
-        self::STATUS_SUCCESS_BOOKING_BY_STORE,
-        self::STATUS_RESERVED_SEAT,
-        self::STATUS_NO_SHOW,
-    ];
-
-    // 可以轉離席(已結帳)的訂單狀態
-    public const CAN_UPDATE_TO_LEAVE_STATUS = [
-        self::STATUS_SEATED,
-    ];
-
     // 組合預約日期時間 RAW SQL
     public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';
 
