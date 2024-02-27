@@ -42,8 +42,8 @@ class FillTableService
         $this->user = $user;
 
         $this->service = match (true) {
-            $user instanceof Member => app(ByMember::class),
             $user instanceof StoreUser => app(ByStore::class),
+            default => app(ByMember::class),
         };
 
         return $this;
