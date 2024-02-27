@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
+use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\StoreUser;
+use Mtsung\JoymapCore\Services\Order\CancelBy\ByMember;
 use Mtsung\JoymapCore\Services\Order\UpdateBy\ByStore;
 use Mtsung\JoymapCore\Services\Order\UpdateBy\UpdateOrderInterface;
 use StdClass;
@@ -33,6 +35,7 @@ class UpdateOrderService
         $this->user = $user;
 
         $this->service = match (true) {
+            $user instanceof Member => app(ByMember::class),
             $user instanceof StoreUser => app(ByStore::class),
         };
 
