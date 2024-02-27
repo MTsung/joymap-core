@@ -9,7 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Models\CanOrderTime;
-use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\StoreUser;
 use Mtsung\JoymapCore\Repositories\Store\CanOrderTimeRepository;
