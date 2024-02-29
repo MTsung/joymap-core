@@ -35,6 +35,8 @@ class ByMember implements UpdateOrderInterface
             $order->fill([
                 'reservation_date' => $reservationDatetime->toDateString(),
                 'reservation_time' => $reservationDatetime->toTimeString(),
+                'begin_time' => $reservationDatetime,
+                'end_time' => $reservationDatetime->copy()->addMinutes($order->store->limit_minute),
             ]);
         }
 
