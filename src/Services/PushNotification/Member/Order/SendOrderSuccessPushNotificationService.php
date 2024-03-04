@@ -3,7 +3,6 @@
 namespace Mtsung\JoymapCore\Services\PushNotification\Member\Order;
 
 use Exception;
-use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
