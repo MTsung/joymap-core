@@ -1,12 +1,16 @@
 <?php
 
 return [
-    'default' => env('NOTIFICATION_CHANNEL', 'fcm'),
+    'default' => env('NOTIFICATION_CHANNEL', 'fcm_v1'),
 
     'channels' => [
         'fcm' => [
             'url' => env('FCM_URL', 'https://fcm.googleapis.com/fcm/send'),
             'token' => env('FCM_KEY', ''),
+        ],
+        'fcm_v1' => [
+            'url' => env('FCM_V1_URL', 'https://fcm.googleapis.com/v1/projects/joymap-android/messages:send'),
+            'topic_url' => env('FCM_V1_TOPIC_URL', 'https://iid.googleapis.com/iid/v1:batchAdd'),
         ],
         'gorush' => [
             'host' => env('GORUSH_HOST', 'http://localhost'),

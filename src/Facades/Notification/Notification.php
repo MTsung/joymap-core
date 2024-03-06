@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification byFcm()
+ * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification byFcmV1()
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification byGorush()
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification members(array $memberIds)
  * @method static \Mtsung\JoymapCore\Helpers\Notification\Notification member(int $memberId)

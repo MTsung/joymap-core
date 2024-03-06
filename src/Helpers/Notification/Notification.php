@@ -31,6 +31,7 @@ class Notification
             $defaultChannel = config('joymap.notification.default');
             $this->service = match ($defaultChannel) {
                 'fcm' => app(Fcm::class),
+                'fcm_v1' => app(FcmV1::class),
                 'gorush' => app(Gorush::class),
                 default => throw new Exception('不支援的 Notification Channel(joymap.notification.default)：' . $defaultChannel),
             };
@@ -40,6 +41,12 @@ class Notification
     public function byFcm(): Notification
     {
         $this->service = app(Fcm::class);
+        return $this;
+    }
+
+    public function byFcmV1(): Notification
+    {
+        $this->service = app(FcmV1::class);
         return $this;
     }
 

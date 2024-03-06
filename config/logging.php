@@ -22,6 +22,11 @@ return [
             'path' => storage_path('logs/notification/fcm.log'),
             'days' => 14,
         ],
+        'fcm-v1' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/notification/fcm_v1.log'),
+            'days' => 14,
+        ],
         'gorush' => [
             'driver' => 'daily',
             'path' => storage_path('logs/notification/gorush.log'),

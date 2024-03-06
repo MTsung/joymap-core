@@ -40,6 +40,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.spgateway-pay',
             'logging.channels.spgateway-store',
             'logging.channels.fcm',
+            'logging.channels.fcm-v1',
             'logging.channels.gorush',
             'logging.channels.infobip',
             'logging.channels.jcoin',

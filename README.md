@@ -126,11 +126,16 @@ SPGATEWAY_CREATE_STORE_VERSION=1.2
 SPGATEWAY_UPDATE_STORE_URL='https://ccore.newebpay.com/API/AddMerchant/modify'
 SPGATEWAY_UPDATE_STORE_VERSION=1.0
 
-NOTIFICATION_CHANNEL=fcm
+NOTIFICATION_CHANNEL=fcm_v1
 
-# FCM 推播設定
+# FCM 推播設定 (2024/06 棄用)
 FCM_URL='https://fcm.googleapis.com/fcm/send'
 FCM_KEY=
+
+# FCM V1
+GOOGLE_APPLICATION_CREDENTIALS=../storage/firebase_key.json
+FCM_V1_URL='https://fcm.googleapis.com/v1/projects/joymap-android/messages:send'
+FCM_V1_TOPIC_URL='https://iid.googleapis.com/iid/v1:batchAdd'
 
 # GORUSH 推播設定
 GORUSH_HOST='http://localhost'
