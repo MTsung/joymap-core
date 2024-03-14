@@ -304,6 +304,11 @@ class Member extends User implements JWTSubject
         return $this->hasMany(MemberCreditCard::class);
     }
 
+    public function memberWithdrawApplicationForm(): HasOne
+    {
+        return $this->hasOne(MemberWithdrawApplicationForm::class, 'member_id', 'id');
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {
