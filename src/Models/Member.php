@@ -441,6 +441,25 @@ class Member extends User implements JWTSubject
     }
 
     /**
+     * 電子簽名
+     * signature_url
+     */
+    public function getSignatureUrlAttribute(): string
+    {
+        return config('joymap.domain.webapi') . '/v2/member/identity/' . $this->id . '/signature';
+    }
+
+    /**
+     * has_identity_account
+     */
+    public function getHasSignatureAttribute(): bool
+    {
+        $res = Http::withHeaders(['domain' => 'admin.joymap.tw'])->get($this->signature_url);
+
+        return $res->status() >= 200 && $res->status() < 300;
+    }
+    
+    /**
      * 是否有身分證資料
      * has_identity
      * @return bool
