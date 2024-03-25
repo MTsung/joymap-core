@@ -158,6 +158,11 @@ class SubscriptionPayService
 
             return true;
         } catch (Throwable $e) {
+            $this->subscriptionProgramOrderRepository->updateByIds(
+                $this->subscriptionProgramOrderIds,
+                ['status' => SubscriptionProgramOrder::STATUS_FAILURE],
+            );
+
             $this->subscriptionProgramPayLog->update(['status' => SubscriptionProgramPayLog::STATUS_FAIL]);
 
             Log::error(__METHOD__, [$e->getMessage(), $e]);
