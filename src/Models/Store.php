@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Mtsung\JoymapCore\Services\Store\GetBusinessTimeService;
 use stdClass;
@@ -461,7 +462,11 @@ class Store extends Model
     {
         $now = Carbon::now();
 
-        $businessTime = GetBusinessTimeService::run($this);
+        $businessTime = Cache::remember(
+            __METHOD__ . 'GetBusinessTimeService'.$this->id,
+            60,
+            fn() => GetBusinessTimeService::run($this)
+        );
 
         if ($businessTime->where('begin_time', '<=', $now)->where('end_time', '>=', $now)->isNotEmpty()) {
             return self::BUSINESS_STATUS_NOW_OPEN;
@@ -485,7 +490,11 @@ class Store extends Model
     {
         $now = Carbon::now();
 
-        $businessTime = GetBusinessTimeService::run($this);
+        $businessTime = Cache::remember(
+            __METHOD__ . 'GetBusinessTimeService'.$this->id,
+            60,
+            fn() => GetBusinessTimeService::run($this)
+        );
 
         switch ($this->getBusinessStatusNowAttribute()) {
             case self::BUSINESS_STATUS_NOW_OPEN:
