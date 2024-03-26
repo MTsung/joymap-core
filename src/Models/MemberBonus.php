@@ -30,6 +30,15 @@ class MemberBonus extends Model
     public const STATUS_NOT_REACHED = 4;
     // 退刷
     public const STATUS_REFUNDED = 5;
+    // 不是天使 4～7 層
+    public const STATUS_SKIP = 99;
+
+    protected static function booted()
+    {
+        static::addGlobalScope('skip_status_mothball', function ($builder) {
+            $builder->where('member_bonus.status', '!=', self::STATUS_SKIP);
+        });
+    }
 
     public function member(): BelongsTo
     {

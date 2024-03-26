@@ -26,6 +26,13 @@ class MemberDealerBonus extends Model
     // 忽略
     public const STATUS_NEGLECT = 99;
 
+    protected static function booted()
+    {
+        static::addGlobalScope('skip_status_mothball', function ($builder) {
+            $builder->where('member_dealer_bonuses.status', '!=', self::STATUS_NEGLECT);
+        });
+    }
+
     public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);

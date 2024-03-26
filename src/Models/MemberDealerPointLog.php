@@ -37,6 +37,13 @@ class MemberDealerPointLog extends Model
     // 備存
     const STATUS_KEEP = 99;
 
+    protected static function booted()
+    {
+        static::addGlobalScope('skip_status_mothball', function ($builder) {
+            $builder->where('member_dealer_point_logs.status', '!=', self::STATUS_KEEP);
+        });
+    }
+
     public function memberDealer(): BelongsTo
     {
         return $this->belongsTo(MemberDealer::class);
