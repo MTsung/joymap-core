@@ -29,9 +29,6 @@ class FcmV1 implements NotificationInterface
 
     public function __construct()
     {
-        // 把相對路徑改絕對路徑
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=' . base_path(env('GOOGLE_APPLICATION_CREDENTIALS')));
-
         $this->sendUrl = config('joymap.notification.channels.fcm_v1.url');
         $this->topicUrl = config('joymap.notification.channels.fcm_v1.topic_url');
         $this->apiKey = $this->getToken();
