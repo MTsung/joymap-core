@@ -21,7 +21,7 @@ class SystemTasksRepository implements RepositoryInterface
             return $systemTask;
         }
 
-        $maxType = $query->max('type');
+        $maxType = $this->model()->query()->max('type');
 
         return $query->create([
             'name' => $name,
