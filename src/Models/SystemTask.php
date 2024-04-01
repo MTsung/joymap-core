@@ -14,6 +14,8 @@ class SystemTask extends Model
 {
     use HasFactory;
 
+    public const NAME_SUBSCRIBER_FEEDBACK_REWARD = '天使加碼回饋';
+
     protected $guarded = ['id'];
 
     public function logs(): HasMany
