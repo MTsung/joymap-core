@@ -36,7 +36,7 @@ class FillTableService
     {
     }
 
-    public function by(Authenticatable $user): FillTableService
+    public function by(?Authenticatable $user): FillTableService
     {
         $this->user = $user;
 
