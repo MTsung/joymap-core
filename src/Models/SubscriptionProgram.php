@@ -11,6 +11,10 @@ class SubscriptionProgram extends Model
 
     protected $guarded = ['id'];
 
+    public const ARCHANGEL_NAME = '大天使';
+
+    public const SERAPH_NAME = '熾天使';
+
     public function subscriptionProgramOrders(): HasMany
     {
         return $this->hasMany(SubscriptionProgramOrder::class);
