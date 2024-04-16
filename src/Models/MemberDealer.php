@@ -108,4 +108,38 @@ class MemberDealer extends Model
     {
         return $this->hasMany(MemberDealer::class, 'from_invite_id', 'id');
     }
+
+    /**
+     * invite_children_count
+     * @return int
+     */
+    public function getInviteChildrenCountAttribute(): int
+    {
+        if(in_array($this->member_grade_type, [
+            MemberGrade::TYPE_JOY_ARCHANGEL,
+            MemberGrade::TYPE_JOY_SERAPH
+        ])) {
+            $fromInviteIds = [$this->id];
+            $total = 0;
+            do{
+                $fromInviteIds = MemberDealer::whereIn('from_invite_id', $fromInviteIds)->get()->pluck('id')->toArray();
+                $count = count($fromInviteIds);
+                if($count > 0) {
+                    $total += $count;
+                }
+            }while($count > 0);
+            return (int)$total;
+        } else {
+            return (int)$this->inviteChildren()->count();
+        }
+    }
+
+    /**
+     * member_grade_type
+     * @return int
+     */
+    public function getMemberGradeTypeAttribute(): int
+    {
+        return $this->member->memberGrade?->type ?? 0;
+    }
 }
