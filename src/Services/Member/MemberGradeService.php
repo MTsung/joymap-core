@@ -14,7 +14,10 @@ class MemberGradeService
         if ($member->is_joy_dealer) return;
 
         DB::transaction(function () use ($member) {
-            $member->update(['is_joy_dealer' => 1]);
+            $member->update([
+                'member_grade_id' => Member::GRADE_JOY_DEALER,
+                'is_joy_dealer' => 1,
+            ]);
 
             $member->memberGradeChangeLogs()
                 ->whereNull('end_at')
@@ -32,7 +35,10 @@ class MemberGradeService
         if (!$member->is_joy_dealer) return;
 
         DB::transaction(function () use ($member) {
-            $member->update(['is_joy_dealer' => 0]);
+            $member->update([
+                'member_grade_id' => Member::GRADE_NORMAL,
+                'is_joy_dealer' => 0,
+            ]);
 
             $member->memberGradeChangeLogs()
                 ->whereNull('end_at')
