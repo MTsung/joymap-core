@@ -26,6 +26,7 @@ class MemberDealerRepository implements RepositoryInterface
         return $this->model()->query()
             ->select(['member_dealers.*'])
             ->join('members', 'members.id', 'member_dealers.member_id')
+            ->where('member_dealers.status', '!=', MemberDealer::STATUS_MOTHBALL)
             ->where(function ($query) use ($keyword) {
                 $query->orWhere('members.phone', $keyword);
                 $query->orWhere('member_dealers.dealer_no', $keyword);
