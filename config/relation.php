@@ -31,6 +31,10 @@ return [
     'subscription_bonus_percent' => env('SUBSCRIPTION_BONUS_PERCENT', 0.15),
     // 訂閱額外分潤金額上限
     'subscription_bonus_amount_max' => env('SUBSCRIPTION_BONUS_AMOUNT_MAX', 3000),
+    // 大天使訂閱者的額外分潤金額上限
+    'archangel_subscription_bonus_amount_max' => env('ARCHANGEL_SUBSCRIPTION_BONUS_AMOUNT_MAX', 9000),
+    // 熾天使訂閱者的額外分潤金額上限
+    'seraph_subscription_bonus_amount_max' => env('SERAPH_NAME_SUBSCRIPTION_BONUS_AMOUNT_MAX', 21000),
     // 訂閱邀請分紅點數
     'subscription_invite_point' => env('SUBSCRIPTION_INVITE_POINT', 5),
 ];
