@@ -11,9 +11,9 @@ class SubscriptionProgram extends Model
 
     protected $guarded = ['id'];
 
-    public const ARCHANGEL_NAME = '大天使';
+    public const ANGEL_NAME = '天使';
 
-    public const SERAPH_NAME = '熾天使';
+    public const ARCHANGEL_NAME = '大天使';
 
     public function subscriptionProgramOrders(): HasMany
     {

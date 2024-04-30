@@ -149,10 +149,6 @@ class SubscriptionPayService
                 ],
             );
 
-            $this->subscriptionProgramOrderRepository->getByInIds($this->subscriptionProgramOrderIds)
-                ->each(function ($v) use ($dealer) {
-                    $this->memberDealerService->setDealerSubscriptionGivePoint($dealer, $v);
-                });
 
             $this->memberGradeService->upgradeToDealer($member);
 
