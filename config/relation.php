@@ -28,9 +28,13 @@ return [
     // 訂閱十二期計算天數
     'subscription_period_year' => env('SUBSCRIPTION_PERIOD_YEAR', 365),
     // 訂閱額外分潤比例
-    'subscription_bonus_percent' => env('SUBSCRIPTION_BONUS_PERCENT', 0.15),
+    'subscription_bonus_percent' => env('SUBSCRIPTION_BONUS_PERCENT', 0.18),
     // 訂閱額外分潤金額上限
-    'subscription_bonus_amount_max' => env('SUBSCRIPTION_BONUS_AMOUNT_MAX', 3000),
+    'subscription_bonus_amount_max' => env('SUBSCRIPTION_BONUS_AMOUNT_MAX', 1000),
     // 訂閱邀請分紅點數
     'subscription_invite_point' => env('SUBSCRIPTION_INVITE_POINT', 5),
+    // 訂閱額外分潤比例
+    'subscription_bonus_percent_array' => json_decode(env('SUBSCRIPTION_BONUS_PERCENT_ARRAY', '[15, 15]'), true),
+    // 訂閱額外加碼任務計算開始時間
+    'subscription_bonus_task_start_at' => env('SUBSCRIPTION_BONUS_TASK_START_AT', '2024-05-20'),
 ];

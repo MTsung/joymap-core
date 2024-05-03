@@ -47,5 +47,9 @@ return [
             'phone_existed' => '該手機已註冊過，無法重新註冊，如有疑問請洽客服',
             'account_is_freeze' => '您的帳號尚在保護中，無法重新註冊，如有疑問請洽客服',
         ],
+        'invite' => [
+            'not_existed' => '此邀請碼不存在',
+            'not_member_dealer' => '無效邀請碼，請再次確認',
+        ],
     ],
 ];

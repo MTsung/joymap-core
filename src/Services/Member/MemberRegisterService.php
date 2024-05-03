@@ -54,6 +54,14 @@ class MemberRegisterService
             // 邀請人 id
             if (!empty($data['from_invite_code'])) {
                 $fromInviteMember = $this->memberRepository->getByInviteCode($data['from_invite_code']);
+                if(is_null($fromInviteMember)) {
+                    throw new Exception(__('joymap::member.message.invite.not_existed'), 403);
+                }
+
+                if(!$fromInviteMember->is_joy_dealer) {
+                    throw new Exception(__('joymap::member.message.invite.not_member_dealer'), 403);
+                }
+
                 $data['from_invite_id'] = $fromInviteMember?->id ?? null;
             }
 
