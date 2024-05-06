@@ -74,6 +74,10 @@ class Member extends User implements JWTSubject
     public const GRADE_JOY_FAN = 2;
     // 經銷 member_grade_id
     public const GRADE_JOY_DEALER = 3;
+    // 天使 member_grade_id
+    public const GRADE_JOY_ANGEL = 4;
+    // 大天使 member_grade_id
+    public const GRADE_JOY_ARCHANGEL = 5;
 
     // 女
     public const GENDER_FEMALE = 0;
