@@ -50,6 +50,12 @@ class SubscriptionProgramOrder extends Model
         return $this->hasMany(MemberBonus::class);
     }
 
+
+    public function memberBonusLogs(): HasMany
+    {
+        return $this->hasMany(MemberBonusLogs::class);
+    }
+
     public function memberDealerBonuses(): HasMany
     {
         return $this->hasMany(MemberDealerBonus::class);
