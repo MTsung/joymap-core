@@ -9,8 +9,6 @@ return [
     'withdraw_hand_fee' => env('HAND_FEE', 30),
     // 最低提款金額
     'min_money_withdraw' => env('MIN_MONEY_WITHDRAW', 200),
-    // 分潤獎金上限
-    'bonus_max' => env('BONUS_MAX', 510000),
     // 兌換比為樂粉現金回饋：享樂幣
     'money_fee' => env('MONEY_FEE', 1),
     'coin_fee' => env('COIN_FEE', 5),
