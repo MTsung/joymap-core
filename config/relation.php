@@ -35,4 +35,10 @@ return [
     'subscription_bonus_percent_array' => json_decode(env('SUBSCRIPTION_BONUS_PERCENT_ARRAY', '[15, 15]'), true),
     // 訂閱額外加碼任務計算開始時間
     'subscription_bonus_task_start_at' => env('SUBSCRIPTION_BONUS_TASK_START_AT', '2024-05-20'),
+
+    // 首月訂閱免費開始時間
+    'subscription_free_event_start_at' => env('SUBSCRIPTION_FREE_EVENT_START_AT', '2024-06-06'),
+    // 首月訂閱免費數量限制
+    'subscription_free_event_limit' => env('SUBSCRIPTION_FREE_EVENT_LIMIT', 200),
+
 ];
