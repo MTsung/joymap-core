@@ -29,7 +29,7 @@ use Throwable;
 
 
 /**
- * @method static bool run(Member $member, SubscriptionProgram $subscriptionProgram, Carbon $startAt, ?MemberDealer $fromInvite)
+ * @method static bool run(Member $member, SubscriptionProgram $subscriptionProgram, Carbon $startAt, ?MemberDealer $fromInvite, bool $isFree)
  */
 class SubscriptionPayService
 {
@@ -51,12 +51,14 @@ class SubscriptionPayService
 
     public string $creditNo = '';
 
+    public bool $isFree = false;
+
     protected mixed $log;
 
     public function __construct(
         private SubscriptionProgramOrderService     $subscriptionProgramOrderService,
         private MemberDealerService                 $memberDealerService,
-        private MemberGradeService                 $memberGradeService,
+        private MemberGradeService                  $memberGradeService,
         private SubscriptionProgramPayLogRepository $subscriptionProgramPayLogRepository,
         private SubscriptionProgramOrderRepository  $subscriptionProgramOrderRepository,
         private MemberCreditCardRepository          $memberCreditCardRepository,
@@ -70,13 +72,20 @@ class SubscriptionPayService
     }
 
     /**
-     * @throws Exception
+     * @param Member $member
+     * @param SubscriptionProgram $subscriptionProgram
+     * @param Carbon $startAt
+     * @param MemberDealer|null $fromInvite
+     * @param bool $isFree 是否免費
+     * @return bool
+     * @throws Throwable
      */
     public function handle(
         Member              $member,
         SubscriptionProgram $subscriptionProgram,
         Carbon              $startAt,
         ?MemberDealer       $fromInvite = null,
+        bool                $isFree = false
     ): bool
     {
         $this->log->info(__METHOD__ . ': start', [
@@ -84,6 +93,7 @@ class SubscriptionPayService
             $subscriptionProgram,
             $startAt,
             $fromInvite,
+            $isFree,
         ]);
 
         $this->store = Store::query()->find(env('SUBSCRIPTION_PAY_CARD_STORE_ID'));
@@ -91,6 +101,8 @@ class SubscriptionPayService
         $this->member = $member;
 
         $this->subscriptionProgram = $subscriptionProgram;
+
+        $this->isFree = $isFree;
 
         $this->validate();
 
@@ -182,6 +194,18 @@ class SubscriptionPayService
 
     private function swipeMemberCard(): bool
     {
+        if ($this->isFree) {
+            Log::info(__METHOD__ . ' 免刷卡', [$this->member]);
+
+            $this->subscriptionProgramCreditcardLog->update([
+                'status' => 1,
+                'ret_code' => 'SUCCESS',
+                'traded_at' => Carbon::now(),
+            ]);
+
+            return true;
+        }
+
         $res = JoyPay::bySpGateway()
             ->store($this->store)
             ->orderNo($this->creditNo)
