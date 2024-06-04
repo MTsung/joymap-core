@@ -39,7 +39,7 @@ class SubscriptionPayService
 
     protected Member $member;
 
-    protected MemberCreditCard $memberCreditCard;
+    protected ?MemberCreditCard $memberCreditCard;
 
     protected SubscriptionProgram $subscriptionProgram;
 
