@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Services\Pay;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,7 @@ use Throwable;
 
 
 /**
- * @method static bool run(PayLog $payLog)
+ * @method static bool run(PayLog $payLog, ?int $amount = null)
  */
 class PayRefundService
 {
@@ -36,9 +37,13 @@ class PayRefundService
 
     protected Store $store;
 
-    protected CreditCardLog $creditCardLog;
+    protected Model|CreditCardLog $creditCardLog;
 
     protected Member $member;
+
+    protected int $balanceAmount = 0;
+
+    protected int $amount = 0;
 
     protected mixed $log;
 
@@ -53,7 +58,7 @@ class PayRefundService
     /**
      * @throws Exception
      */
-    public function handle(PayLog $payLog): bool
+    public function handle(PayLog $payLog, ?int $amount = null): bool
     {
         $this->log->info(__METHOD__ . ': start refund', [$payLog]);
 
@@ -63,7 +68,16 @@ class PayRefundService
 
         $this->member = $payLog->member;
 
-        $this->creditCardLog = $payLog->memberCreditCardLog->firstOrfail();
+        $this->creditCardLog = $payLog->memberCreditCardLog()
+            ->where('status', 1)
+            ->where('amount', '>', 0)
+            ->firstOrfail();
+
+        $this->balanceAmount = $payLog->memberCreditCardLog()
+            ->where('status', 1)
+            ->sum('amount');
+
+        $this->amount = $amount ?? $this->balanceAmount;
 
         return DB::transaction(function () {
             $this->validate();
@@ -103,14 +117,13 @@ class PayRefundService
      */
     private function validate(): void
     {
-        // 檢查此筆訂單是否已退款
-        if ($this->payLog->refund_at) {
-            throw new Exception('已退款過', 422);
+        if ($this->amount > $this->balanceAmount) {
+            throw new Exception('退款金額錯誤', 422);
         }
 
-        // 驗證支付記錄的時間是否超過一天, 如果超過就無法申請此退款流程
-        if ($this->payLog->created_at->diffInDays(Carbon::now()) > 1) {
-            throw new Exception('該筆支付記錄已超過一天，無法退款', 422);
+        // 檢查此筆訂單是否已退款
+        if ($this->payLog->refund_at && $this->balanceAmount === 0) {
+            throw new Exception('已退款過', 422);
         }
 
         // 查詢藍新這筆訂單的狀態
@@ -141,7 +154,7 @@ class PayRefundService
         return JoyPay::bySpGateway()
             ->store($this->store)
             ->orderNo($this->creditCardLog->credit_no)
-            ->money($this->creditCardLog->amount);
+            ->money($this->amount);
     }
 
     /**
@@ -156,6 +169,15 @@ class PayRefundService
         }
 
         $this->log->info(__METHOD__ . ': cancelRes', [$cancelRes]);
+
+        // 請款中就打退款 API
+        if (isset($resCancel['Status']) && $resCancel['Status'] === 'TRA10048') {
+            if (!$cancelRes = $this->getJoyPay()->close()) {
+                throw new Exception('金流端伺服器異常，請稍後再試', 422);
+            }
+
+            $this->log->info(__METHOD__ . ': cancelRes', [$cancelRes]);
+        }
 
         // 退刷不成功, 觸發 exception
         if ($cancelRes['Status'] !== 'SUCCESS') {
@@ -173,7 +195,7 @@ class PayRefundService
         $this->creditCardLog->replicate()
             ->fill([
                 'status' => 1,
-                'amount' => -(int)$this->creditCardLog->amount,
+                'amount' => -$this->amount,
                 'give_store_amount' => -(int)$this->creditCardLog->give_store_amount,
                 'traded_at' => Carbon::now(),
                 'ret_code' => $cancelRes['Status'],
@@ -230,7 +252,7 @@ class PayRefundService
      */
     private function couponRefund(): void
     {
-        if (!$dealer = $this->member->dealer()) {
+        if (!$dealer = $this->member->memberDealer()) {
             Log::error('dealRefundWithCoupon: 有用天使折價券卻沒天使身份');
             return;
         }
@@ -282,7 +304,6 @@ class PayRefundService
             if ($user instanceof AdminUser) {
                 $transactionService->adminUser($user);
             }
-
         }
 
         // 應扣儲值金 = 折抵金額
