@@ -141,7 +141,9 @@ class SubscriptionPayService
                     $subscriptionBonusAmountMax,
                 'subscription_program_id' => $subscriptionProgram->id,
                 'next_subscription_program_id' => $subscriptionProgram->id,
-                'subscription_start_at' => $member->memberDealer?->subscription_start_at ?? $startAt,
+                'subscription_start_at' => $member->is_joy_dealer ?
+                    $member->memberDealer?->subscription_start_at :
+                    $startAt->copy()->startOfDay(),
                 'subscription_end_at' => $endAt,
                 'from_invite_id' => $member->memberDealer?->from_invite_id ?? $fromInvite?->id,
                 'join_at' => $member->memberDealer?->join_at ?? $this->subscriptionProgramCreditcardLog->created_at,
