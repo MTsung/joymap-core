@@ -148,6 +148,11 @@ class SubscriptionPayService
                 'quit_at' => null,
             ]);
 
+            // 更新新會員的訂閱支付單 member_dealer_id
+            if (is_null($this->subscriptionProgramPayLog->member_dealer_id)) {
+                $this->subscriptionProgramPayLog->update(['member_dealer_id' => $dealer->id]);
+            }
+
             if ($fromInvite) {
                 $fromInvite->children_total = $fromInvite->inviteChildren()->count();
                 $fromInvite->save();
