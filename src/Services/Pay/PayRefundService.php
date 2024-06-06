@@ -157,6 +157,15 @@ class PayRefundService
 
         $this->log->info(__METHOD__ . ': cancelRes', [$cancelRes]);
 
+        // 請款中就打退款 API
+        if (isset($resCancel['Status']) && $resCancel['Status'] === 'TRA10048') {
+            if (!$cancelRes = $this->getJoyPay()->close()) {
+                throw new Exception('金流端伺服器異常，請稍後再試', 422);
+            }
+
+            $this->log->info(__METHOD__ . ': cancelRes', [$cancelRes]);
+        }
+
         // 退刷不成功, 觸發 exception
         if ($cancelRes['Status'] !== 'SUCCESS') {
             throw new Exception('退刷失敗：' . ($cancelRes['Message'] ?? 'Error'), 422);
