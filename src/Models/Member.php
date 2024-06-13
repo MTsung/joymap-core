@@ -318,6 +318,11 @@ class Member extends User implements JWTSubject
         return $this->hasOne(MemberWithdrawApplicationForm::class, 'member_id', 'id');
     }
 
+    public function lotteryLogs(): HasMany
+    {
+        return $this->hasMany(LotteryLog::class);
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {
@@ -467,7 +472,7 @@ class Member extends User implements JWTSubject
 
         return $res->status() >= 200 && $res->status() < 300;
     }
-    
+
     /**
      * 是否有身分證資料
      * has_identity
@@ -552,5 +557,41 @@ class Member extends User implements JWTSubject
         }
 
         return $loginType;
+    }
+
+    public function scopeLotteryCommonTurntableNum(): int
+    {
+        return $this->lotteryLogs()
+                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+                    ->where('lotteries.type', Lottery::TYPE_COMMON_TURNTABLE)
+                    ->count();
+    }
+
+    public function scopeLotteryCommonGachaNum(): int
+    {
+        return $this->lotteryLogs()
+                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+                    ->where('lotteries.type', Lottery::TYPE_COMMON_GACHA)
+                    ->count();
+    }
+
+    public function scopeLotterySpecialTurntableNum(): int
+    {
+        return $this->lotteryLogs()
+                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+                    ->where('lotteries.type', Lottery::TYPE_SPECIAL_TURNTABLE)
+                    ->count();
+    }
+
+    public function scopeLotterySpecialGachaNum(): int
+    {
+        return $this->lotteryLogs()
+                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+                    ->where('lotteries.type', Lottery::TYPE_SPECIAL_GACHA)
+                    ->count();
     }
 }

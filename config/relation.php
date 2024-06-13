@@ -41,4 +41,6 @@ return [
     // 首月訂閱免費數量限制
     'subscription_free_event_limit' => env('SUBSCRIPTION_FREE_EVENT_LIMIT', 200),
 
+    //抽獎活動起算時間
+    'lottery_activity_start_at' => env('LOTTERY_ACTIVITY_START_AT', '2024-07-01'),
 ];
