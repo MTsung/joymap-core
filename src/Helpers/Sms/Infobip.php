@@ -71,6 +71,11 @@ class Infobip implements SmsInterface
                 }
             }
 
+            if (empty($destinations)) {
+                $this->log->info('infobip destinations is empty');
+                return true;
+            }
+
             $postData = [
                 'json' => [
                     'messages' => [
