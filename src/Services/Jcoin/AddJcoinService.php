@@ -10,6 +10,7 @@ use Mtsung\JoymapCore\Models\CoinLog;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\Store;
+use Mtsung\JoymapCore\Models\LotteryLog;
 use Mtsung\JoymapCore\Params\Jcoin\AddJcoinParams;
 use Mtsung\JoymapCore\Repositories\Jcoin\JcUserRepository;
 use Mtsung\JoymapCore\Repositories\Jcoin\SystemTasksRepository;
@@ -28,6 +29,8 @@ class AddJcoinService
     private ?Store $store = null;
 
     private ?Activity $activity = null;
+
+    private ?LotteryLog $lotteryLog = null;
 
     private int $fromSource = CoinLog::FROM_SOURCE_JOYMAP;
 
@@ -77,6 +80,13 @@ class AddJcoinService
         return $this;
     }
 
+    public function lotteryLog(LotteryLog $lotteryLog): self
+    {
+        $this->lotteryLog = $lotteryLog;
+
+        return $this;
+    }
+
     /**
      * @throws \Exception
      */
@@ -97,7 +107,8 @@ class AddJcoinService
         $coinLog = $member->coinLogs()->create([
             'store_id' => $this->store?->id,
             'pay_log_id' => $this->payLog?->id,
-            'activity_id' => $this->activity?->Id,
+            'activity_id' => $this->activity?->id,
+            'lottery_log_id' => $this->lotteryLog?->id,
             'from_source' => $this->fromSource,
             'type' => $type,
             'coin' => $amount,
