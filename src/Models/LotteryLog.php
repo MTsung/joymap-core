@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LotteryLog extends Model
 {
@@ -52,5 +53,10 @@ class LotteryLog extends Model
     public function lotteryAward(): BelongsTo
     {
         return $this->belongsTo(LotteryAward::class);
+    }
+
+    public function coinLog(): HasOne
+    {
+        return $this->hasOne(CoinLog::class);
     }
 }

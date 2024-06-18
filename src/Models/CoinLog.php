@@ -25,6 +25,8 @@ class CoinLog extends Model
     public const TYPE_WITHDRAW_FUN_REWARD = 8;
     // 活動任務
     public const TYPE_ACTIVITY_TASK = 9;
+    // 抽獎活動
+    public const TYPE_LOTTERY = 10;
 
     // JOYMAP
     public const FROM_SOURCE_JOYMAP = 0;
@@ -69,5 +71,10 @@ class CoinLog extends Model
     public function systemTask(): BelongsTo
     {
         return $this->belongsTo(SystemTask::class, 'system_task_id');
+    }
+
+    public function lotteryLog(): BelongsTo
+    {
+        return $this->belongsTo(LotteryLog::class);
     }
 }

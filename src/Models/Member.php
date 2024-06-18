@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -559,39 +560,23 @@ class Member extends User implements JWTSubject
         return $loginType;
     }
 
-    public function scopeLotteryCommonTurntableNum(): int
+    public function scopeLotteryDrawNumByType($query, int $lotteryType): int
     {
         return $this->lotteryLogs()
                     ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
                     ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', Lottery::TYPE_COMMON_TURNTABLE)
+                    ->where('lotteries.type', $lotteryType)
                     ->count();
     }
 
-    public function scopeLotteryCommonGachaNum(): int
+    public function scopeLotteryDrawChanceByType($query, int $lotteryType): Collection
     {
         return $this->lotteryLogs()
+                    ->select('lottery_logs.*')
                     ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
                     ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', Lottery::TYPE_COMMON_GACHA)
-                    ->count();
-    }
-
-    public function scopeLotterySpecialTurntableNum(): int
-    {
-        return $this->lotteryLogs()
-                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
-                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', Lottery::TYPE_SPECIAL_TURNTABLE)
-                    ->count();
-    }
-
-    public function scopeLotterySpecialGachaNum(): int
-    {
-        return $this->lotteryLogs()
-                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
-                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', Lottery::TYPE_SPECIAL_GACHA)
-                    ->count();
+                    ->where('lotteries.type', $lotteryType)
+                    ->orderBy('lottery_logs.type')
+                    ->get();
     }
 }
