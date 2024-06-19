@@ -102,6 +102,11 @@ class PayLog extends Model
         return $this->hasOne(PayReserve::class);
     }
 
+    public function lotteryLogs(): HasMany
+    {
+        return $this->hasMany(lotteryLog::class);
+    }
+
     /**
      * 判斷是否有修改權
      * @param ?Authenticatable $user
