@@ -14,10 +14,18 @@ class Lottery extends Model
     public const TYPE_COMMON_TURNTABLE = 0;
     //黃金轉盤
     public const TYPE_SPECIAL_TURNTABLE = 1;
-    //一般扭蛋
-    public const TYPE_COMMON_GACHA = 2;
-    //黃金扭蛋
-    public const TYPE_SPECIAL_GACHA = 3;
+    //一般刮刮樂
+    public const TYPE_COMMON_SCRATCHCARD = 2;
+    //黃金刮刮樂
+    public const TYPE_SPECIAL_SCRATCHCARD = 3;
+    //一般轉盤圖標網址
+    public const ICON_URL_COMMON_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/wheel_icon.svg';
+    //黃金轉盤圖標網址
+    public const ICON_URL_SPECIAL_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/gold_wheel_icon.svg';
+    //一般刮刮樂
+    public const ICON_URL_COMMON_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/scratchcard_icon.svg';
+    //黃金刮刮樂
+    public const ICON_URL_SPECIAL_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/gold_scratchcard_icon.svg';
 
     //未啟用
     public const IS_ENABLED_OFF = 0;

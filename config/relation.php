@@ -45,4 +45,13 @@ return [
 
     //抽獎活動起算時間
     'lottery_activity_start_at' => env('LOTTERY_ACTIVITY_START_AT', '2024-07-01'),
+
+    // 每月任務(普通刮刮樂):邀請好友註冊達標數
+    'scratch_card_monthly_invite_register_target' => env('SCRATCH_CARD_MONTHLY_INVITE_REGISTER_TARGET', 20),
+
+    // 每月任務(普通刮刮樂):邀請VIP達標數
+    'scratch_card_monthly_invite_vip_target' => env('SCRATCH_CARD_MONTHLY_INVITE_VIP_TARGET', 5),
+
+    // 任務(黃金刮刮樂):歷史邀請VIP達標數
+    'scratch_card_history_invite_vip_target' => env('SCRATCH_CARD_HISTORY_INVITE_VIP_TARGET', 10),
 ];
