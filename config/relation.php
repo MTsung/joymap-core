@@ -32,7 +32,9 @@ return [
     // 訂閱邀請分紅點數
     'subscription_invite_point' => env('SUBSCRIPTION_INVITE_POINT', 5),
     // 訂閱額外分潤比例
-    'subscription_bonus_percent_array' => json_decode(env('SUBSCRIPTION_BONUS_PERCENT_ARRAY', '[15, 15]'), true),
+    'subscription_bonus_percent_array' => json_decode(env('SUBSCRIPTION_BONUS_PERCENT_ARRAY', '[15, 15, 5]'), true),
+    // 訂閱額外分潤比例上限
+    'subscription_bonus_percent_array_max' => json_decode(env('SUBSCRIPTION_BONUS_PERCENT_ARRAY_MAX', '[400, 400, 100]'), true),
     // 訂閱額外加碼任務計算開始時間
     'subscription_bonus_task_start_at' => env('SUBSCRIPTION_BONUS_TASK_START_AT', '2024-05-20'),
 

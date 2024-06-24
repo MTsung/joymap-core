@@ -15,6 +15,7 @@ return [
         CoinLog::TYPE_JOY_FAN_REWARD => '天使紅利',
         CoinLog::TYPE_WITHDRAW_FUN_REWARD => '提領天使紅利',
         CoinLog::TYPE_ACTIVITY_TASK => '活動任務',
+        CoinLog::TYPE_LOTTERY => '抽獎活動',
     ],
     'jc_transactions_type' => [
         JcCoin::TYPE_GIVE => '儲值',
