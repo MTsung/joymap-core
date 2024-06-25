@@ -19,13 +19,13 @@ class Lottery extends Model
     //黃金刮刮樂
     public const TYPE_SPECIAL_SCRATCHCARD = 3;
     //一般轉盤圖標網址
-    public const ICON_URL_COMMON_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/wheel_icon.svg';
+    public const ICON_URL_COMMON_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/wheel_icon.png';
     //黃金轉盤圖標網址
-    public const ICON_URL_SPECIAL_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/gold_wheel_icon.svg';
+    public const ICON_URL_SPECIAL_TURNTABLE = 'https://storage.googleapis.com/joymap-store/lottery/gold_wheel_icon.png';
     //一般刮刮樂
-    public const ICON_URL_COMMON_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/scratchcard_icon.svg';
+    public const ICON_URL_COMMON_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/scratchcard_icon.png';
     //黃金刮刮樂
-    public const ICON_URL_SPECIAL_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/gold_scratchcard_icon.svg';
+    public const ICON_URL_SPECIAL_SCRATCHCARD = 'https://storage.googleapis.com/joymap-store/lottery/gold_scratchcard_icon.png';
 
     //未啟用
     public const IS_ENABLED_OFF = 0;
