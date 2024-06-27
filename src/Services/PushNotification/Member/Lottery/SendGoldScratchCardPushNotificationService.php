@@ -21,12 +21,12 @@ class SendGoldScratchCardPushNotificationService extends PushNotificationAbstrac
 
     public function title(): string
     {
-        return '【活動通知】恭喜您，獲得黃金刮刮卡一張！';
+        return '快來試試您的手氣！';
     }
 
     public function body(): string
     {
-        return '';
+        return '恭喜您，獲得普通刮刮卡一張！';
     }
 
     public function action(): string

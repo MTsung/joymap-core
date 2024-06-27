@@ -22,14 +22,13 @@ class SendGetTurntableChanceCommonPushNotificationService extends PushNotificati
 
     public function title(): string
     {
-        $num = $this->arguments;
-
-        return '【活動通知】恭喜您，獲得' . $num . '次普通轉盤的抽獎機會!';
+        return '快來試試您的手氣！';
     }
 
     public function body(): string
     {
-        return '';
+        $num = $this->arguments;
+        return '恭喜您，獲得' . $num . '次普通轉盤的抽獎機會!';
     }
 
     public function action(): string
