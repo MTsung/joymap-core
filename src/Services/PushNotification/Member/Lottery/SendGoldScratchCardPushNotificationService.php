@@ -26,7 +26,7 @@ class SendGoldScratchCardPushNotificationService extends PushNotificationAbstrac
 
     public function body(): string
     {
-        return '恭喜您，獲得普通刮刮卡一張！';
+        return '恭喜您，獲得黃金刮刮卡一張！';
     }
 
     public function action(): string
