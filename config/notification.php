@@ -22,4 +22,6 @@ return [
             ],
         ],
     ],
+
+    'lottery_first_draw_reminder_chunk' => env('LOTTERY_FIRST_DRAW_REMINDER_CHUNK', 1000),
 ];
