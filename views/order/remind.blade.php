@@ -125,7 +125,7 @@
                     <tr>
                         <td style="padding: 0;">
                             <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
-                                <div style=" border-radius: 5px;overflow: hidden;height: 236px;background-size: cover;
+                                <div style=" border-radius: 5px;overflow: hidden;height: 246px;background-size: cover;
                                   background-position: center;
                                   background-image: url('https://storage.googleapis.com/joymap-store/carousel/e68ff662d905f3083b9daef7ab36e15b.png');
                                   ">

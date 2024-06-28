@@ -152,6 +152,19 @@
                             </div>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td style="padding: 0;">
+                            <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
+                                <div style=" border-radius: 5px;overflow: hidden;height: 246px;background-size: cover;
+                                  background-position: center;
+                                  background-image: url('https://storage.googleapis.com/joymap-store/carousel/e68ff662d905f3083b9daef7ab36e15b.png');
+                                  ">
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+
                 </table>
             </td>
         </tr>
@@ -163,7 +176,7 @@
                 <a href="{{ config('joymap.domain.www') }}" style="text-align: center; display: block; margin: 0 auto;">
                     <img src="https://storage.googleapis.com/joymap-store/logo/logo.png" alt="Joymap logo" style="display: block; margin: 0 auto" border="0" />
                 </a>
-                <p style="font-size: 13px; color: #c4c4c4;">Copyright 2021 Joymap Ltd. All rights reserved.</p>
+                <p style="font-size: 13px; color: #c4c4c4;">Copyright 2024 Joymap Ltd. All rights reserved.</p>
             </td>
         </tr>
     </table>

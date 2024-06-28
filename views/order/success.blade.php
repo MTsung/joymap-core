@@ -160,8 +160,13 @@
                             <a href="{{ $order->info_url }}" title="查看詳細資訊"
                                style="font-size: 17px; width: 245px; height: 50px; line-height: 50px; color: #ffffff; background: #fa6c3e; border:none; border-radius: 5px; text-decoration: none; display: inline-block;">查看詳細資訊</a>
                         </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding: 0;">
                         <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
-                            <div style=" border-radius: 5px;overflow: hidden;height: 236px;background-size: cover;
+                            <div style=" border-radius: 5px;overflow: hidden;height: 246px;background-size: cover;
                                   background-position: center;
                                   background-image: url('https://storage.googleapis.com/joymap-store/carousel/e68ff662d905f3083b9daef7ab36e15b.png');
                                   ">
@@ -169,6 +174,7 @@
                         </a>
                     </td>
                 </tr>
+
             </table>
         </td>
     </tr>
