@@ -36,7 +36,7 @@ class PayRefundService
 
     protected Store $store;
 
-    protected CreditCardLog $creditCardLog;
+    protected ?CreditCardLog $creditCardLog = null;
 
     protected Member $member;
 
@@ -63,7 +63,7 @@ class PayRefundService
 
         $this->member = $payLog->member;
 
-        $this->creditCardLog = $payLog->memberCreditCardLog->firstOrfail();
+        $this->creditCardLog = $payLog->memberCreditCardLog->first();
 
         return DB::transaction(function () {
             $this->validate();
@@ -113,6 +113,9 @@ class PayRefundService
             throw new Exception('該筆支付記錄已超過一天，無法退款', 422);
         }
 
+        //--------- 以下是有刷卡才需要的判斷，有新判斷不要寫在這下面
+        if(!$this->creditCardLog) return;
+
         // 查詢藍新這筆訂單的狀態
         if (!$queryRes = $this->getJoyPay()->query()) {
             throw new Exception('金流端伺服器異常，請稍後再試', 422);
@@ -134,6 +137,7 @@ class PayRefundService
         if ((int)$queryRes['Result']['TradeStatus'] !== 1) {
             throw new Exception('該筆交易非成功單號', 422);
         }
+        //--------- 以上是有刷卡才需要的判斷，有新判斷不要寫在這下面
     }
 
     private function getJoyPay(): \Mtsung\JoymapCore\Helpers\Payment\JoyPay
@@ -151,6 +155,8 @@ class PayRefundService
      */
     private function creditCardRefund(): void
     {
+        if (!$this->creditCardLog) return;
+
         if (!$cancelRes = $this->getJoyPay()->cancel()) {
             throw new Exception('金流端伺服器異常，請稍後再試', 422);
         }
