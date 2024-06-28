@@ -39,7 +39,7 @@ class SendPaySuccessPushNotificationService extends PushNotificationAbstract
 
     public function action(): string
     {
-        return 'pay.detail';
+        return 'notification.list';
     }
 
     public function data(): array
