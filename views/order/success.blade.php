@@ -160,6 +160,13 @@
                             <a href="{{ $order->info_url }}" title="查看詳細資訊"
                                style="font-size: 17px; width: 245px; height: 50px; line-height: 50px; color: #ffffff; background: #fa6c3e; border:none; border-radius: 5px; text-decoration: none; display: inline-block;">查看詳細資訊</a>
                         </div>
+                        <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
+                            <div style=" border-radius: 5px;overflow: hidden;height: 236px;background-size: cover;
+                                  background-position: center;
+                                  background-image: url('https://storage.googleapis.com/joymap-store/carousel/e68ff662d905f3083b9daef7ab36e15b.png');
+                                  ">
+                            </div>
+                        </a>
                     </td>
                 </tr>
             </table>
@@ -174,7 +181,7 @@
                 <img src="https://storage.googleapis.com/joymap-store/logo/logo.png" alt="Joymap logo"
                      style="display: block; margin: 0 auto" border="0"/>
             </a>
-            <p style="font-size: 13px; color: #c4c4c4;">Copyright 2021 Joymap Ltd. All rights reserved.</p>
+            <p style="font-size: 13px; color: #c4c4c4;">Copyright 2024 Joymap Ltd. All rights reserved.</p>
         </td>
     </tr>
 </table>
