@@ -20,7 +20,7 @@ class SendFirstDrawTurntableReminderPushNotificationService extends PushNotifica
 
     public function title(): string
     {
-        return '每日簽到轉盤來了！';
+        return '每日簽到轉盤來了！😍';
     }
 
     public function body(): string
