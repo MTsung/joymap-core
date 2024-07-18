@@ -211,7 +211,10 @@ class PayRefundService
      */
     private function jcoinRefund(): void
     {
-        $coinLogs = $this->payLog->coinLog()->whereNotIn('type', CoinLog::TYPE_CHANGES_BY_ADMIN)->get();
+        $coinLogs = $this->payLog->coinLog()
+                                 ->whereNotIn('type', CoinLog::TYPE_CHANGES_BY_ADMIN)
+                                 ->where('body', '!=', '邀請好友獎勵')
+                                 ->get();
 
         foreach ($coinLogs as $coinLog) {
             if ((int)$coinLog->coin > 0) {
