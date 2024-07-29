@@ -324,6 +324,16 @@ class Member extends User implements JWTSubject
         return $this->hasMany(LotteryLog::class);
     }
 
+    public function ticketNumbers(): HasMany
+    {
+        return $this->hasMany(TicketNumber::class);
+    }
+
+    public function ticketTransactions(): HasMany
+    {
+        return $this->hasMany(TicketTransaction::class);
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {
