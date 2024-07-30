@@ -28,6 +28,11 @@ class TicketNumber extends Model
     // 停售
     public const STATUS_STOP_SALE = 5;
 
+    //未標記使用
+    public const IS_MARK_USE_OFF = 0;
+    //已標記使用
+    public const IS_MARK_USE_ON = 1;
+
     public function ticketBatch(): BelongsTo
     {
         return $this->belongsTo(TicketBatch::class);
