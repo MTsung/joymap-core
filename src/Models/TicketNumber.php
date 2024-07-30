@@ -25,6 +25,8 @@ class TicketNumber extends Model
     public const STATUS_EXPIRED = 3;
     // 已作廢
     public const STATUS_INVALID = 4;
+    // 停售
+    public const STATUS_STOP_SALE = 5;
 
     public function ticketBatch(): BelongsTo
     {
