@@ -16,6 +16,6 @@ class StoreFloorDeletingListener
 
         $storeFloor->storeTables->each(fn(StoreTable $table) => $table->delete());
 
-        $storeFloor->storeTableCombinations->delete();
+        $storeFloor->storeTableCombinations()->delete();
     }
 }
