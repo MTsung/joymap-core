@@ -19,6 +19,8 @@ use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreUser;
 use Mtsung\JoymapCore\Models\StoreWalletTransactionRecord;
+use Mtsung\JoymapCore\Models\TicketNumber;
+use Mtsung\JoymapCore\Models\TicketTransaction;
 use Mtsung\JoymapCore\Services\Jcoin\AddJcoinService;
 use Mtsung\JoymapCore\Services\Jcoin\SubJcoinService;
 use Mtsung\JoymapCore\Services\StoreWallet\StoreWalletTransactionService;
@@ -85,6 +87,9 @@ class PayRefundService
                 $this->storeWalletRefund();
                 $this->log->info('storeWalletRefund pass', [$this->payLog->id]);
             }
+
+            $this->ticketRefund();
+            $this->log->info('ticketRefund pass', [$this->payLog->id]);
 
             if (!$this->successRefund()) {
                 $this->log->error('successRefund error', [$this->payLog->id]);
@@ -212,9 +217,9 @@ class PayRefundService
     private function jcoinRefund(): void
     {
         $coinLogs = $this->payLog->coinLog()
-                                 ->whereNotIn('type', CoinLog::TYPE_CHANGES_BY_ADMIN)
-                                 ->where('body', '!=', '邀請好友獎勵')
-                                 ->get();
+            ->whereNotIn('type', CoinLog::TYPE_CHANGES_BY_ADMIN)
+            ->where('body', '!=', '邀請好友獎勵')
+            ->get();
 
         foreach ($coinLogs as $coinLog) {
             if ((int)$coinLog->coin > 0) {
@@ -321,5 +326,51 @@ class PayRefundService
             'company_pay_status' => PayLog::COMPANY_PAY_STATUS_REFUND,
             'refund_at' => Carbon::now()
         ]);
+    }
+
+    /**
+     * 即用券退款處理
+     * @throws Exception
+     */
+    /**
+     * 即用券退款處理
+     * @throws Exception
+     */
+    private function ticketRefund(): void
+    {
+        $ticketTransactions = $this->payLog->ticketTransactions()->with('ticketNumbers')->get();
+
+        if ($ticketTransactions->isEmpty()) {
+            return;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($ticketTransactions as $ticketTransaction) {
+                $ticketTransaction->update([
+                    'status' => TicketTransaction::STATUS_REFUND
+                ]);
+
+                $ticketTransaction->ticketNumbers()->update([
+                    'status' => TicketNumber::STATUS_INVALID,
+                    'invalid_at' => Carbon::now()
+                ]);
+            }
+
+            DB::commit();
+
+            $this->log->info('Ticket refund processed', [
+                'pay_log_id' => $this->payLog->id,
+                'ticket_transactions' => $ticketTransactions->pluck('id'),
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            $this->log->error('Ticket refund failed', [
+                'pay_log_id' => $this->payLog->id,
+                'error' => $e->getMessage()
+            ]);
+            throw $e;
+        }
     }
 }

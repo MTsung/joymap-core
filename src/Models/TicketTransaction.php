@@ -19,6 +19,8 @@ class TicketTransaction extends Model
     public const STATUS_FAILURE = 2;
     // 取消 (取消訂單)
     public const STATUS_CANCEL = 3;
+    // 退刷
+    public const STATUS_REFUND = 4;
 
     public function ticket(): BelongsTo
     {

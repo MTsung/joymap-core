@@ -108,6 +108,15 @@ class PayLog extends Model
     }
 
     /**
+     * 關聯到即用券交易記錄
+     */
+    public function ticketTransactions(): HasMany
+    {
+        return $this->hasMany(TicketTransaction::class, 'pay_log_id');
+    }
+
+
+    /**
      * 判斷是否有修改權
      * @param ?Authenticatable $user
      * @return bool
