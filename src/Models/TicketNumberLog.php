@@ -22,6 +22,12 @@ class TicketNumberLog extends Model
     public const ACTION_EXPIRED = 4;
     // 失效作廢
     public const ACTION_INVALID = 5;
+    // 停售
+    public const ACTION_STOP_SALE = 6;
+    // 標記使用
+    public const ACTION_MARK_USE = 7;
+    // 取消標記使用
+    public const ACTION_CANCEL_MARK_USE = 8;
 
     public function ticket(): BelongsTo
     {
