@@ -4,7 +4,12 @@ namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * @method Builder whereTicketTypeIn(array $types)
+ * @method Builder whereTicketbrandIn(array $brands)
+ */
 class TicketNumber extends Model
 {
     protected $table = 'ticket_numbers';
@@ -51,5 +56,23 @@ class TicketNumber extends Model
     public function ticketNumberLogs(): HasMany
     {
         return $this->hasMany(TicketNumberLog::class);
+    }
+
+    // whereTicketTypeIn
+    public function scopeWhereTicketTypeIn($query, array $types): Builder
+    {
+        return $query->withWhereHas(
+            'ticket',
+            fn($query) => $query->whereIn('type', $types)
+        );
+    }
+
+    // whereTicketbrandIn
+    public function scopeWhereTicketbrandIn($query, array $brands): Builder
+    {
+        return $query->withWhereHas(
+            'ticket',
+            fn($query) => $query->whereIn('ticket_brand_id', $brands)
+        );
     }
 }
