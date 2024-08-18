@@ -21,6 +21,10 @@ return [
         Store::CAN_ORDER_NOT_ENABLED => '未啟用',
         Store::CAN_ORDER_NOT_COOPERATING => '-',
     ],
+    'can_comment' => [
+        Store::CAN_COMMENT_DISABLED => '停用',
+        Store::CAN_COMMENT_ENABLED => '啟用',
+    ],
     'status' => [
         Store::STATUS_OFF_SHELF => '下架',
         Store::STATUS_ON_SHELF => '上架',

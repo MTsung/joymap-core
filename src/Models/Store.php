@@ -64,6 +64,11 @@ class Store extends Model
     // 未合作
     public const CAN_ORDER_NOT_COOPERATING = 3;
 
+    // 停用
+    public const CAN_COMMENT_DISABLED = 0;
+    // 啟用
+    public const CAN_COMMENT_ENABLED = 1;
+
     // 下架
     public const STATUS_OFF_SHELF = 0;
     // 上架
@@ -463,7 +468,7 @@ class Store extends Model
         $now = Carbon::now();
 
         $businessTime = Cache::remember(
-            __METHOD__ . 'GetBusinessTimeService'.$this->id,
+            __METHOD__ . 'GetBusinessTimeService' . $this->id,
             60,
             fn() => GetBusinessTimeService::run($this)
         );
@@ -491,7 +496,7 @@ class Store extends Model
         $now = Carbon::now();
 
         $businessTime = Cache::remember(
-            __METHOD__ . 'GetBusinessTimeService'.$this->id,
+            __METHOD__ . 'GetBusinessTimeService' . $this->id,
             60,
             fn() => GetBusinessTimeService::run($this)
         );
