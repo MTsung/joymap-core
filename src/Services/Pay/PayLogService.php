@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Services\Pay;
 
 use Mtsung\JoymapCore\Models\PayLog;
+use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
 
@@ -18,6 +19,10 @@ class PayLogService
 
     public function canComment(PayLog $payLog, int $hour = 6): bool
     {
+        if ($payLog->store->can_comment == Store::CAN_COMMENT_DISABLED) {
+            return false;
+        }
+
         if ($payLog->memberComment) {
             return false;
         }
