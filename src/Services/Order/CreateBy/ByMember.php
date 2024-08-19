@@ -50,9 +50,7 @@ class ByMember implements CreateOrderInterface
      */
     public function checkPeople(int $people): void
     {
-        if ($people > $this->store->orderSettings->single_time_order_total) {
-            throw new Exception('超過單次訂位人數上限', 422);
-        }
+
     }
 
     /**

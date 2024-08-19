@@ -49,9 +49,6 @@ class WriteStoreFloorTableCombinationService
         if ($refreshOrderTableId) {
             DB::transaction(fn() => $this->refreshOrderTable());
         }
-
-        $max = (int)$storeFloor->storeTableCombinations?->where('can_book_online', 1)->max('max');
-        $storeFloor->store?->orderSettings?->update(['single_time_order_total' => $max]);
     }
 
     public function asListener(object $event): void

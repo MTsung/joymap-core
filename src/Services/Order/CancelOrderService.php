@@ -14,7 +14,6 @@ use Mtsung\JoymapCore\Models\AdminUser;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\StoreUser;
-use Mtsung\JoymapCore\Services\Order\CancelBy\ByGoogle;
 use Mtsung\JoymapCore\Services\Order\CancelBy\ByMember;
 use Mtsung\JoymapCore\Services\Order\CancelBy\ByStore;
 use Mtsung\JoymapCore\Services\Order\CancelBy\CancelOrderInterface;
@@ -37,9 +36,8 @@ class CancelOrderService
         $this->user = $user;
 
         $this->service = match (true) {
-            $user instanceof Member => app(ByMember::class),
+            $user instanceof Member, $user instanceof AdminUser && Str::contains($user->name, 'Google-Dining') => app(ByMember::class),
             $user instanceof StoreUser => app(ByStore::class),
-            $user instanceof AdminUser && Str::contains($user->name, 'Google-Dining') => app(ByGoogle::class),
         };
 
         return $this;
