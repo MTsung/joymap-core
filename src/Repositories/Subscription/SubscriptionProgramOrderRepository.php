@@ -26,7 +26,7 @@ class SubscriptionProgramOrderRepository implements RepositoryInterface
             ->query()
             ->where('member_dealer_id', $memberDealerId)
             ->where('status', SubscriptionProgramOrder::STATUS_SUCCESS)
-            ->latest()
+            ->latest('id')
             ->first();
     }
 
