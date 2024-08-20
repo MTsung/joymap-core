@@ -43,7 +43,7 @@ class WriteStoreCanOrderTimeService
                     Carbon::now()->addDays($store->orderSettings->can_order_day)->startOfDay(),
                     Carbon::now()->addDays($store->orderSettings->can_order_day)->endOfDay(),
                 ] : [],
-            );
+            )->unique();
 
             $deleteCount = $this->canOrderTimeRepository->delete(
                 $store->id,
