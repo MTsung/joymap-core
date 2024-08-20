@@ -41,4 +41,9 @@ class TicketTransaction extends Model
     {
         return $this->hasMany(TicketNumberLog::class);
     }
+
+    public function ticketNumbers(): HasMany
+    {
+        return $this->hasMany(TicketNumber::class, 'ticket_transaction_id');
+    }
 }

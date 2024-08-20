@@ -67,39 +67,37 @@ class PayRefundService
 
         $this->creditCardLog = $payLog->memberCreditCardLog->first();
 
-        return DB::transaction(function () {
-            $this->validate();
-            $this->log->info('validate pass', [$this->payLog->id]);
+        $this->validate();
+        $this->log->info('validate pass', [$this->payLog->id]);
 
-            $this->creditCardRefund();
-            $this->log->info('creditCardRefund pass', [$this->payLog->id]);
+        $this->creditCardRefund();
+        $this->log->info('creditCardRefund pass', [$this->payLog->id]);
 
-            $this->jcoinRefund();
-            $this->log->info('jcoinRefund pass', [$this->payLog->id]);
+        $this->jcoinRefund();
+        $this->log->info('jcoinRefund pass', [$this->payLog->id]);
 
 
-            if ($this->payLog->discount_type == PayLog::DISCOUNT_TYPE_COUPON) {
-                $this->couponRefund();
-                $this->log->info('couponRefund pass', [$this->payLog->id]);
-            }
+        if ($this->payLog->discount_type == PayLog::DISCOUNT_TYPE_COUPON) {
+            $this->couponRefund();
+            $this->log->info('couponRefund pass', [$this->payLog->id]);
+        }
 
-            if ($this->payLog->company_give_store_amount > 0) {
-                $this->storeWalletRefund();
-                $this->log->info('storeWalletRefund pass', [$this->payLog->id]);
-            }
+        if ($this->payLog->company_give_store_amount > 0) {
+            $this->storeWalletRefund();
+            $this->log->info('storeWalletRefund pass', [$this->payLog->id]);
+        }
 
-            $this->ticketRefund();
-            $this->log->info('ticketRefund pass', [$this->payLog->id]);
+        $this->ticketRefund();
+        $this->log->info('ticketRefund pass', [$this->payLog->id]);
 
-            if (!$this->successRefund()) {
-                $this->log->error('successRefund error', [$this->payLog->id]);
+        if (!$this->successRefund()) {
+            $this->log->error('successRefund error', [$this->payLog->id]);
 
-                return false;
-            }
-            $this->log->info('successRefund pass', [$this->payLog->id]);
+            return false;
+        }
+        $this->log->info('successRefund pass', [$this->payLog->id]);
 
-            return true;
-        });
+        return true;
     }
 
     /**
@@ -119,7 +117,7 @@ class PayRefundService
         }
 
         //--------- 以下是有刷卡才需要的判斷，有新判斷不要寫在這下面
-        if(!$this->creditCardLog) return;
+        if (!$this->creditCardLog) return;
 
         // 查詢藍新這筆訂單的狀態
         if (!$queryRes = $this->getJoyPay()->query()) {
@@ -332,10 +330,6 @@ class PayRefundService
      * 即用券退款處理
      * @throws Exception
      */
-    /**
-     * 即用券退款處理
-     * @throws Exception
-     */
     private function ticketRefund(): void
     {
         $ticketTransactions = $this->payLog->ticketTransactions()->with('ticketNumbers')->get();
@@ -344,33 +338,20 @@ class PayRefundService
             return;
         }
 
-        DB::beginTransaction();
-
-        try {
-            foreach ($ticketTransactions as $ticketTransaction) {
-                $ticketTransaction->update([
-                    'status' => TicketTransaction::STATUS_REFUND
-                ]);
-
-                $ticketTransaction->ticketNumbers()->update([
-                    'status' => TicketNumber::STATUS_INVALID,
-                    'invalid_at' => Carbon::now()
-                ]);
-            }
-
-            DB::commit();
-
-            $this->log->info('Ticket refund processed', [
-                'pay_log_id' => $this->payLog->id,
-                'ticket_transactions' => $ticketTransactions->pluck('id'),
+        foreach ($ticketTransactions as $ticketTransaction) {
+            $ticketTransaction->update([
+                'status' => TicketTransaction::STATUS_REFUND
             ]);
-        } catch (Exception $e) {
-            DB::rollBack();
-            $this->log->error('Ticket refund failed', [
-                'pay_log_id' => $this->payLog->id,
-                'error' => $e->getMessage()
+
+            $ticketTransaction->ticketNumbers()->update([
+                'status' => TicketNumber::STATUS_INVALID,
+                'invalid_at' => Carbon::now()
             ]);
-            throw $e;
         }
+
+        $this->log->info('Ticket refund processed', [
+            'pay_log_id' => $this->payLog->id,
+            'ticket_transactions' => $ticketTransactions->pluck('id'),
+        ]);
     }
 }
