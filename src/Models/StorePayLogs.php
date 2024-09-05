@@ -13,11 +13,11 @@ class StorePayLogs extends Model
 
     public function storeSubscription(): BelongsTo
     {
-        return $this->belongsTo(StoreSubscription::class);
+        return $this->belongsTo(StoreSubscription::class, 'store_subscription_id');
     }
 
     public function storeCreditcardLogs(): HasMany
     {
-        return $this->hasMany(StoreCreditcardLogs::class);
+        return $this->hasMany(StoreCreditcardLogs::class, 'store_pay_log_id');
     }
 }

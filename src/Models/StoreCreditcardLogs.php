@@ -12,6 +12,6 @@ class StoreCreditcardLogs extends Model
 
     public function storePayLogs(): BelongsTo
     {
-        return $this->belongsTo(StorePayLogs::class);
+        return $this->belongsTo(StorePayLogs::class, 'store_pay_log_id');
     }
 }
