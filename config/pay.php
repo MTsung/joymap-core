@@ -79,6 +79,24 @@ return [
                 // 撥款天數
                 'agreed_day' => env('SPGATEWAY_STORE_AGREED_DAY', 2),
             ],
+
+            // 網頁轉跳的方式
+            'mpg' => [
+                'credit_card_url' => env(
+                    'SPGATEWAY_MPG_GATEWAY_URL',
+                    'https://ccore.newebpay.com/MPG/mpg_gateway'
+                ),
+                'merchant_id' => env('SPGATEWAY_MPG_MERCHANT_ID'),
+                'hash_key' => env('SPGATEWAY_MPG_HASH_KEY'),
+                'hash_iv' => env('SPGATEWAY_MPG_HASH_IV'),
+
+                // 取消回到的連結
+                'client_back_url' => env('SPGATEWAY_MPG_CLIENT_BACK_URL'),
+                // 前端通知
+                'return_url' => env('SPGATEWAY_MPG_RETURN_URL'),
+                // 後端通知
+                'notify_url' => env('SPGATEWAY_MPG_NOTIFY_URL'),
+            ],
         ],
     ],
 ];

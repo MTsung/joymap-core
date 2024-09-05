@@ -10,6 +10,7 @@ use Mtsung\JoymapCore\Repositories\Member\MemberRepository;
 use Mtsung\JoymapCore\Repositories\Member\MemberDealerRepository;
 use Mtsung\JoymapCore\Repositories\Order\OrderRepository;
 use Mtsung\JoymapCore\Repositories\Pay\PayLogRepository;
+use Mtsung\JoymapCore\Repositories\Store\StorePayLogsRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreRepository;
 use Mtsung\JoymapCore\Repositories\Subscription\SubscriptionProgramPayLogRepository;
 
@@ -22,7 +23,8 @@ class Rand
         private PayLogRepository                    $payLogRepository,
         private StoreRepository                     $storeRepository,
         private SubscriptionProgramPayLogRepository $subscriptionProgramPayLogRepository,
-        private PayReserveRepository $payReserveRepository,
+        private PayReserveRepository                $payReserveRepository,
+        private StorePayLogsRepository              $storePayLogsRepository,
     )
     {
     }
@@ -120,6 +122,17 @@ class Rand
         }
 
         return $orderNo;
+    }
+
+    public function storePayNo(): string
+    {
+        $dateString = Carbon::now()->format('ymd');
+        $payNo = $this->numberString(5, 'SP-' . $dateString);
+        if ($this->storePayLogsRepository->hasByPayNo($payNo)) {
+            return $this->storePayNo();
+        }
+
+        return $payNo;
     }
 
     // 取得長度為 $length，前綴為 $prefix 的數字字串(不會有4)

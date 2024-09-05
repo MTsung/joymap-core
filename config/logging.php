@@ -12,6 +12,11 @@ return [
             'path' => storage_path('logs/spgateway/pay.log'),
             'days' => 90,
         ],
+        'spgateway-mpg' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/spgateway/mpg.log'),
+            'days' => 90,
+        ],
         'spgateway-store' => [
             'driver' => 'daily',
             'path' => storage_path('logs/spgateway/store.log'),
