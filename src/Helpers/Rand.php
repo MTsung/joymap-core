@@ -127,7 +127,7 @@ class Rand
     public function storePayNo(): string
     {
         $dateString = Carbon::now()->format('ymd');
-        $payNo = $this->numberString(5, 'SP-' . $dateString);
+        $payNo = $this->numberString(5, 'SP' . $dateString);
         if ($this->storePayLogsRepository->hasByPayNo($payNo)) {
             return $this->storePayNo();
         }
