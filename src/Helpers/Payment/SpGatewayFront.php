@@ -53,6 +53,7 @@ class SpGatewayFront
             'InstFlag' => $instFlag > 1 ? $instFlag : 0,
         ];
 
+        $this->log->info('data', $data);
         $tradeInfo = $this->getTradeInfo($data);
         $tradeSha = $this->getTradeSha($tradeInfo);
 
@@ -149,7 +150,7 @@ class SpGatewayFront
     {
         $slaSt = ord(substr($string, -1));
         $slaStc = chr($slaSt);
-        if (preg_match("/$slaStc{' . $slaSt . '}/", $string)) {
+        if (preg_match("/$slaStc{" . $slaSt . "}/", $string)) {
             return substr($string, 0, strlen($string) - $slaSt);
         }
         return false;

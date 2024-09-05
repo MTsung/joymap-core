@@ -38,6 +38,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
         $mergeConfigs = [
             'logging.channels.hitrust-pay',
             'logging.channels.spgateway-pay',
+            'logging.channels.spgateway-mpg',
             'logging.channels.spgateway-store',
             'logging.channels.fcm',
             'logging.channels.fcm-v1',
