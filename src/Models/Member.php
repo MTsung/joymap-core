@@ -93,7 +93,7 @@ class Member extends User implements JWTSubject
     public const FROM_SOURCE_TWDD = 1;
     // Joymap
     public const FROM_SOURCE_JOYMAP = 2;
-    // 餐廳代客訂位
+    // 店家代客訂位
     public const FROM_SOURCE_RESTAURANT_BOOKING = 3;
     // Joymap_APP
     public const FROM_SOURCE_JOYMAP_APP = 4;

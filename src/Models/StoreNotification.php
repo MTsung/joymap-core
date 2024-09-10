@@ -28,9 +28,9 @@ class StoreNotification extends Model
     public const STATUS_ORDER_FROM_JOYMAP = 2;
     // Joymap(Web) 訂位
     public const STATUS_ORDER_FROM_JOY_BOOKING = 3;
-    // 餐廳代客訂位
+    // 店家代客訂位
     public const STATUS_ORDER_FROM_STORE = 4;
-    // 餐廳取消
+    // 店家取消
     public const STATUS_CANCEL_BY_STORE = 5;
     // 評論
     public const STATUS_COMMENT = 6;

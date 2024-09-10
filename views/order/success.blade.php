@@ -50,7 +50,7 @@
                             <tr>
                                 <td style="padding-bottom:  35px;">
                                     <p style="text-align: center;font-size: 15px;color:#2f2f2f; margin: 0;">
-                                        餐廳用餐時間限制{{ $store->limit_minute }}
+                                        店家時間限制{{ $store->limit_minute }}
                                         分鐘，待人數到齊之後，方可為您帶位入座。</p>
                                 </td>
                             </tr>
@@ -138,7 +138,7 @@
                             <li style="padding: 10px 0;">
                                 <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-address.png"
                                      alt="address icon">
-                                <a title="餐廳地址"
+                                <a title="店家地址"
                                    style="font-size: 15px; color: #2f2f2f; margin: 0; display: inline-block; text-decoration: none;"
                                    href="https://www.google.com.tw/maps?q={{ $store->full_address }}" target="_blank">
                                     {{ $store->full_address }}
@@ -148,7 +148,7 @@
                                 <li style="padding: 10px 0;">
                                     <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-link.png"
                                          alt="link icon">
-                                    <a title="餐廳連結"
+                                    <a title="店家連結"
                                        style="font-size: 15px; color: #2f2f2f; margin: 0; display: inline-block; text-decoration: none;"
                                        href="{{ $store->website }}" target="_blank">
                                         {{ $store->website }}

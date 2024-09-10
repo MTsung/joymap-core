@@ -24,7 +24,7 @@ return [
         Member::FROM_SOURCE_JOY_BOOKING => 'JoyBooking',
         Member::FROM_SOURCE_TWDD => 'TWDD',
         Member::FROM_SOURCE_JOYMAP => 'Joymap',
-        Member::FROM_SOURCE_RESTAURANT_BOOKING => '餐廳代客訂位',
+        Member::FROM_SOURCE_RESTAURANT_BOOKING => '店家代客訂位',
         Member::FROM_SOURCE_JOYMAP_APP => 'Joymap_APP',
         Member::FROM_SOURCE_TW_AUTHORIZATION => 'TW 授權',
         Member::FROM_SOURCE_GOOGLE_BOOKING => 'Google訂位',
