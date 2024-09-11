@@ -343,6 +343,11 @@ class Store extends Model
             ->where('store_subscription_period.period_end_at', '>=', Carbon::now());
     }
 
+    public function storeRecommender(): BelongsTo
+    {
+        return $this->belongsTo(StoreRecommender::class);
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {
