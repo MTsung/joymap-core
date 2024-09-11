@@ -331,6 +331,18 @@ class Store extends Model
         return $this->hasOne(JoyPayStoreSetting::class);
     }
 
+    public function storeSubscriptionPeriod(): HasMany
+    {
+        return $this->hasMany(StoreSubscriptionPeriod::class);
+    }
+
+    public function nowStoreSubscriptionPeriod(): HasMany
+    {
+        return $this->storeSubscriptionPeriod()
+            ->where('store_subscription_period.period_start_at', '<=', Carbon::now())
+            ->where('store_subscription_period.period_end_at', '>=', Carbon::now());
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {

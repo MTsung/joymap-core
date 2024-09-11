@@ -25,6 +25,11 @@ class StoreSubscriptionPeriod extends Model
         return $this->belongsTo(Store::class);
     }
 
+    public function storePlan(): BelongsTo
+    {
+        return $this->belongsTo(StorePlan::class);
+    }
+
     public function storePlanSetting(): BelongsTo
     {
         return $this->belongsTo(StorePlanSetting::class, 'store_plan_id', 'store_plan_id');
