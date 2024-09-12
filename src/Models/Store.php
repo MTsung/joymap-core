@@ -331,6 +331,11 @@ class Store extends Model
         return $this->hasOne(JoyPayStoreSetting::class);
     }
 
+    public function storeSubscription(): HasOne
+    {
+        return $this->hasOne(StoreSubscription::class);
+    }
+
     public function storeSubscriptionPeriod(): HasMany
     {
         return $this->hasMany(StoreSubscriptionPeriod::class);
