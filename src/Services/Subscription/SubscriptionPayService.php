@@ -268,6 +268,7 @@ class SubscriptionPayService
             'pay_no' => Rand::subscriptionPayNo(),
             'member_dealer_id' => $this->member->memberDealer?->id,
             'member_id' => $this->member->id,
+            'email' => $this->member->email,
             'status' => SubscriptionProgramPayLog::STATUS_NO_ACTION,
             'amount' => $this->subscriptionProgram->promotion_price,
             'app_version' => request()->header('version')
