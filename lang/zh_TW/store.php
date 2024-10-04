@@ -25,6 +25,10 @@ return [
         Store::CAN_COMMENT_DISABLED => '停用',
         Store::CAN_COMMENT_ENABLED => '啟用',
     ],
+    'google_reserve_enable' => [
+        0 => '停用',
+        1 => '啟用',
+    ],
     'status' => [
         Store::STATUS_OFF_SHELF => '下架',
         Store::STATUS_ON_SHELF => '上架',
