@@ -166,6 +166,11 @@ GOOGLE_CLOUD_STORAGE_API_URI='https://storage.googleapis.com/'
 SEND_ERROR_LOG_LINE=false
 LINE_NOTIFY_TOKEN=
 
+SEND_ERROR_LOG_DISCORD=false
+DISCORD_NOTIFY_TOKEN=''
+DISCORD_NOTIFY_CHANNEL_ID=''
+DISCORD_NOTIFY_ROLE_ID=''
+
 SMS_CHANNEL=infobip
 
 INFOBIP_URL='https://39wzv.api.infobip.com/sms/2/text/advanced'

@@ -17,6 +17,7 @@ use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
 use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
+use Mtsung\JoymapCore\Listeners\ErrorNotify\DiscordListener;
 use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreFloor\StoreFloorDeletingListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableCreatedListener;
@@ -57,6 +58,7 @@ class EventServiceProvider extends ServiceProvider
         // 系統提醒
         SendNotifyEvent::class => [
             LineListener::class,
+            DiscordListener::class,
         ],
         // 訂位成功
         OrderSuccessEvent::class => [

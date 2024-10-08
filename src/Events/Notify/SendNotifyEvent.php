@@ -10,13 +10,17 @@ class SendNotifyEvent
     use Dispatchable, SerializesModels;
 
     public string $message;
+    public string $channelId;
+    public string $tagId;
 
     /**
      * Create a new event instance.
      *
      */
-    public function __construct($message)
+    public function __construct($message, $channelId = '', $tagId = '')
     {
         $this->message = $message;
+        $this->channelId = $channelId;
+        $this->tagId = $tagId;
     }
 }
