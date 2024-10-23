@@ -25,6 +25,15 @@ return [
                 'SPGATEWAY_CREDIT_CARD_URL',
                 'https://ccore.newebpay.com/API/CreditCard'
             ),
+
+            // 為了 3D 驗證加入 支付用
+            'pay_notify_url' => env('SPGATEWAY_PAY_NOTIFY_URL', ''),
+            'pay_return_url' => env('SPGATEWAY_PAY_RETURN_URL', ''),
+
+            // 為了 3D 驗證加入 綁卡用
+            'bind_notify_url' => env('SPGATEWAY_BIND_NOTIFY_URL', ''),
+            'bind_return_url' => env('SPGATEWAY_BIND_RETURN_URL', ''),
+
             // 取消授權
             'cancel_url' => env(
                 'SPGATEWAY_CANCEL_URL',

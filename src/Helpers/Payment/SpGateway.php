@@ -51,7 +51,11 @@ class SpGateway implements PayInterface
         $this->url = config('joymap.pay.channels.spgateway.credit_card_url');
         $params = [
             'TimeStamp' => time(),
-            'Version' => '1.0',
+            'Version' => '2.1',
+            'P3D' => 1,
+            'UseFor' => 1,// 1=APP
+            'NotifyURL' => config('joymap.pay.channels.spgateway.bind_notify_url'),
+            'ReturnURL' => config('joymap.pay.channels.spgateway.bind_return_url'),
             'MerchantOrderNo' => $params['orderNumber'],
             'Amt' => $params['amount'],
             'ProdDesc' => $params['orderDesc'],
@@ -74,7 +78,11 @@ class SpGateway implements PayInterface
         $this->url = config('joymap.pay.channels.spgateway.credit_card_url');
         $params = [
             'TimeStamp' => time(),
-            'Version' => '1.0',
+            'Version' => '2.1',
+            'UseFor' => 1,// 1=APP
+            'NotifyURL' => config('joymap.pay.channels.spgateway.pay_notify_url'),
+            'ReturnURL' => config('joymap.pay.channels.spgateway.pay_return_url'),
+            'Inst' => $params['inst'] ?? 0,
             'MerchantOrderNo' => $params['orderNumber'],
             'Amt' => $params['amount'],
             'ProdDesc' => $params['orderDesc'],

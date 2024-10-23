@@ -11,6 +11,7 @@ class JoyPay
     private PayInterface $service;
     private string $token = '';
     private float $amount = 0;
+    private int $inst = 0;
     private ?Store $store = null;
     private ?int $storeId = null;
     private string $orderNumber = '';
@@ -108,10 +109,17 @@ class JoyPay
         return $this;
     }
 
+    public function inst($inst): JoyPay
+    {
+        $this->inst = $inst;
+        return $this;
+    }
+
     private function reset(): void
     {
         $this->token = '';
         $this->amount = 0;
+        $this->inst = 0;
         $this->storeId = null;
         $this->store = null;
         $this->orderNumber = '';
@@ -160,6 +168,7 @@ class JoyPay
             'returnUrl' => $this->returnUrl,
             'callbackUrl' => $this->callbackUrl,
             'email' => $this->email,
+            'inst' => $this->inst,
         ];
 
         $this->reset();
