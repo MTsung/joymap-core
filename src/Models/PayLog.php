@@ -23,6 +23,8 @@ class PayLog extends Model
     public const USER_PAY_STATUS_NO_ACTION = 2;
     // 會員退刷
     public const USER_PAY_STATUS_REFUND = 3;
+    // 3D 驗證狀態
+    public const USER_PAY_STATUS_3D = 4;
 
     // (舊資料)公司卡刷卡失敗、(新資料)儲值金失敗
     public const COMPANY_PAY_STATUS_FAIL = 0;
