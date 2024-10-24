@@ -128,6 +128,8 @@ class CreateOrderService
 
         $this->member = MemberGetOrCreateService::run($memberGetOrCreateParams);
 
+        $this->byService->check($this->store, $this->member);
+
         return $this;
     }
 

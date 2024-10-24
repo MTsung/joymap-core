@@ -334,6 +334,11 @@ class Member extends User implements JWTSubject
         return $this->hasMany(TicketTransaction::class);
     }
 
+    public function storeOrderBlacklist(): HasMany
+    {
+        return $this->hasMany(StoreOrderBlacklist::class);
+    }
+
     // 抓取未停權的會員
     public function scopeActive(Builder $query): Builder
     {

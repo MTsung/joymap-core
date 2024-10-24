@@ -10,6 +10,11 @@ class StoreSubscriptionPeriod extends Model
 
     protected $guarded = ['id'];
 
+    // 系統訂閱
+    public const TYPE_SYSTEM = 0;
+    // 加購項目
+    public const TYPE_ADD = 1;
+
     public function storeSubscription(): BelongsTo
     {
         return $this->belongsTo(StoreSubscription::class);

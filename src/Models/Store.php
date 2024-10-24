@@ -344,8 +344,19 @@ class Store extends Model
     public function nowStoreSubscriptionPeriod(): HasMany
     {
         return $this->storeSubscriptionPeriod()
+            ->where('store_subscription_period.type', StoreSubscriptionPeriod::TYPE_SYSTEM)
             ->where('store_subscription_period.period_start_at', '<=', Carbon::now())
             ->where('store_subscription_period.period_end_at', '>=', Carbon::now());
+    }
+
+    public function storeCreditCard(): HasOne
+    {
+        return $this->hasOne(StoreCreditCard::class);
+    }
+
+    public function storeOrderBlacklist(): HasMany
+    {
+        return $this->hasMany(StoreOrderBlacklist::class);
     }
 
     public function storeRecommender(): BelongsTo

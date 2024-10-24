@@ -4,8 +4,10 @@ namespace Mtsung\JoymapCore\Services\Order\CreateBy;
 
 use Carbon\Carbon;
 use Exception;
+use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
+use Mtsung\JoymapCore\Models\StoreOrderBlacklist;
 use Mtsung\JoymapCore\Models\StoreTableCombination;
 use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 
@@ -73,5 +75,19 @@ class ByMember implements CreateOrderInterface
                 throw new Exception('該時間尚未開放預約', 422);
             }
         }
+    }
+
+    public function check(Store $store, Member $member): CreateOrderInterface
+    {
+        // 黑名單判斷
+        $query = StoreOrderBlacklist::query();
+        $checkCols = ['store_id', 'member_id'];
+        $checkValues = [$store->id, $member->id];
+
+        if ($query->whereRowValues($checkCols, '=', $checkValues)->exists()) {
+            throw new Exception('因訂位記錄多次缺席，如欲訂位請致電餐廳', 422);
+        }
+
+        return $this;
     }
 }

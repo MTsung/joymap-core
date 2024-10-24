@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Services\Order\CreateBy;
 
 use Carbon\Carbon;
 use Exception;
+use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreTableCombination;
@@ -55,5 +56,10 @@ class ByStore implements CreateOrderInterface
         if ($reservationDatetime < Carbon::now()) {
             throw new Exception('訂位時間小於當前時間，無法訂位', 422);
         }
+    }
+
+    public function check(Store $store, Member $member): CreateOrderInterface
+    {
+        return $this;
     }
 }
