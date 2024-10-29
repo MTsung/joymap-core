@@ -11,6 +11,24 @@ class StorePlan extends Model
 
     protected $guarded = ['id'];
 
+    // 系統訂閱
+    public const TYPE_SUBSCRIPTION = 0;
+    // 加價
+    public const TYPE_ADD = 1;
+
+    // 入門
+    public const ID_ENTRY_LEVEL = 1;
+    // 行家
+    public const ID_EXPERT = 2;
+    // 豪華
+    public const ID_LUXURY = 3;
+    // 減碳
+    public const ID_CARBON_REDUCTION = 4;
+    // 代駕
+    public const ID_DESIGNATED_DRIVER = 5;
+    // 短影音服務
+    public const ID_VIDEO = 6;
+
     public function storeSubscription(): HasMany
     {
         return $this->hasMany(StoreSubscription::class);

@@ -26,6 +26,7 @@ use stdClass;
  * @property stdClass business_time_week
  * @property bool is_hot
  * @property bool is_new
+ * @property bool can_use_designated_driver
  *
  * @method Builder foodTypeIn(array $ids)
  * @method Builder foodTypeLikeName(string $name)
@@ -344,6 +345,7 @@ class Store extends Model
     public function nowStoreSubscriptionPeriod(): HasMany
     {
         return $this->storeSubscriptionPeriod()
+            ->where('store_subscription_period.status', 1)
             ->where('store_subscription_period.type', StoreSubscriptionPeriod::TYPE_SYSTEM)
             ->where('store_subscription_period.period_start_at', '<=', Carbon::now())
             ->where('store_subscription_period.period_end_at', '>=', Carbon::now());
@@ -362,6 +364,16 @@ class Store extends Model
     public function storeRecommender(): BelongsTo
     {
         return $this->belongsTo(StoreRecommender::class);
+    }
+
+    public function designatedDriverMatch(): HasMany
+    {
+        return $this->hasMany(DesignatedDriverMatch::class);
+    }
+
+    public function designatedDriverTwdd(): HasMany
+    {
+        return $this->hasMany(DesignatedDriverTwdd::class);
     }
 
     // foodTypeIn($ids)
@@ -592,5 +604,23 @@ class Store extends Model
         }
 
         return $res;
+    }
+
+
+    /**
+     * can_use_designated_driver
+     * 是否可使用代駕功能
+     *
+     * @return bool
+     */
+    public function getCanUseDdAttribute(): bool
+    {
+        return $this->storeSubscriptionPeriod()
+            ->where('store_subscription_period.store_plan_id', StorePlan::ID_DESIGNATED_DRIVER)
+            ->where('store_subscription_period.status', 1)
+            ->where('store_subscription_period.type', StoreSubscriptionPeriod::TYPE_ADD)
+            ->where('store_subscription_period.period_start_at', '<=', Carbon::now())
+            ->where('store_subscription_period.period_end_at', '>=', Carbon::now())
+            ->exists();
     }
 }

@@ -77,5 +77,10 @@ return [
             'path' => storage_path('logs/request/slow_request.log'),
             'days' => 90,
         ],
+        'twdd' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/dd/twdd.log'),
+            'days' => 365,
+        ],
     ],
 ];
