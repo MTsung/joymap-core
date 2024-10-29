@@ -106,7 +106,7 @@ class Twdd
     {
         try {
             $postData = [
-                'json' => array_filter([
+                'json' => [
                     'member_phone' => $phone,
                     'start_address' => $startAddress,
                     'call_lat' => $lat,
@@ -117,12 +117,12 @@ class Twdd
                     'member_remark' => $remark ?? '',
                     'is_markup' => 0,
                     'callback_url' => $this->callbackUrl,
-                ]),
+                ],
             ];
 
             $this->log->info('twdd send ' . __METHOD__, $postData);
 
-            $res = $this->client->request('POST', '', $postData)->getBody()->getContents();
+            $res = $this->client->request('POST', 'task/general/immediate/match', $postData)->getBody()->getContents();
 
             $this->log->info('twdd res ' . __METHOD__, [$res]);
 
