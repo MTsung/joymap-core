@@ -25,11 +25,12 @@ class Twdd
         $this->pw = config('joymap.designated_driver.channels.twdd.pw');
 
         $this->client = new Client([
-            'auth' => [$this->user, $this->pw],
             'base_uri' => $this->baseUrl,
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Accept' => 'application/json'
+                'Accept' => 'application/json',
+                'user' => $this->user,
+                'pw' => $this->pw,
             ],
             'timeout' => 30,
         ]);

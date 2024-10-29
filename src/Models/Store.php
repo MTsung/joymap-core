@@ -613,7 +613,7 @@ class Store extends Model
      *
      * @return bool
      */
-    public function getCanUseDdAttribute(): bool
+    public function getCanUseDesignatedDriverAttribute(): bool
     {
         return $this->storeSubscriptionPeriod()
             ->where('store_subscription_period.store_plan_id', StorePlan::ID_DESIGNATED_DRIVER)
