@@ -38,4 +38,9 @@ class StorePlan extends Model
     {
         return $this->hasOne(StorePlanSetting::class);
     }
+
+    public function storeSubscriptionAddPlan(): HasMany
+    {
+        return $this->hasMany(StoreSubscriptionAddPlan::class);
+    }
 }

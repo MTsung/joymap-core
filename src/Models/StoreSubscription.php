@@ -45,4 +45,9 @@ class StoreSubscription extends Model
     {
         return $this->belongsTo(District::class, 'district_id', 'id');
     }
+
+    public function storeSubscriptionAddPlan(): HasMany
+    {
+        return $this->hasMany(StoreSubscriptionAddPlan::class);
+    }
 }
