@@ -29,4 +29,9 @@ class StorePayLogs extends Model
     {
         return $this->hasMany(StoreCreditcardLogs::class, 'store_pay_log_id');
     }
+
+    public function storeSubscriptionPeriod(): HasMany
+    {
+        return $this->hasMany(StoreSubscriptionPeriod::class, 'store_pay_log_id');
+    }
 }

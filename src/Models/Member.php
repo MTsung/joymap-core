@@ -575,23 +575,36 @@ class Member extends User implements JWTSubject
         return $loginType;
     }
 
+    /**
+     * is_blacklist
+     * @return bool
+     */
+    public function getIsBlacklistAttribute(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user instanceof StoreUser) return false;
+
+        return $this->storeOrderBlacklist()->where('store_id', $user->store_id)->exists();
+    }
+
     public function scopeLotteryDrawNumByType($query, int $lotteryType): int
     {
         return $this->lotteryLogs()
-                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
-                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', $lotteryType)
-                    ->count();
+            ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+            ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+            ->where('lotteries.type', $lotteryType)
+            ->count();
     }
 
     public function scopeLotteryDrawChanceByType($query, int $lotteryType): Collection
     {
         return $this->lotteryLogs()
-                    ->select('lottery_logs.*')
-                    ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
-                    ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
-                    ->where('lotteries.type', $lotteryType)
-                    ->orderBy('lottery_logs.type')
-                    ->get();
+            ->select('lottery_logs.*')
+            ->leftJoin('lotteries', 'lotteries.id', '=', 'lottery_logs.lottery_id')
+            ->where('lottery_logs.status', LotteryLog::STATUS_NOT_DRAWN)
+            ->where('lotteries.type', $lotteryType)
+            ->orderBy('lottery_logs.type')
+            ->get();
     }
 }
