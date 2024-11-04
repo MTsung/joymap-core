@@ -79,7 +79,7 @@ class SpGateway implements PayInterface
         $params = [
             'TimeStamp' => time(),
             'Version' => '2.1',
-            'UseFor' => 1,// 1=APP
+            'UseFor' => ($params['isSubscription'] ?? false) ? 2 : 1,// 1=APP, 2=定期定額
             'NotifyURL' => config('joymap.pay.channels.spgateway.pay_notify_url'),
             'ReturnURL' => config('joymap.pay.channels.spgateway.pay_return_url'),
             'Inst' => $params['inst'] ?? 0,

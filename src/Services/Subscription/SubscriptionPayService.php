@@ -219,6 +219,7 @@ class SubscriptionPayService
             ->money($this->subscriptionProgram->promotion_price)
             ->token($this->memberCreditCard->token)
             ->email($this->member->email)
+            ->isSubscription(true)
             ->pay();
 
         Log::info(__METHOD__ . ' res', [$res]);

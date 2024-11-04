@@ -22,6 +22,7 @@ class JoyPay
     private ?string $returnUrl = null;
     private ?string $callbackUrl = null;
     private string $email = '';
+    private bool $isSubscription = false;
 
     public function __construct()
     {
@@ -115,6 +116,24 @@ class JoyPay
         return $this;
     }
 
+    public function callbackUrl($callbackUrl): JoyPay
+    {
+        $this->callbackUrl = $callbackUrl;
+        return $this;
+    }
+
+    public function returnUrl($returnUrl): JoyPay
+    {
+        $this->returnUrl = $returnUrl;
+        return $this;
+    }
+
+    public function isSubscription($isSubscription): JoyPay
+    {
+        $this->isSubscription = $isSubscription;
+        return $this;
+    }
+
     private function reset(): void
     {
         $this->token = '';
@@ -169,6 +188,7 @@ class JoyPay
             'callbackUrl' => $this->callbackUrl,
             'email' => $this->email,
             'inst' => $this->inst,
+            'isSubscription' => $this->isSubscription,
         ];
 
         $this->reset();
