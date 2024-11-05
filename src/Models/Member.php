@@ -588,6 +588,18 @@ class Member extends User implements JWTSubject
         return $this->storeOrderBlacklist()->where('store_id', $user->store_id)->exists();
     }
 
+    /**
+     * blacklist_at
+     */
+    public function getBlacklistAtAttribute()
+    {
+        $user = Auth::user();
+
+        if (!$user instanceof StoreUser) return null;
+
+        return $this->storeOrderBlacklist()->where('store_id', $user->store_id)->first()?->created_at;
+    }
+
     public function scopeLotteryDrawNumByType($query, int $lotteryType): int
     {
         return $this->lotteryLogs()
