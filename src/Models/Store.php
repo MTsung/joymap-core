@@ -342,6 +342,11 @@ class Store extends Model
         return $this->hasMany(StoreSubscriptionPeriod::class);
     }
 
+    public function storeMonthCount(): HasMany
+    {
+        return $this->hasMany(StoreMonthCount::class);
+    }
+
     public function nowStoreSubscriptionPeriod(): HasMany
     {
         return $this->storeSubscriptionPeriod()
