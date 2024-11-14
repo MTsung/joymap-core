@@ -620,6 +620,10 @@ class Store extends Model
      */
     public function getCanUseDesignatedDriverAttribute(): bool
     {
+        if (($this->nowStoreSubscriptionPeriod()->first()?->store_plan_id ?? 0) > 1) {
+            return true;
+        }
+
         return $this->storeSubscriptionPeriod()
             ->where('store_subscription_period.store_plan_id', StorePlan::ID_DESIGNATED_DRIVER)
             ->where('store_subscription_period.status', 1)
