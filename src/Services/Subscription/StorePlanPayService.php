@@ -126,22 +126,18 @@ class StorePlanPayService
                 ->where('period_end_at', '>', Carbon::now())
                 ->get();
 
+            // 加送的天數
+            $addDays = $periods->sum('add_month') * 30;
+            // 剩餘天數
+            $diffInDays = Carbon::parse($periods->max('period_end_at'))->diffInDays(Carbon::now());
             // 這段總天數
             $allInDays = Carbon::parse($periods->max('period_end_at'))->diffInDays($periods->min('period_start_at'));
 
-            // 這段的總價錢
-            $sum = StorePayLogs::query()->whereIn('id', $periods->pluck('store_pay_log_id'))->sum('amount');
-
-            // 剩餘天數
-            $diffInDays = Carbon::parse($periods->max('period_end_at'))->diffInDays(Carbon::now());
-
-            // 這段的一天單價
-            $dAmount = $sum / $allInDays;
-
             // 每天差價多少
-            $moneyInDay = $this->storePlan->promotion_price / 365 - $dAmount;
+            $moneyInDay = ($this->storePlan->promotion_price - $this->nowPeriod->storePlan->promotion_price) / 365;
 
-            $diffMoney = $moneyInDay * $diffInDays;
+            // 用剩餘天數去看是否大於購買天數，如果大於就已購買的天數計算，小於則用實際剩餘天數計算
+            $diffMoney = $moneyInDay * min($allInDays - $addDays, $diffInDays);
         }
 
         $this->originalAmount = round($this->storePlan->promotion_price * $this->count) + $diffMoney;
