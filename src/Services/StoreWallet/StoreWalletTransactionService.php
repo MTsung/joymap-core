@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Models\AdminUser;
+use Mtsung\JoymapCore\Models\DesignatedDriverMatch;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\PayLog;
 use Mtsung\JoymapCore\Models\Store;
@@ -29,6 +30,8 @@ class StoreWalletTransactionService
     private ?StoreUser $storeUser = null;
 
     private ?AdminUser $adminUser = null;
+
+    private ?DesignatedDriverMatch $designatedDriverMatch = null;
 
     public function __construct()
     {
@@ -58,6 +61,13 @@ class StoreWalletTransactionService
     public function adminUser(AdminUser $adminUser): self
     {
         $this->adminUser = $adminUser;
+
+        return $this;
+    }
+
+    public function designatedDriverMatch(DesignatedDriverMatch $designatedDriverMatch): self
+    {
+        $this->designatedDriverMatch = $designatedDriverMatch;
 
         return $this;
     }
@@ -95,6 +105,7 @@ class StoreWalletTransactionService
                 'store_id' => $store->id,
                 'member_id' => $this->member?->id ?? $this->payLog?->member_id,
                 'pay_log_id' => $this->payLog?->id,
+                'designated_driver_match_id' => $this->designatedDriverMatch?->id,
                 'type' => $type,
                 'amount' => $amount,
                 'before_amount' => $beforeAmount,

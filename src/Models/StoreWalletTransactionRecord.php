@@ -70,4 +70,9 @@ class StoreWalletTransactionRecord extends Model
     {
         return $this->belongsTo(StoreUser::class);
     }
+    
+    public function designatedDriverMatch(): BelongsTo
+    {
+        return $this->belongsTo(DesignatedDriverMatch::class);
+    }
 }
