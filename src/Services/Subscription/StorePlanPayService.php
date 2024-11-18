@@ -284,6 +284,8 @@ class StorePlanPayService
         $storePayLogData = [
             'store_subscription_id' => $this->storeSubscription->id,
             'pay_no' => $this->payNo,
+            'store_plan_id' => $this->storePlan->id,
+            'buy_count' => $this->count,
             'inst_flag' => $this->instFlag,
             'original_amount' => $this->originalAmount,
             'amount' => $this->amount,
