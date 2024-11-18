@@ -85,7 +85,7 @@ class ByMember implements CreateOrderInterface
         $checkValues = [$store->id, $member->id];
 
         if ($query->whereRowValues($checkCols, '=', $checkValues)->exists()) {
-            throw new Exception('因訂位記錄多次缺席，如欲訂位請致電餐廳', 422);
+            throw new Exception('因訂位記錄多次缺席，如欲訂位請致電餐廳', 422100);
         }
 
         return $this;
