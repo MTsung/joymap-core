@@ -28,6 +28,7 @@ class Sms
             $defaultChannel = config('joymap.sms.default');
             $this->service = match ($defaultChannel) {
                 'infobip' => app(Infobip::class),
+                'mitake' => app(Mitake::class),
                 default => throw new Exception('不支援的 SMS Channel(joymap.sms.default)：' . $defaultChannel),
             };
         }
@@ -36,6 +37,12 @@ class Sms
     public function byInfobip(): Sms
     {
         $this->service = app(Infobip::class);
+        return $this;
+    }
+
+    public function byMitake(): Sms
+    {
+        $this->service = app(Mitake::class);
         return $this;
     }
 

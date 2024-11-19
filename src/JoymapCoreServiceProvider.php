@@ -44,6 +44,7 @@ class JoymapCoreServiceProvider extends ServiceProvider
             'logging.channels.fcm-v1',
             'logging.channels.gorush',
             'logging.channels.infobip',
+            'logging.channels.mitake',
             'logging.channels.jcoin',
             'logging.channels.mail',
             'logging.channels.can_order_time',

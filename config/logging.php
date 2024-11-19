@@ -42,6 +42,11 @@ return [
             'path' => storage_path('logs/sms/infobip.log'),
             'days' => 14,
         ],
+        'mitake' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sms/mitake.log'),
+            'days' => 14,
+        ],
         'jcoin' => [
             'driver' => 'daily',
             'path' => storage_path('logs/jcoin/jcoin.log'),
