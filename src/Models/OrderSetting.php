@@ -15,7 +15,7 @@ class OrderSetting extends Model
 
     protected $guarded = ['id'];
 
-    public const ORDER_UNIT_MINUTE = ['10', '15', '20', '30', '60'];
+    public const ORDER_UNIT_MINUTE = ['10', '15', '20', '30', '60', '90'];
     public const CAN_ORDER_DAY = ['7', '14', '30', '60', '90', '120', '150', '180'];
     public const SAME_TIME_ORDER_TOTAL = ['2', '4', '6', '8', '10', '16', '20', '26', '30'];
     public const SINGLE_TIME_ORDER_TOTAL = ['2', '4', '6', '8', '10', '12'];
