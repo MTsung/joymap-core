@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms byInfobip()
+ * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms byMitake()
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms members(array $memberIds)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms member(int $memberId)
  * @method static \Mtsung\JoymapCore\Helpers\Sms\Sms phones(array $phones)

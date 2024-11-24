@@ -22,6 +22,9 @@ abstract class SmsAbstract implements SmsInterface, ShouldQueue
 
     protected mixed $arguments;
 
+    // 要用三竹的話繼承時改 byMitake
+    protected mixed $service = 'byInfobip';
+
     /**
      * @throws Exception
      */
@@ -39,7 +42,7 @@ abstract class SmsAbstract implements SmsInterface, ShouldQueue
 
         $method = $this->toType()->value;
 
-        $sms = Sms::{$method}($to)->body($this->body());
+        $sms = Sms::{$method}($to)->{$this->service}()->body($this->body());
 
         if ($this->onlyProdSend) {
             return $sms->onlyProdSend();

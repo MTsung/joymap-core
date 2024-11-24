@@ -11,6 +11,8 @@ use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
  */
 class SendPhoneVerifySmsService extends SmsAbstract
 {
+    protected mixed $service = 'byMitake';
+
     public function toType(): SmsToTypeEnum
     {
         return SmsToTypeEnum::phone;
