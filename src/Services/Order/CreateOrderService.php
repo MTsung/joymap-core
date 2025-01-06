@@ -128,8 +128,6 @@ class CreateOrderService
 
         $this->member = MemberGetOrCreateService::run($memberGetOrCreateParams);
 
-        $this->byService->check($this->store, $this->member);
-
         return $this;
     }
 
@@ -247,6 +245,9 @@ class CreateOrderService
         if (is_null($this->type)) {
             throw new Exception('請呼叫 type()', 500);
         }
+
+        // 最終檢查，黑名單、重複訂位之類的
+        $this->byService->check($this);
 
         if ($this->type != Order::TYPE_ONSITE_WAIT) {
             // 自動排桌

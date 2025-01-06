@@ -4,11 +4,9 @@ namespace Mtsung\JoymapCore\Services\Order\CreateBy;
 
 use Carbon\Carbon;
 use Exception;
-use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
-use Mtsung\JoymapCore\Models\StoreTableCombination;
-use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
+use Mtsung\JoymapCore\Services\Order\CreateOrderService;
 
 class ByStore implements CreateOrderInterface
 {
@@ -58,7 +56,7 @@ class ByStore implements CreateOrderInterface
         }
     }
 
-    public function check(Store $store, Member $member): CreateOrderInterface
+    public function check(CreateOrderService $createOrderService): CreateOrderInterface
     {
         return $this;
     }

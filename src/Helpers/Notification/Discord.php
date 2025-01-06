@@ -21,14 +21,14 @@ class Discord
             $url = '/channels/' . ($channelId ?: config('joymap.discord_notify.channel_id')) . '/messages';
             $header = ['Content-Type: multipart/form-data'];
             if ($tagId) {
-                $data['content'] = sprintf("> # %s\n> 【%s】\n<@&%s>\n```%s```",
+                $data['content'] = sprintf("> # %s\n> 【%s】\n<@&%s>\n```\n%s```",
                     env('APP_ENV'),
                     env('APP_NAME'),
                     $tagId,
                     $message
                 );
             } else {
-                $data['content'] = sprintf("> # %s\n> 【%s】\n```%s```",
+                $data['content'] = sprintf("> # %s\n> 【%s】\n```\n%s```",
                     env('APP_ENV'),
                     env('APP_NAME'),
                     $message

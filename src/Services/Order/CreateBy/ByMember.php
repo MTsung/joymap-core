@@ -4,12 +4,10 @@ namespace Mtsung\JoymapCore\Services\Order\CreateBy;
 
 use Carbon\Carbon;
 use Exception;
-use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreOrderBlacklist;
-use Mtsung\JoymapCore\Models\StoreTableCombination;
-use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
+use Mtsung\JoymapCore\Services\Order\CreateOrderService;
 
 class ByMember implements CreateOrderInterface
 {
@@ -77,15 +75,31 @@ class ByMember implements CreateOrderInterface
         }
     }
 
-    public function check(Store $store, Member $member): CreateOrderInterface
+    public function check(CreateOrderService $createOrderService): CreateOrderInterface
     {
         // 黑名單判斷
         $query = StoreOrderBlacklist::query();
         $checkCols = ['store_id', 'member_id'];
-        $checkValues = [$store->id, $member->id];
+        $checkValues = [$createOrderService->store->id, $createOrderService->member->id];
 
         if ($query->whereRowValues($checkCols, '=', $checkValues)->exists()) {
             throw new Exception('因訂位記錄多次缺席，如欲訂位請致電餐廳', 422100);
+        }
+
+        // 同一時間重複訂位
+        if ($createOrderService->store->orderSettings?->singleOrder ?? 1) {
+            $orderQuery = Order::query();
+            $checkCols = ['reservation_date', 'reservation_time', 'store_id', 'member_id'];
+            $checkValues = [
+                $createOrderService->reservationDatetime->toDateString(),
+                $createOrderService->reservationDatetime->toTimeString(),
+                $createOrderService->store->id,
+                $createOrderService->member->id,
+            ];
+
+            if ($orderQuery->whereRowValues($checkCols, '=', $checkValues)->exists()) {
+                throw new Exception('重複訂位，如欲訂位請致電餐廳', 422101);
+            }
         }
 
         return $this;

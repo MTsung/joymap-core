@@ -6,12 +6,14 @@ use Carbon\Carbon;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Models\StoreTableCombination;
+use Mtsung\JoymapCore\Services\Order\CreateOrderService;
 
 interface CreateOrderInterface
 {
     public function store(Store $store): CreateOrderInterface;
 
-    public function check(Store $store, Member $member): CreateOrderInterface;
+    // 最終檢查
+    public function check(CreateOrderService $createOrderService): CreateOrderInterface;
 
     public function type(int $type): CreateOrderInterface;
 
