@@ -24,6 +24,30 @@ class OrderRepository implements RepositoryInterface
             ->exists();
     }
 
+    public function hasRepeatOrder(
+        string $reservationDate,
+        string $reservationTime,
+        int $storeId,
+        int $memberId,
+        ?int $ignoreId = null,
+    ): bool {
+        $checkCols = ['reservation_date', 'reservation_time', 'store_id', 'member_id'];
+        $checkValues = [
+            $reservationDate,
+            $reservationTime,
+            $storeId,
+            $memberId,
+        ];
+
+        return $this->model()
+            ->query()
+            ->when(isset($ignoreId), function ($query) use ($ignoreId) {
+                $query->where('id', '!=', $ignoreId);
+            })
+            ->whereRowValues($checkCols, '=', $checkValues)
+            ->exists();
+    }
+
     public function getByStoreAndMember(int $storeId, int $memberId = 0)
     {
         return $this->model()

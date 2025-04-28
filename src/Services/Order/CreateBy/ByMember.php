@@ -50,7 +50,6 @@ class ByMember implements CreateOrderInterface
      */
     public function checkPeople(int $people): void
     {
-
     }
 
     /**
@@ -88,16 +87,14 @@ class ByMember implements CreateOrderInterface
 
         // 同一時間重複訂位
         if ($createOrderService->store->orderSettings?->singleOrder ?? 1) {
-            $orderQuery = Order::query();
-            $checkCols = ['reservation_date', 'reservation_time', 'store_id', 'member_id'];
-            $checkValues = [
+            $hasRepeatOrder = $createOrderService->orderRepository->hasRepeatOrder(
                 $createOrderService->reservationDatetime->toDateString(),
                 $createOrderService->reservationDatetime->toTimeString(),
                 $createOrderService->store->id,
-                $createOrderService->member->id,
-            ];
+                $createOrderService->member->id
+            );
 
-            if ($orderQuery->whereRowValues($checkCols, '=', $checkValues)->exists()) {
+            if ($hasRepeatOrder) {
                 throw new Exception('重複訂位，如欲訂位請致電餐廳', 422101);
             }
         }

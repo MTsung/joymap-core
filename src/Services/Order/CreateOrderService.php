@@ -63,7 +63,7 @@ class CreateOrderService
     public ?int $waitNumber = null;
 
     public function __construct(
-        private OrderRepository                 $orderRepository,
+        public OrderRepository                 $orderRepository,
         private CanOrderTimeRepository          $canOrderTimeRepository,
         private StoreTableCombinationRepository $storeTableCombinationRepository,
     )
