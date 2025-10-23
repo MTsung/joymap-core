@@ -48,6 +48,7 @@ class Controller extends BaseController
             'code' => 1,
             'msg' => $msg,
             'return' => $return,
+            'html' => '',
         ]));
     }
 
