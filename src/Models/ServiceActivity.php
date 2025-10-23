@@ -17,8 +17,8 @@ class ServiceActivity extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'first_time_amount' => 'decimal:2',
-        'regular_amount' => 'decimal:2',
+        'first_free_amount' => 'decimal:2',
+        'regular_free_amount' => 'decimal:2',
     ];
 
     public function store(): BelongsTo

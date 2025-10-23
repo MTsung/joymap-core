@@ -381,6 +381,11 @@ class Store extends Model
         return $this->hasMany(DesignatedDriverTwdd::class);
     }
 
+    public function serviceActivity(): HasOne
+    {
+        return $this->hasOne(ServiceActivity::class);
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {
