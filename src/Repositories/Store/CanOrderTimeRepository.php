@@ -40,6 +40,7 @@ class CanOrderTimeRepository implements RepositoryInterface
      * @param bool $onlyOnline 只找可線上訂位的桌位
      * @param int $combinationId 指定桌位
      * @param bool $showAllTime 是否顯示無桌位時段
+     * @param int $limitMinute 自訂預約時間限制
      * @return Collection
      * @throws Exception
      */
@@ -48,7 +49,8 @@ class CanOrderTimeRepository implements RepositoryInterface
         array $dateBetween = [],
         bool  $onlyOnline = true,
         int   $combinationId = 0,
-        bool  $showAllTime = true
+        bool  $showAllTime = true,
+        int   $limitMinute = 0
     ): Collection
     {
         if (!$dateBetween) {
@@ -83,13 +85,17 @@ class CanOrderTimeRepository implements RepositoryInterface
             ->when($combinationId > 0, function ($query) use ($combinationId) {
                 $query->where('store_table_combinations.id', $combinationId);
             })
-            ->whereNotExists(function ($query) use ($store, $checkOrderTime) {
+            ->whereNotExists(function ($query) use ($store, $checkOrderTime, $limitMinute) {
                 $query->from('orders')
                     ->where('orders.store_id', $store->id)
                     ->whereIn('orders.status', Order::TABLE_USING)
                     ->whereNotNull('orders.store_table_combination_id')
                     ->where('orders.begin_time', '>', $checkOrderTime)
-                    ->whereColumn('orders.begin_time', '<', 'can_order_time.end_time')
+                    ->when(
+                        $limitMinute == 0,
+                        fn($q) => $q->whereColumn('orders.begin_time', '<', 'can_order_time.end_time'),
+                        fn($q) => $q->whereRaw('orders.begin_time < DATE_ADD(can_order_time.begin_time, INTERVAL ? MINUTE)', [$limitMinute])
+                    )
                     ->whereColumn('can_order_time.begin_time', '<', 'orders.end_time')
                     ->whereRaw('JSON_CONTAINS(
                         store_table_combinations.relation_ids,
