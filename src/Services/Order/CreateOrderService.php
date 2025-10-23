@@ -48,6 +48,8 @@ class CreateOrderService
 
     public Carbon $endTime;
 
+    public ?int $limitMinute = null;
+
     public int $peopleNum = 0;
 
     public int $adultNum = 0;
@@ -134,7 +136,7 @@ class CreateOrderService
     /**
      * @throws Exception
      */
-    public function reservationDatetime(Carbon $reservationDatetime): CreateOrderService
+    public function reservationDatetime(Carbon $reservationDatetime, ?int $limitMinute = null): CreateOrderService
     {
         if (is_null($this->store)) {
             throw new Exception('請呼叫 store()', 500);
@@ -143,6 +145,8 @@ class CreateOrderService
         if (is_null($this->type)) {
             throw new Exception('請呼叫 type()', 500);
         }
+
+        $this->limitMinute = $limitMinute ?? $this->store->limit_minute;
 
         $this->byService->checkReservationDatetime($reservationDatetime);
 
@@ -154,7 +158,7 @@ class CreateOrderService
 
         $this->beginTime = $reservationDatetime->copy();
 
-        $this->endTime = $this->beginTime->copy()->addMinutes($this->store->limit_minute);
+        $this->endTime = $this->beginTime->copy()->addMinutes($this->limitMinute);
 
         return $this;
     }
@@ -260,6 +264,7 @@ class CreateOrderService
         }
 
         $data = [
+            'uuid' => Str::orderedUuid(),
             'order_no' => Rand::orderNo(),
             'member_id' => $this->member->id,
             'store_id' => $this->store->id,
@@ -279,6 +284,7 @@ class CreateOrderService
             'store_table_combination_name' => $this->storeTableCombinationName,
             'begin_time' => $this->beginTime,
             'end_time' => $this->endTime,
+            'limit_minute' => $this->limitMinute,
             'goal_id' => $goalId ?? 1,
             'comment' => $comment,
             'store_comment' => $storeComment,
