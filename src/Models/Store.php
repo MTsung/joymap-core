@@ -386,6 +386,11 @@ class Store extends Model
         return $this->hasOne(ServiceActivity::class);
     }
 
+    public function serviceCategories(): HasMany
+    {
+        return $this->hasMany(ServiceCategory::class);
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {
