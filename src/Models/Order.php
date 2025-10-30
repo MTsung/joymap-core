@@ -177,6 +177,16 @@ class Order extends Model
         return $this->belongsTo(StoreTableCombination::class);
     }
 
+    public function orderServiceItem(): HasOne
+    {
+        return $this->hasOne(OrderServiceItem::class);
+    }
+
+    public function orderDesignatedDriver(): HasOne
+    {
+        return $this->hasOne(OrderDesignatedDriver::class);
+    }
+
     /**
      * 會是抓全部店家的會員標籤，要再 where store_id
      */

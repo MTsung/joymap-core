@@ -222,6 +222,11 @@ class Store extends Model
         return $this->belongsToMany(FoodType::class, 'store_food_types', 'store_id', 'food_type_id');
     }
 
+    public function mainFoodType(): BelongsTo
+    {
+        return $this->belongsTo(MainFoodType::class);
+    }
+
     public function storeService(): BelongsToMany
     {
         return $this->belongsToMany(StoreService::class, 'store_service_settings', 'store_id', 'store_service_id')->withPivot('status');
