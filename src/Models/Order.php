@@ -186,6 +186,7 @@ class Order extends Model
     {
         return $this->hasOne(OrderDesignatedDriver::class);
     }
+    
 
     /**
      * 會是抓全部店家的會員標籤，要再 where store_id
