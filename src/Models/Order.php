@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\DB;
  * @property bool is_order_timeout
  * @property Collection|array|null table_info
  * @property ?Collection member_tag_names
+ * @property String service_item_text
+ * @property String addon_item_text
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -329,6 +331,53 @@ class Order extends Model
         }
 
         return null;
+    }
+
+    /**
+     * service_item_text
+     * 取得服務項目文字
+     * @return string
+     */
+    public function getServiceItemTextAttribute(): string
+    {
+        $orderServiceItem = $this->orderServiceItem;
+        if (!$orderServiceItem) {
+            return '-';
+        }
+
+        $serviceItemData = $orderServiceItem->service_item_data;
+        if (isset($serviceItemData['service_item']['name'])) {
+            $name = $serviceItemData['service_item']['name'];
+            $amount = (int)$orderServiceItem->amount;
+            return $amount > 0 ? "{$name}（" . number_format($amount) . "元）" : $name;
+        }
+
+        return '-';
+    }
+
+    /**
+     * addon_item_text
+     * 取得加購項目文字
+     * @return string
+     */
+    public function getAddonItemTextAttribute(): string
+    {
+        $orderServiceItem = $this->orderServiceItem;
+        if (!$orderServiceItem || !$orderServiceItem->orderServiceItemAddons) {
+            return '-';
+        }
+
+        $addonTexts = [];
+        foreach ($orderServiceItem->orderServiceItemAddons as $addon) {
+            $addonData = $addon->service_item_type_data;
+            if (isset($addonData['service_item']['name'])) {
+                $name = $addonData['service_item']['name'];
+                $amount = isset($addonData['amount']) ? (int)$addonData['amount'] : 0;
+                $addonTexts[] = $amount > 0 ? "{$name}（" . number_format($amount) . "元）" : $name;
+            }
+        }
+
+        return implode('、', $addonTexts) ?: '-';
     }
 
     /**
