@@ -585,7 +585,7 @@ class Member extends User implements JWTSubject
 
         if (!$user instanceof StoreUser) return false;
 
-        return $this->storeOrderBlacklist()->where('store_id', $user->store_id)->exists();
+        return $this->storeOrderBlacklist->where('store_id', $user->store_id)->count() > 0;
     }
 
     /**

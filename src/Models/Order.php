@@ -122,9 +122,13 @@ class Order extends Model
     // resource 需要用到的關聯
     public const RESOURCE_WITH_ARRAY = [
         'member',
+        'member.storeOrderBlacklist',
         'orderTags',
         'memberTags',
         'goal',
+        'orderServiceItem.orderServiceItemAddons',
+        'orderServiceItem.serviceType',
+        'orderDesignatedDriver',
     ];
 
     public function member(): BelongsTo
@@ -186,7 +190,7 @@ class Order extends Model
     {
         return $this->hasOne(OrderDesignatedDriver::class);
     }
-    
+
 
     /**
      * 會是抓全部店家的會員標籤，要再 where store_id

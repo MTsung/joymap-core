@@ -5,6 +5,7 @@ namespace Mtsung\JoymapCore\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderServiceItem extends Model
 {
@@ -69,5 +70,10 @@ class OrderServiceItem extends Model
     public function orderServiceItemLogs(): HasMany
     {
         return $this->hasMany(OrderServiceItemLog::class);
+    }
+
+    public function orderDesignatedDriver(): HasOne
+    {
+        return $this->hasOne(OrderDesignatedDriver::class, 'order_id', 'order_id');
     }
 }
