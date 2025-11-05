@@ -15,11 +15,11 @@ class ByStore implements CreateOrderInterface
     public function store(Store $store): CreateOrderInterface
     {
         if ($store->can_order != Store::CAN_ORDER_ENABLED) {
-            throw new Exception('訂位功能尚未啟用，無法訂位。', 422);
+            throw new Exception('預約功能尚未啟用，無法預約。', 422);
         }
 
         if (!$store->orderSettings) {
-            throw new Exception('訂位規則尚未完成，請至管理中心設定。', 422);
+            throw new Exception('預約規則尚未完成，請至管理中心設定。', 422);
         }
 
         return $this;
@@ -52,7 +52,7 @@ class ByStore implements CreateOrderInterface
     public function checkReservationDatetime(Carbon $reservationDatetime): void
     {
         if ($reservationDatetime < Carbon::now()) {
-            throw new Exception('訂位時間小於當前時間，無法訂位', 422);
+            throw new Exception('預約時間小於當前時間，無法預約', 422);
         }
     }
 

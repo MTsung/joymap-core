@@ -70,7 +70,7 @@ class ExtendTimeService
             Order::STATUS_SEATED,
         ];
         if (!in_array($order->status, $canExtendTimeTableStatus)) {
-            throw new Exception('該訂位狀態不可延長', 422);
+            throw new Exception('該預約狀態不可延長', 422);
         }
 
         DB::transaction(function () use ($order, $minutes) {

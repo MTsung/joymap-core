@@ -68,7 +68,7 @@ class SeatedOrderService
             Order::STATUS_RESERVED_SEAT,
         ];
         if (!in_array($order->status, $canSeatedStatus) && !$order->is_late) {
-            throw new Exception('該訂位狀態不可轉為入座', 422);
+            throw new Exception('該預約狀態不可轉為入座', 422);
         }
 
         if (Carbon::now() < $order->reservation_datetime->subMinutes(30)) {

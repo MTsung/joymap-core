@@ -25,13 +25,13 @@ class GetStoreCanOrderTimeService
 
     public Store $store;
 
-    // 訂位設定
+    // 預約設定
     public OrderSetting $orderSetting;
 
     // 營業時段
     public Collection $businessTimes;
 
-    // 可訂位時段
+    // 可預約時段
     public Collection $orderHourSettings;
 
     // 特殊日
@@ -63,7 +63,7 @@ class GetStoreCanOrderTimeService
         $this->calDateRange = $calDateRange;
 
         if (!$this->calDateRange) {
-            // 預設計算的天數：算到最早可訂位日期的後一天（處理跨日）
+            // 預設計算的天數：算到最早可預約日期的後一天（處理跨日）
             $this->calDateRange = [
                 Carbon::now()->subDay()->startOfDay(),
                 Carbon::now()->addDays($store->orderSettings->can_order_day)->endOfDay(),
@@ -80,7 +80,7 @@ class GetStoreCanOrderTimeService
 
         $this->setStore($store);
 
-        // 先拿到只看訂位時間的列表
+        // 先拿到只看預約時間的列表
         $res = $this->getOrderHourSettingsList();
 
         // 移除每週不開放營業日期
@@ -126,11 +126,11 @@ class GetStoreCanOrderTimeService
             }
         }
 
-        // 移除暫停整天訂位的日期
+        // 移除暫停整天預約的日期
         $blockDate = $this->blockTimes->where('block_all_day', 1)->pluck('block_date');
         $res = $res->whereNotIn('date', $blockDate);
 
-        // 移除暫停訂位的時間
+        // 移除暫停預約的時間
         $boh = $this->blockTimes->where('block_all_day', 0);
         foreach ($boh as $blockOrderHour) {
             $res = $res->filter(function ($v) use ($blockOrderHour) {
@@ -178,7 +178,7 @@ class GetStoreCanOrderTimeService
         }) ?? collect();
     }
 
-    // 取得正常訂位時間的 Time List
+    // 取得正常預約時間的 Time List
     private function getOrderHourSettingsList(): Collection
     {
         $result = [];

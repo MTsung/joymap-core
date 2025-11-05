@@ -41,7 +41,7 @@
                                         <img src="https://storage.googleapis.com/joymap-store/logo/successful.png" alt="success" style=" display: block; margin: 0 auto;">
                                         <p
                                             style="margin: 10px 0 5px 0;color: #2f2f2f; font-size: 17px; font-weight: 500; text-align:center;">
-                                            訂位修改成功
+                                            預約修改成功
                                         </p>
                                     </td>
                                 </tr>
@@ -60,7 +60,7 @@
                                 <tr>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位日期
+                                            預約日期
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
@@ -78,7 +78,7 @@
                                     </td>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位時間
+                                            預約時間
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
@@ -96,7 +96,7 @@
                                     </td>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位人數
+                                            預約人數
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>

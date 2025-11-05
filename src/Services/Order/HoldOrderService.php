@@ -67,7 +67,7 @@ class HoldOrderService
             Order::STATUS_SUCCESS_BOOKING_BY_STORE,
         ];
         if (!in_array($order->status, $canHoldStatus)) {
-            throw new Exception('該訂位狀態不可保留', 422);
+            throw new Exception('該預約狀態不可保留', 422);
         }
 
         DB::transaction(function () use ($order) {

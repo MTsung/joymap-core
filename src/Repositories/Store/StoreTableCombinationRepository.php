@@ -51,7 +51,7 @@ class StoreTableCombinationRepository implements RepositoryInterface
      * @param Store $store
      * @param Carbon $reservationDatetime 預約時間
      * @param int $people 人數
-     * @param bool $onlyOnline 只找可線上訂位的桌位
+     * @param bool $onlyOnline 只找可線上預約的桌位
      * @param int $combinationId 指定桌位
      * @return StoreTableCombination|null
      */
@@ -95,7 +95,7 @@ class StoreTableCombinationRepository implements RepositoryInterface
                         "$"
                     )');
             })
-            // 可線上訂位的優先
+            // 可線上預約的優先
             ->orderBy('can_book_online')
             // 用到桌數最少的優先
             ->orderBy(DB::raw('JSON_LENGTH(combination)'))

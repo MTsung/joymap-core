@@ -28,7 +28,7 @@ class CreateNotificationPayService
      */
     public function handle(PayLog $payLog): void
     {
-        // 檢查 N 小時內有沒有來過(入座/離席的訂位，成功支付)，有的話就不顯示按鈕。
+        // 檢查 N 小時內有沒有來過(入座/離席的預約，成功支付)，有的話就不顯示按鈕。
         if ($this->payLogService->canComment($payLog)) {
             $status = NotificationStorePay::STATUS_SHOW_BUTTON;
         } else {

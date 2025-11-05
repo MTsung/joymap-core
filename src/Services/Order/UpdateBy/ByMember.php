@@ -28,7 +28,7 @@ class ByMember implements UpdateOrderInterface
         array $tagIds,
         array $tableIds,
     ): void {
-        // 同一時間重複訂位
+        // 同一時間重複預約
         if ($order->store->orderSettings?->singleOrder ?? 1) {
             $hasRepeatOrder = $this->orderRepository->hasRepeatOrder(
                 $reservationDatetime->toDateString(),
@@ -39,7 +39,7 @@ class ByMember implements UpdateOrderInterface
             );
 
             if ($hasRepeatOrder) {
-                throw new Exception('訂位時間重複，如欲訂位請致電餐廳', 422101);
+                throw new Exception('預約時間重複，如欲預約請致電餐廳', 422101);
             }
         }
 

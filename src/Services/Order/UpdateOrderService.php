@@ -88,7 +88,7 @@ class UpdateOrderService
             Order::STATUS_RESERVED_SEAT,
         ];
         if (!in_array($order->status, $canUpdateStatus) && !$order->is_late) {
-            throw new Exception('該訂位狀態不可修改', 422);
+            throw new Exception('該預約狀態不可修改', 422);
         }
 
         $runEvent = $order->adult_num != $adultNum || $order->child_num != $childNum ||

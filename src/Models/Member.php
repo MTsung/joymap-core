@@ -93,13 +93,13 @@ class Member extends User implements JWTSubject
     public const FROM_SOURCE_TWDD = 1;
     // Joymap
     public const FROM_SOURCE_JOYMAP = 2;
-    // 店家代客訂位
+    // 店家代客預約
     public const FROM_SOURCE_RESTAURANT_BOOKING = 3;
     // Joymap_APP
     public const FROM_SOURCE_JOYMAP_APP = 4;
     // TW 授權
     public const FROM_SOURCE_TW_AUTHORIZATION = 5;
-    // Google訂位
+    // Google預約
     public const FROM_SOURCE_GOOGLE_BOOKING = 6;
 
     // 本國人

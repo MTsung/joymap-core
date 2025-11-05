@@ -51,7 +51,7 @@ class UpdateTableService
             Order::STATUS_SEATED,
         ];
         if (!in_array($order->status, $canUpdateTableStatus) && !$order->is_late) {
-            throw new Exception('該訂位狀態不可修改', 422);
+            throw new Exception('該預約狀態不可修改', 422);
         }
 
         FillTableService::run($order, $tableIds);

@@ -23,7 +23,7 @@ class ByMember implements CreateOrderInterface
         $this->store = $store;
 
         if ($store->can_order != Store::CAN_ORDER_ENABLED) {
-            throw new Exception('該店家訂位功能尚未啟用', 422);
+            throw new Exception('該店家預約功能尚未啟用', 422);
         }
 
         if (!$store->orderSettings) {
@@ -58,7 +58,7 @@ class ByMember implements CreateOrderInterface
     public function checkReservationDatetime(Carbon $reservationDatetime): void
     {
         if ($reservationDatetime < Carbon::now()) {
-            throw new Exception('訂位時間小於當前時間，無法訂位', 422);
+            throw new Exception('預約時間小於當前時間，無法預約', 422);
         }
 
         if ($this->type == Order::TYPE_RESERVE) {
@@ -82,10 +82,10 @@ class ByMember implements CreateOrderInterface
         $checkValues = [$createOrderService->store->id, $createOrderService->member->id];
 
         if ($query->whereRowValues($checkCols, '=', $checkValues)->exists()) {
-            throw new Exception('因訂位記錄多次缺席，如欲訂位請致電餐廳', 422100);
+            throw new Exception('因預約記錄多次缺席，如欲預約請致電餐廳', 422100);
         }
 
-        // 同一時間重複訂位
+        // 同一時間重複預約
         if ($createOrderService->store->orderSettings?->singleOrder ?? 1) {
             $hasRepeatOrder = $createOrderService->orderRepository->hasRepeatOrder(
                 $createOrderService->reservationDatetime->toDateString(),
@@ -95,7 +95,7 @@ class ByMember implements CreateOrderInterface
             );
 
             if ($hasRepeatOrder) {
-                throw new Exception('重複訂位，如欲訂位請致電餐廳', 422101);
+                throw new Exception('重複預約，如欲預約請致電餐廳', 422101);
             }
         }
 

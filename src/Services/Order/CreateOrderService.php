@@ -250,7 +250,7 @@ class CreateOrderService
             throw new Exception('請呼叫 type()', 500);
         }
 
-        // 最終檢查，黑名單、重複訂位之類的
+        // 最終檢查，黑名單、重複預約之類的
         $this->byService->check($this);
 
         if ($this->type != Order::TYPE_ONSITE_WAIT) {

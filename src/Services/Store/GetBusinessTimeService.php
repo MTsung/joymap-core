@@ -53,7 +53,7 @@ class GetBusinessTimeService
 
         $this->setStore($store);
 
-        // 先拿到只看訂位時間的列表
+        // 先拿到只看預約時間的列表
         $res = $this->getBusinessTimesList();
 
         // 移除特殊日期，只要有設定當天就是照特殊日走，特殊公休這邊順便移除了

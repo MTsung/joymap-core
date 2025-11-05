@@ -48,7 +48,7 @@ class ByMember implements FillTableInterface
         );
 
         if (!$combination) {
-            throw new Exception('該時段訂位已滿', 422);
+            throw new Exception('該時段預約已滿', 422);
         }
 
         return $combination;

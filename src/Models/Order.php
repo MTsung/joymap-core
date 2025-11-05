@@ -44,13 +44,13 @@ class Order extends Model
     // 現場入座
     public const TYPE_ONSITE_SEAT = 2;
 
-    // 取消訂位
+    // 取消預約
     public const STATUS_CANCEL_BY_USER = 0;
-    // 成功訂位
+    // 成功預約
     public const STATUS_SUCCESS_BOOKING_BY_USER = 1;
-    // 店家代客訂位
+    // 店家代客預約
     public const STATUS_SUCCESS_BOOKING_BY_STORE = 2;
-    // 店家取消訂位
+    // 店家取消預約
     public const STATUS_CANCEL_BY_STORE = 3;
     // 保留座位
     public const STATUS_RESERVED_SEAT = 4;
@@ -67,16 +67,16 @@ class Order extends Model
     public const FROM_SOURCE_TWDD = 1;
     // Joymap
     public const FROM_SOURCE_JOYMAP = 2;
-    // 店家代客訂位
+    // 店家代客預約
     public const FROM_SOURCE_RESTAURANT_BOOKING = 3;
     // Joymap_APP
     public const FROM_SOURCE_JOYMAP_APP = 4;
     // TW 授權
     public const FROM_SOURCE_TW_AUTHORIZATION = 5;
-    // Google訂位
+    // Google預約
     public const FROM_SOURCE_GOOGLE_BOOKING = 6;
 
-    // 訂位成功
+    // 預約成功
     public const SUCCESS_BOOKING = [
         self::STATUS_SUCCESS_BOOKING_BY_USER,
         self::STATUS_SUCCESS_BOOKING_BY_STORE,

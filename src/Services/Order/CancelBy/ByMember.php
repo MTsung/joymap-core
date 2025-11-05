@@ -17,7 +17,7 @@ class ByMember implements CancelOrderInterface
 
         $storeOrderSetting = $store->orderSettings;
 
-        // 最晚多久可取消訂位(分鐘)
+        // 最晚多久可取消預約(分鐘)
         $finalCancelMinute = $storeOrderSetting->final_cancel_minute;
 
         $finalCancelDatetime = $order->reservation_datetime->subMinutes($finalCancelMinute);

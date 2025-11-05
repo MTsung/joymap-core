@@ -22,13 +22,13 @@ class StoreNotification extends Model
 
     // 用戶取消
     public const STATUS_CANCEL_BY_USER = 0;
-    // TWDD 訂位
+    // TWDD 預約
     public const STATUS_ORDER_FROM_TWDD = 1;
-    // Joymap(APP or Www) 訂位
+    // Joymap(APP or Www) 預約
     public const STATUS_ORDER_FROM_JOYMAP = 2;
-    // Joymap(Web) 訂位
+    // Joymap(Web) 預約
     public const STATUS_ORDER_FROM_JOY_BOOKING = 3;
-    // 店家代客訂位
+    // 店家代客預約
     public const STATUS_ORDER_FROM_STORE = 4;
     // 店家取消
     public const STATUS_CANCEL_BY_STORE = 5;
@@ -36,7 +36,7 @@ class StoreNotification extends Model
     public const STATUS_COMMENT = 6;
     // 支付
     public const STATUS_PAY = 7;
-    // Google 訂位
+    // Google 預約
     public const STATUS_ORDER_FROM_GOOGLE = 8;
 
     public function store(): BelongsTo

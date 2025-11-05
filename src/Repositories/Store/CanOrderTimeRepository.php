@@ -21,7 +21,7 @@ class CanOrderTimeRepository implements RepositoryInterface
     }
 
     /**
-     * 取得可訂位時間＆桌子人數
+     * 取得可預約時間＆桌子人數
      * item output e.g.
      * [
      *     begin_time => '2023-12-11 09:00:00',
@@ -37,7 +37,7 @@ class CanOrderTimeRepository implements RepositoryInterface
      * ]
      * @param Store $store
      * @param array $dateBetween 篩選時間
-     * @param bool $onlyOnline 只找可線上訂位的桌位
+     * @param bool $onlyOnline 只找可線上預約的桌位
      * @param int $combinationId 指定桌位
      * @param bool $showAllTime 是否顯示無桌位時段
      * @param int $limitMinute 自訂預約時間限制

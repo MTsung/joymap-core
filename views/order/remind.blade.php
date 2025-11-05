@@ -41,7 +41,7 @@
                                 <tr>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位日期
+                                            預約日期
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
@@ -59,7 +59,7 @@
                                     </td>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位時間
+                                            預約時間
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
@@ -77,7 +77,7 @@
                                     </td>
                                     <td width="33.33%" valign="top">
                                         <p style="margin: 0; color: #2f2f2f; font-size: 15px; margin-bottom: 5px;">
-                                            訂位人數
+                                            預約人數
                                         </p>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
@@ -103,14 +103,14 @@
                         <td bgcolor="#ffffff" style="padding:15px; border-radius: 5px;">
                             <p style="margin: 0; color: #2f2f2f ; font-weight: 500; font-size: 15px;">{{ $order->name }} 您好！</p>
                             <p style="color: #2f2f2f; font-size: 15px;">還記得您
-                                <span style="color: #fa6c3e;"> {{ $reservationDatetime->format('m月 d日') }} </span>的訂位嗎？請協助我們確認，您是否保留這項訂位呢？
+                                <span style="color: #fa6c3e;"> {{ $reservationDatetime->format('m月 d日') }} </span>的預約嗎？請協助我們確認，您是否保留這項預約呢？
                             </p>
                             <table align="center" cellpadding="0" cellspacing="0"
                                    style="border-collapse: separate;  border-spacing: 0 20px;">
                                 <tr>
                                     <td style="width: 100%; display: block; text-align: center;">
-                                        <a href="{{ $order->info_url }}" title="保留訂位"
-                                           style="font-size: 17px ;width: 245px; height: 50px; line-height: 50px ; color: #ffffff; background: #fa6c3e; border:none ; border-radius: 5px; text-decoration: none; display: inline-block;">保留訂位</a>
+                                        <a href="{{ $order->info_url }}" title="保留預約"
+                                           style="font-size: 17px ;width: 245px; height: 50px; line-height: 50px ; color: #ffffff; background: #fa6c3e; border:none ; border-radius: 5px; text-decoration: none; display: inline-block;">保留預約</a>
                                     </td>
                                 </tr>
                                 <tr>

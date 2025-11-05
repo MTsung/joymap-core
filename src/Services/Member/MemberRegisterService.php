@@ -38,7 +38,7 @@ class MemberRegisterService
             $data['phone_prefix'] = '886';
             $data['full_phone'] = '+' . $data['phone_prefix'] . $data['phone'];
 
-            // 找有沒有從免登入訂位管道建立過的會員
+            // 找有沒有從免登入預約管道建立過的會員
             if ($member = $this->memberRepository->getByPhone($data['phone'], $data['phone_prefix'])) {
                 $this->checkMember($member);
             }

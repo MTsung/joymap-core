@@ -60,7 +60,7 @@ class EventServiceProvider extends ServiceProvider
             LineListener::class,
             DiscordListener::class,
         ],
-        // 訂位成功
+        // 預約成功
         OrderSuccessEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [CreateStoreNotificationOrderService::class, 'asListener'],
@@ -69,13 +69,13 @@ class EventServiceProvider extends ServiceProvider
             [StoreSendOrderSuccessPushNotificationService::class, 'asListener'],
             [SendOrderSuccessMailService::class, 'asListener'],
         ],
-        // 訂位修改
+        // 預約修改
         OrderUpdateEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderUpdatePushNotificationService::class, 'asListener'],
             [SendOrderUpdateMailService::class, 'asListener'],
         ],
-        // 訂位取消
+        // 預約取消
         OrderCancelEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [CreateStoreNotificationOrderService::class, 'asListener'],
@@ -83,7 +83,7 @@ class EventServiceProvider extends ServiceProvider
             [StoreSendOrderCancelPushNotificationService::class, 'asListener'],
             [SendOrderCancelMailService::class, 'asListener'],
         ],
-        // 訂位提醒
+        // 預約提醒
         OrderRemindEvent::class => [
             [CreateNotificationOrderService::class, 'asListener'],
             [SendOrderRemindSmsService::class, 'asListener'],
