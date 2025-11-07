@@ -38,7 +38,7 @@ class ByStore implements UpdateOrderInterface
                 'reservation_date' => $reservationDatetime->toDateString(),
                 'reservation_time' => $reservationDatetime->toTimeString(),
                 'begin_time' => $reservationDatetime,
-                'end_time' => $reservationDatetime->copy()->addMinutes($order->store->limit_minute),
+                'end_time' => $reservationDatetime->copy()->addMinutes($order->limit_minute ?? $order->store->limit_minute),
             ]);
         }
 

@@ -92,7 +92,7 @@ class FillTableService
 
             $order->begin_time = Carbon::parse($canOrderTime['begin_time']);
 
-            $order->end_time = $order->begin_time->copy()->addMinutes($order->store->limit_minute);
+            $order->end_time = $order->begin_time->copy()->addMinutes($order->limit_minute ?? $order->store->limit_minute);
 
             $order->store_table_combination_id = $combination->id;
 

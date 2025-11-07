@@ -21,7 +21,7 @@ class ByStore implements SeatedOrderInterface
     public function seated(Order $order, array $tableIds): void
     {
         $combination = $this->storeTableCombinationRepository->getByTableIdsOrFail($tableIds);
-        $limitMinute = $order->store->limit_minute;
+        $limitMinute = $order->limit_minute ?? $order->store->limit_minute;
         $now = Carbon::now();
         $beginTime = Carbon::parse($order->begin_time);
         $endTime = $order->end_time ? Carbon::parse($order->end_time) : $beginTime->copy()->addMinutes($limitMinute);
