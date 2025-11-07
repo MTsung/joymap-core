@@ -66,8 +66,8 @@ class CanOrderTimeRepository implements RepositoryInterface
             throw new Exception('$dateBetween 必須為兩個元素的陣列');
         }
 
-        // 不撈全部的單，避免跑太慢（預測不會有延長時間超過 24 小時的單所以 subDay()）
-        $checkOrderTime = $dateBetween[0]->copy()->subDay();
+        // 不撈全部的單，避免跑太慢（預測不會有延長時間超過 2 週的單所以 subWeeks(2)）
+        $checkOrderTime = $dateBetween[0]->copy()->subWeeks(2);
 
         $query = $this->model()->query()
             ->select([

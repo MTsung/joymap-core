@@ -89,7 +89,10 @@ class OrderRepository implements RepositoryInterface
             ->query()
             ->where('orders.store_id', $store->id)
             ->whereIn('orders.status', Order::TO_BE_SEATED)
-            ->where('begin_time', '>=', $beginTime);
+            ->where(function ($query) use ($beginTime) {
+                $query->orWhere('begin_time', '>=', $beginTime);
+                $query->orWhereRaw('begin_time >= DATE_SUB(NOW(), INTERVAL orders.limit_minute MINUTE)');
+            });
     }
 
     // 取得當天的最新候位號碼

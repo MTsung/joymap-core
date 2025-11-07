@@ -67,8 +67,8 @@ class StoreTableCombinationRepository implements RepositoryInterface
         $beginTime = Carbon::parse($reservationDatetime);
         $endTime = $beginTime->copy()->addMinutes($store->limit_minute);
 
-        // 不撈全部的單，避免跑太慢（預測不會有延長時間超過 24 小時的單所以 subDay()）
-        $checkOrderTime = $beginTime->copy()->subDay();
+        // 不撈全部的單，避免跑太慢（預測不會有延長時間超過 2 週的單所以 subWeeks(2)）
+        $checkOrderTime = $beginTime->copy()->subWeeks(2);
 
         return $this->model()
             ->query()

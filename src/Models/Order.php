@@ -273,7 +273,7 @@ class Order extends Model
     public function getIsLateAttribute(): bool
     {
         return $this->status == self::STATUS_NO_SHOW &&
-            Carbon::now() < $this->reservation_datetime->addMinutes($this->store->limit_minute);
+            Carbon::now() < $this->reservation_datetime->addMinutes($this->limit_minute ?? $this->store->limit_minute);
     }
 
     /**
