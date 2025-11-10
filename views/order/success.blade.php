@@ -43,21 +43,24 @@
                                          alt="success" style="display: block; margin: 0 auto;">
                                     <p
                                             style="margin: 10px 0 5px 0;color: #2f2f2f; font-size: 17px; font-weight: 500; text-align:center ;">
-                                        已為您確認預約
+                                        {{ $store->main_food_type_id == 1 ? '已為您確認預約' : '感謝您，您已成功預約！' }}
                                     </p>
                                 </td>
                             </tr>
-                            <tr>
-                                <td style="padding-bottom:  35px;">
-                                    <p style="text-align: center;font-size: 15px;color:#2f2f2f; margin: 0;">
-                                        店家時間限制{{ $store->limit_minute }}
-                                        分鐘，待人數到齊之後，方可為您帶位入座。</p>
-                                </td>
-                            </tr>
+                            @if ($store->main_food_type_id == 1)
+                                <tr>
+                                    <td style="padding-bottom:  35px;">
+                                        <p style="text-align: center;font-size: 15px;color:#2f2f2f; margin: 0;">
+                                            店家時間限制{{ $store->limit_minute }}
+                                            分鐘，待人數到齊之後，方可為您帶位入座。</p>
+                                    </td>
+                                </tr>
+                            @endif
                         </table>
 
                     </td>
                 </tr>
+                @if ($store->main_food_type_id == 1)
                 <tr>
                     <td bgcolor="#ffffff" style="padding:15px; border-radius: 5px;">
                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -125,18 +128,77 @@
                         <p style="font-size: 15px; color: #2f2f2f; margin: 0;">{{ $order->comment }}</p>
                     </td>
                 </tr>
+                @else
+
+                    <tr>
+                        <td bgcolor="#ffffff" style="padding:15px; border-radius: 5px;">
+                            <ul style="list-style: none; padding-left: 0; margin: 0;">
+                                <li style="padding: 10px 0;">
+                                    <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109160030_wnFy98.png">
+                                    <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
+                                        預約時間
+                                    </p>
+                                    <p style=" font-size: 15px; color: #103F93; padding: 0px 0; margin: 0; display: inline-block;">
+                                        {{ $reservationDatetime->format('m月 d日') }} {{ $reservationDatetime->format('H:i') }}
+                                    </p>
+                                </li>
+                                <li style="padding: 10px 0;">
+                                    <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109160044_xacExA.png">
+                                    <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
+                                        服務類型
+                                    </p>
+                                    <p style=" font-size: 15px; color: #103F93; padding: 0px 0; margin: 0; display: inline-block;">
+                                        {{ $order->orderServiceItem->serviceType?->name ?? '' }} ({{ $order->orderServiceItem->serviceItem?->serviceCategory?->name }})
+                                    </p>
+                                </li>
+                                <li style="padding: 10px 0;">
+                                    <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109155651_41IYqP.png">
+                                    <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
+                                        服務項目
+                                    </p>
+                                    <p style=" font-size: 15px; color: #103F93; padding: 0px 0; margin: 0; display: inline-block;">
+                                        {{ $order->service_item_text }}
+                                    </p>
+                                </li>
+                                <li style="padding: 10px 0;">
+                                    <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109160108_d2OLLi.png">
+                                    <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
+                                        加購項目
+                                    </p>
+                                    <p style=" font-size: 15px; color: #103F93; padding: 0px 0; margin: 0; display: inline-block;">
+                                        {{ $order->addon_item_text }}
+                                    </p>
+                                </li>
+                            </ul>
+                            <hr>
+                            <center>
+                            <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
+                            總計：{{ number_format($order->orderServiceItem->amount) }}元
+                            </p>
+                            </center>
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td bgcolor="#ffffff" style="padding:15px; border-radius: 5px;">
                         <ul style="list-style: none; padding-left: 0; margin: 0;">
                             <li style="padding: 10px 0;">
+                                @if ($store->main_food_type_id == 1)
                                 <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-phone.png"
+                                @else
+                                <img src="https://storage.googleapis.com/joymap-store/twdd/20251109205847_DVVidq.png"
+                                @endif
                                      alt="phone icon">
                                 <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
                                     {{ $store->phone }}
                                 </p>
                             </li>
                             <li style="padding: 10px 0;">
+                                @if ($store->main_food_type_id == 1)
                                 <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-address.png"
+                                @else
+                                <img src="https://storage.googleapis.com/joymap-store/twdd/20251109210424_CYu2Rt.png"
+                                @endif
                                      alt="address icon">
                                 <a title="店家地址"
                                    style="font-size: 15px; color: #2f2f2f; margin: 0; display: inline-block; text-decoration: none;"
@@ -146,7 +208,11 @@
                             </li>
                             @if($store->website)
                                 <li style="padding: 10px 0;">
+                                    @if ($store->main_food_type_id == 1)
                                     <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-link.png"
+                                    @else
+                                    <img src="https://storage.googleapis.com/joymap-store/twdd/20251109210427_eymMYZ.png"
+                                    @endif
                                          alt="link icon">
                                     <a title="店家連結"
                                        style="font-size: 15px; color: #2f2f2f; margin: 0; display: inline-block; text-decoration: none;"
@@ -158,11 +224,15 @@
                         </ul>
                         <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
                             <a href="{{ $order->info_url }}" title="查看詳細資訊"
+                               @if ($store->main_food_type_id == 1)
                                style="font-size: 17px; width: 245px; height: 50px; line-height: 50px; color: #ffffff; background: #fa6c3e; border:none; border-radius: 5px; text-decoration: none; display: inline-block;">查看詳細資訊</a>
+                               @else
+                               style="font-size: 17px; width: 245px; height: 50px; line-height: 50px; color: #ffffff; background: #103F93; border:none; border-radius: 5px; text-decoration: none; display: inline-block;">查看詳細資訊</a>
+                               @endif
                         </div>
                     </td>
                 </tr>
-
+                @if ($store->main_food_type_id == 1)
                 <tr>
                     <td style="padding: 0;">
                         <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
@@ -174,7 +244,7 @@
                         </a>
                     </td>
                 </tr>
-
+                @endif
             </table>
         </td>
     </tr>

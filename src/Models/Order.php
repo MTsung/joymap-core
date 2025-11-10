@@ -253,7 +253,11 @@ class Order extends Model
      */
     public function getInfoUrlAttribute(): string
     {
-        return config('joymap.domain.www') . '/booking-result/' . $this->id;
+        if ($this->store->main_food_type_id == 1){
+            return config('joymap.domain.www') . '/booking-result/' . $this->id;
+        }
+
+        return config('joymap.domain.www') . '/life_store/#/order_detail/' . $this->uuid;
     }
 
     /**
