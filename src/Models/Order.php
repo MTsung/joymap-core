@@ -352,7 +352,7 @@ class Order extends Model
         $serviceItemData = $orderServiceItem->service_item_data;
         if (isset($serviceItemData['service_item']['name'])) {
             $name = $serviceItemData['service_item']['name'];
-            $amount = isset($serviceItemData['service_item']['amount']) ? (int)$serviceItemData['service_item']['amount'] : 0;
+            $amount = isset($serviceItemData['amount']) ? (int)$serviceItemData['amount'] : 0;
             return $amount > 0 ? "{$name}（" . number_format($amount) . "元）" : $name;
         }
 
