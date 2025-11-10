@@ -179,7 +179,7 @@
                                     @if ($store->main_food_type_id == 1)
                                         <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-phone.png"
                                     @else
-                                        <img src="https://storage.googleapis.com/joymap-store/twdd/20251109205847_DVVidq.png"
+                                        <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109205847_DVVidq.png"
                                      @endif
                                      alt="phone icon">
                                     <p style=" font-size: 15px; color: #2f2f2f ;padding: 0px 0; margin: 0 ; display: inline-block;">
@@ -190,7 +190,7 @@
                                     @if ($store->main_food_type_id == 1)
                                         <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-address.png"
                                     @else
-                                        <img src="https://storage.googleapis.com/joymap-store/twdd/20251109210424_CYu2Rt.png"
+                                        <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109210424_CYu2Rt.png"
                                      @endif
                                      alt="address icon">
                                     <a title="店家地址"
@@ -204,7 +204,7 @@
                                         @if ($store->main_food_type_id == 1)
                                             <img src="https://storage.googleapis.com/joymap-store/logo/a-normal-store-link.png"
                                         @else
-                                            <img src="https://storage.googleapis.com/joymap-store/twdd/20251109210427_eymMYZ.png"
+                                            <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251109210427_eymMYZ.png"
                                          @endif
                                          alt="link icon">
                                         <a title="店家連結"
