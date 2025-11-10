@@ -55,6 +55,7 @@ class UpdateOrderService
         string $storeComment,
         array  $tagIds,
         array  $tableIds,
+        bool   $forceRunEvent = false,
     ): void
     {
         if (is_null($this->user)) {
@@ -91,7 +92,7 @@ class UpdateOrderService
             throw new Exception('該預約狀態不可修改', 422);
         }
 
-        $runEvent = $order->adult_num != $adultNum || $order->child_num != $childNum ||
+        $runEvent = $forceRunEvent || $order->adult_num != $adultNum || $order->child_num != $childNum ||
             $order->reservation_datetime != $reservationDatetime;
 
         DB::transaction(function () use ($order, $adultNum, $childNum, $childSeatNum, $reservationDatetime, $goalId, $storeComment, $tagIds, $tableIds) {

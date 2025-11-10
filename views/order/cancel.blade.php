@@ -170,6 +170,7 @@
                             @endif
                         </td>
                     </tr>
+                    @if ($store->main_food_type_id == 1)
                     <tr>
                         <td style="padding: 0;">
                             <a href="https://onelink.to/joymap0509" target="_blank" style="display: block; text-decoration: none;">
@@ -181,6 +182,7 @@
                             </a>
                         </td>
                     </tr>
+                    @endif
                 </table>
             </td>
         </tr>
