@@ -2,14 +2,17 @@
 
 namespace Mtsung\JoymapCore\Events\Order;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Mtsung\JoymapCore\Models\Order;
 
-class OrderSuccessEvent
+class OrderSuccessEvent implements ShouldQueue
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, SerializesModels, Queueable;
 
     public Order $order;
 

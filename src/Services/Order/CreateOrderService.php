@@ -305,7 +305,7 @@ class CreateOrderService
             return $order;
         });
 
-        event(new OrderSuccessEvent($order->refresh()));
+        event((new OrderSuccessEvent($order->refresh()))->delay(Carbon::now()->addSeconds(3)));
 
         return $order;
     }
