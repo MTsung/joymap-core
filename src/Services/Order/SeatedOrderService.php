@@ -71,7 +71,7 @@ class SeatedOrderService
             throw new Exception('該預約狀態不可轉為入座', 422);
         }
 
-        if (Carbon::now() < $order->reservation_datetime->subMinutes(30)) {
+        if (Carbon::now() < $order->reservation_datetime->subMinutes(60)) {
             throw new Exception('尚未到達可入座時間', 422);
         }
 
