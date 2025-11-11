@@ -4,6 +4,7 @@ namespace Mtsung\JoymapCore\Services\PushNotification\Member\Order;
 
 use Exception;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
+use Mtsung\JoymapCore\Models\MainFoodType;
 use Mtsung\JoymapCore\Models\Member;
 use Mtsung\JoymapCore\Models\Order;
 
@@ -34,6 +35,10 @@ class SendOrderSuccessPushNotificationService extends OrderAbstract
     public function asListener(OrderSuccessEvent $event): bool
     {
         if ($event->order->type != Order::TYPE_RESERVE) {
+            return true;
+        }
+
+        if ($event->order->store->main_food_type_id == MainFoodType::ID_SERVICE) {
             return true;
         }
 
