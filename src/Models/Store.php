@@ -27,6 +27,7 @@ use stdClass;
  * @property bool is_hot
  * @property bool is_new
  * @property bool can_use_designated_driver
+ * @property string booking_url
  *
  * @method Builder foodTypeIn(array $ids)
  * @method Builder foodTypeLikeName(string $name)
@@ -646,5 +647,18 @@ class Store extends Model
             ->where('store_subscription_period.period_start_at', '<=', Carbon::now())
             ->where('store_subscription_period.period_end_at', '>=', Carbon::now())
             ->exists();
+    }
+
+    /**
+     * booking_url
+     * @return string
+     */
+    public function getBookingUrlAttribute(): string
+    {
+        if ($this->main_food_type_id == MainFoodType::ID_FOOD){
+            return config('joymap.domain.www') . '/store/' . $this->slug;
+        }
+
+        return config('joymap.domain.www') . '/life_store/#/' . $this->slug;
     }
 }

@@ -253,7 +253,7 @@ class Order extends Model
      */
     public function getInfoUrlAttribute(): string
     {
-        if ($this->store->main_food_type_id == 1){
+        if ($this->store->main_food_type_id == MainFoodType::ID_FOOD){
             return config('joymap.domain.www') . '/booking-result/' . $this->id;
         }
 
