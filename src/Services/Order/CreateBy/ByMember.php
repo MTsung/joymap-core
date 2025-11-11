@@ -82,7 +82,7 @@ class ByMember implements CreateOrderInterface
         $checkValues = [$createOrderService->store->id, $createOrderService->member->id];
 
         if ($query->whereRowValues($checkCols, '=', $checkValues)->exists()) {
-            throw new Exception('因預約記錄多次缺席，如欲預約請致電餐廳', 422100);
+            throw new Exception('因預約記錄多次缺席，如欲預約請致電店家', 422100);
         }
 
         // 同一時間重複預約
@@ -95,7 +95,7 @@ class ByMember implements CreateOrderInterface
             );
 
             if ($hasRepeatOrder) {
-                throw new Exception('重複預約，如欲預約請致電餐廳', 422101);
+                throw new Exception('重複預約，如欲預約請致電店家', 422101);
             }
         }
 

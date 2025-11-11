@@ -39,7 +39,7 @@ class ByMember implements UpdateOrderInterface
             );
 
             if ($hasRepeatOrder) {
-                throw new Exception('預約時間重複，如欲預約請致電餐廳', 422101);
+                throw new Exception('預約時間重複，如欲預約請致電店家', 422101);
             }
         }
 
