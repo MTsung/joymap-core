@@ -21,7 +21,7 @@ class SendOrderRemindMailService extends MailAbstract
      */
     public function handle(Order $order): bool
     {
-        $email = $order->member->email;
+        $email = $order->email ?? $order->member->email;
 
         if ($order->store->main_food_type_id == MainFoodType::ID_SERVICE) {
             return $this->send($email, new OrderServiceRemind($order));

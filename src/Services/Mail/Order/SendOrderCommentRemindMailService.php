@@ -19,7 +19,7 @@ class SendOrderCommentRemindMailService extends MailAbstract
      */
     public function handle(Order $order): bool
     {
-        $email = $order->member->email;
+        $email = $order->email ?? $order->member->email;
 
         return $this->send($email, new OrderCommentRemind($order));
     }
