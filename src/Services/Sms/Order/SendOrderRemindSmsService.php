@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Models\Order;
+use Mtsung\JoymapCore\Models\ShortUrl;
 use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
 
@@ -30,7 +31,7 @@ class SendOrderRemindSmsService extends SmsAbstract
             'date' => $order->reservation_datetime->format('m/d'),
             'time' => $order->reservation_datetime->format('H:i'),
             'week' => __('joymap::week.abbr.' . $order->reservation_datetime->dayOfWeek),
-            'url' => $order->info_url,
+            'url' => ShortUrl::add($order->info_url),
         ]);
     }
 

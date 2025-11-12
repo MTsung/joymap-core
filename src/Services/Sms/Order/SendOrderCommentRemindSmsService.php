@@ -6,6 +6,7 @@ use Exception;
 use Mtsung\JoymapCore\Enums\SmsToTypeEnum;
 use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Models\Order;
+use Mtsung\JoymapCore\Models\ShortUrl;
 use Mtsung\JoymapCore\Services\Sms\SmsAbstract;
 
 
@@ -26,7 +27,7 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
 
         return __('joymap::sms.order.comment_remind', [
             'member' => $order->name,
-            'url' => $order->info_url,
+            'url' => ShortUrl::add($order->info_url),
         ]);
     }
 
