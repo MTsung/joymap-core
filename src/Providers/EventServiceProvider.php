@@ -57,7 +57,6 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         // 系統提醒
         SendNotifyEvent::class => [
-            LineListener::class,
             DiscordListener::class,
         ],
         // 預約成功
