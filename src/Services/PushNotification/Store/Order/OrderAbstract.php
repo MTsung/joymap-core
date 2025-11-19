@@ -5,6 +5,8 @@ namespace Mtsung\JoymapCore\Services\PushNotification\Store\Order;
 
 use Carbon\Carbon;
 use Mtsung\JoymapCore\Enums\PushNotificationToTypeEnum;
+use Mtsung\JoymapCore\Models\MainFoodType;
+use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Services\PushNotification\PushNotificationAbstract;
 
 abstract class OrderAbstract extends PushNotificationAbstract
@@ -16,9 +18,15 @@ abstract class OrderAbstract extends PushNotificationAbstract
 
     public function body(): string
     {
+        /** @var Order $order */
         $order = $this->arguments;
 
-        return __('joymap::notification.order.body_to_store', [
+        $key = 'joymap::notification.order.body_to_store';
+        if ($order->store->main_food_type_id == MainFoodType::ID_SERVICE) {
+            $key = 'joymap::notification.order.body_to_store_service';
+        }
+
+        return __($key, [
             'name' => $order->name,
             'gender' => ($order->gender == 0) ? '小姐' : '先生',
             'date' => Carbon::parse($order->reservation_date)->format('Y/m/d'),

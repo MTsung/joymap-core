@@ -27,6 +27,7 @@ return [
         ],
         'body' => '預約時間(:datetime) • :people位',
         'body_to_store' => ':name:gender．:date :week :time．:adult_num大:child_num小',
+        'body_to_store_service' => ':name:gender．:date :week :time',
     ],
     'pay' => [
         'title' => '感謝您的光臨，:store_name，邀請您留下評論',
