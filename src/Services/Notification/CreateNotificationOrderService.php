@@ -2,7 +2,6 @@
 
 namespace Mtsung\JoymapCore\Services\Notification;
 
-use Carbon\Carbon;
 use Exception;
 use Mtsung\JoymapCore\Action\AsObject;
 use Mtsung\JoymapCore\Events\Order\OrderCancelEvent;
@@ -10,6 +9,7 @@ use Mtsung\JoymapCore\Events\Order\OrderCommentRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
+use Mtsung\JoymapCore\Models\MainFoodType;
 use Mtsung\JoymapCore\Models\NotificationOrder;
 use Mtsung\JoymapCore\Models\Order;
 use Mtsung\JoymapCore\Repositories\Notification\NotificationOrderRepository;
@@ -25,10 +25,9 @@ class CreateNotificationOrderService
 
     public function __construct(
         private NotificationOrderRepository $notificationOrderRepository,
-        private OrderRepository             $orderRepository,
-        private PayLogRepository            $payLogRepository,
-    )
-    {
+        private OrderRepository $orderRepository,
+        private PayLogRepository $payLogRepository,
+    ) {
     }
 
     /**
@@ -51,6 +50,10 @@ class CreateNotificationOrderService
         $order = $event->order;
 
         if ($order->type != Order::TYPE_RESERVE) {
+            return;
+        }
+
+        if ($order->store->main_food_type_id == MainFoodType::ID_SERVICE) {
             return;
         }
 
