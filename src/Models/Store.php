@@ -148,6 +148,11 @@ class Store extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function payLogs(): HasMany
+    {
+        return $this->hasMany(PayLog::class);
+    }
+
     public function orderSettings(): HasOne
     {
         return $this->hasOne(OrderSetting::class);
