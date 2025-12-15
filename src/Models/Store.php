@@ -671,4 +671,20 @@ class Store extends Model
 
         return config('joymap.domain.www') . '/life_store/#/' . $this->slug;
     }
+
+    /**
+     * 指定時間是否為優惠時段
+     * @param Carbon $date
+     * @param string $time
+     * @return bool
+     */
+    public function isInOrderDiscountHour(Carbon $date): bool
+    {
+        return $this->orderDiscountHourSettings
+            ->where('week', $date->dayOfWeek)
+            ->where('is_open', 1)
+            ->where('begin_time', '<=', $date->toTimeString())
+            ->where('end_time', '>', $date->toTimeString())
+            ->isNotEmpty();
+    }
 }
