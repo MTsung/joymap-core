@@ -173,7 +173,7 @@
                             <hr>
                             <center>
                             <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
-                            總計：<p style='color:#c4c4c4'><del>{{ $order->orderServiceItem->discount == 1 ? '' : number_format($order->orderServiceItem->original_amount) }}</del></p> {{ number_format($order->orderServiceItem->amount) }}元
+                            總計：<span style='color:#c4c4c4'><del>{{ $order->orderServiceItem->discount == 1 ? '' : number_format($order->orderServiceItem->original_amount) }}</del></span> {{ number_format($order->orderServiceItem->amount) }}元
                             </p>
                             </center>
                         </td>
