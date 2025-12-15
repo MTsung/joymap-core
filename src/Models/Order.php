@@ -353,7 +353,13 @@ class Order extends Model
         if (isset($serviceItemData['service_item']['name'])) {
             $name = $serviceItemData['service_item']['name'];
             $amount = isset($serviceItemData['amount']) ? (int)$serviceItemData['amount'] : 0;
-            return $amount > 0 ? "{$name}（" . number_format($amount) . "元）" : $name;
+            $originalAmount = '';
+            if ($orderServiceItem->discount < 1) {
+                $originalAmount = "<p style='color:#c4c4c4'><del class='text-muted mr-1'>" .
+                    number_format(round($amount * $orderServiceItem->discount)) .
+                    "</del></p>";
+            }
+            return $amount > 0 ? "{$name}（" . $originalAmount . " " . number_format($amount) . "元）" : $name;
         }
 
         return '-';

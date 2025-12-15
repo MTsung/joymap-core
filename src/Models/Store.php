@@ -213,6 +213,11 @@ class Store extends Model
         return $this->hasMany(OrderHourSetting::class);
     }
 
+    public function orderDiscountHourSettings(): HasMany
+    {
+        return $this->hasMany(OrderDiscountHourSetting::class);
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
