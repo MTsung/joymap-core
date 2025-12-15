@@ -357,9 +357,9 @@ class Order extends Model
             if ($orderServiceItem->discount < 1) {
                 $originalAmount = "<p style='color:#c4c4c4'><del class='text-muted mr-1'>" .
                     number_format(round($amount * $orderServiceItem->discount)) .
-                    "</del></p>";
+                    "</del></p> ";
             }
-            return $amount > 0 ? "{$name}（" . $originalAmount . " " . number_format($amount) . "元）" : $name;
+            return $amount > 0 ? "{$name}（" . $originalAmount . number_format($amount) . "元）" : $name;
         }
 
         return '-';
