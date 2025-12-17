@@ -37,7 +37,7 @@
                     {{ $order->addon_item_text }}
                 </p>
             </li>
-            @if ($order->serviceItem->delivery_type == \Mtsung\JoymapCore\Models\OrderServiceItem::DELIVERY_TYPE_DELIVERY && $order->orderDesignatedDriver)
+            @if ($order->orderServiceItem->delivery_type == \Mtsung\JoymapCore\Models\OrderServiceItem::DELIVERY_TYPE_DELIVERY && $order->orderDesignatedDriver)
                 <li style="padding: 10px 0;">
                     <img width="17" height="17" src="https://storage.googleapis.com/joymap-store/twdd/20251217100621_zMjAUc.png">
                     <p style=" font-size: 15px; color: #2f2f2f; padding: 0px 0; margin: 0; display: inline-block;">
