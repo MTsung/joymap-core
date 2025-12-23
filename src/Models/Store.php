@@ -684,7 +684,7 @@ class Store extends Model
             ->where('week', $date->dayOfWeek)
             ->where('is_open', 1)
             ->where('begin_time', '<=', $date->toTimeString())
-            ->where('end_time', '>', $date->toTimeString())
+            ->where('end_time', '>=', $date->toTimeString())
             ->isNotEmpty();
     }
 }
