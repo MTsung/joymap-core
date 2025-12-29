@@ -21,17 +21,17 @@ class Discord
             $url = '/channels/' . ($channelId ?: config('joymap.discord_notify.channel_id')) . '/messages';
             $header = ['Content-Type: multipart/form-data'];
             if ($tagId) {
-                $data['content'] = sprintf("> # %s\n> 【%s】\n<@&%s>\n```\n%s```",
+                $data['content'] = sprintf("```\n%s```\n> # %s\n> 【%s】\n<@&%s>",
+                    $message,
                     env('APP_ENV'),
                     env('APP_NAME'),
-                    $tagId,
-                    $message
+                    $tagId
                 );
             } else {
-                $data['content'] = sprintf("> # %s\n> 【%s】\n```\n%s```",
+                $data['content'] = sprintf("```\n%s```\n> # %s\n> 【%s】",
+                    $message,
                     env('APP_ENV'),
-                    env('APP_NAME'),
-                    $message
+                    env('APP_NAME')
                 );
             }
             self::curl($token, $url, 'POST', $data, [], $header);
