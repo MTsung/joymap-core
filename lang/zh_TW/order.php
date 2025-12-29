@@ -22,6 +22,11 @@ return [
         Order::FROM_SOURCE_TW_AUTHORIZATION => 'TW 授權',
         Order::FROM_SOURCE_GOOGLE_BOOKING => 'Google預約',
     ],
+    'type' => [
+        Order::TYPE_RESERVE => '預約',
+        Order::TYPE_ONSITE_WAIT => '現場候位',
+        Order::TYPE_ONSITE_SEAT => '現場入座',
+    ],
     //訂單Log 操作者
     'order_time_log_create_by' => [
         'order_time' => '會員',
