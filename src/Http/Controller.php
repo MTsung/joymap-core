@@ -48,6 +48,7 @@ class Controller extends BaseController
             'code' => 1,
             'msg' => $msg,
             'return' => $return,
+            'html' => '', // TODO: APP 更版後移除
         ]));
     }
 

@@ -20,6 +20,7 @@ class ApiResource extends JsonResource
             'code' => $this->resource['code'] ?? 0,
             'msg' => $this->resource['msg'] ?? '',
             'return' => $this->resource['return'] ?? new stdClass(),
+            'html' => $this->resource['html'] ?? '', // TODO: APP 更版後移除
         ];
     }
 }
