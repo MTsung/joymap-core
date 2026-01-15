@@ -10,9 +10,6 @@ use Mtsung\JoymapCore\Models\Store;
 use Mtsung\JoymapCore\Traits\DateTrait;
 
 
-/**
- * @method static Collection run(Store $store, Carbon[] $calDateRange = [])
- */
 class GetBusinessTimeService
 {
     use AsObject, DateTrait;
@@ -27,6 +24,11 @@ class GetBusinessTimeService
 
     // 特殊日
     public Collection $specialBusinessTimesSetting;
+
+    public static function run(Store $store, array $calDateRange = []): Collection
+    {
+        return static::make()->handle($store, $calDateRange);
+    }
 
     /**
      * @param Store $store

@@ -128,6 +128,11 @@ class Store extends Model
         ]);
     }
 
+    public function storeGroup(): BelongsTo
+    {
+        return $this->belongsTo(StoreGroup::class);
+    }
+
     public function restriction(): BelongsTo
     {
         return $this->belongsTo(StoreRestriction::class, 'store_restriction_id', 'id');
@@ -407,6 +412,11 @@ class Store extends Model
         return $this->hasMany(ServiceCategory::class);
     }
 
+    public function storeStatus(): HasOne
+    {
+        return $this->hasOne(StoreStatus::class);
+    }
+
     // foodTypeIn($ids)
     public function scopeFoodTypeIn(Builder $query, array $ids): Builder
     {
@@ -541,6 +551,11 @@ class Store extends Model
      */
     public function getBusinessStatusNowAttribute(): int
     {
+        if (isset($this->storeStatus) &&
+            (Carbon::now()->subMinute() < Carbon::parse($this->storeStatus->updated_at))) {
+            return $this->storeStatus->status;
+        }
+
         $now = Carbon::now();
 
         $businessTime = Cache::remember(
@@ -569,6 +584,11 @@ class Store extends Model
      */
     public function getBusinessStatusNowTextAttribute(): string
     {
+        if (isset($this->storeStatus) &&
+            (Carbon::now()->subMinute() < Carbon::parse($this->storeStatus->updated_at))) {
+            return $this->storeStatus->status_text;
+        }
+
         $now = Carbon::now();
 
         $businessTime = Cache::remember(

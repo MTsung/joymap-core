@@ -3,6 +3,7 @@
 namespace Mtsung\JoymapCore\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User;
 use Mtsung\JoymapCore\Traits\SerializeDateTrait;
 use Spatie\Permission\Traits\HasRoles;
@@ -23,4 +24,8 @@ class AdminUser extends User
         return $this->getPermissionsViaRoles()->pluck('name')->toArray();
     }
 
+    public function storeGroup(): BelongsTo
+    {
+        return $this->belongsTo(StoreGroup::class);
+    }
 }
