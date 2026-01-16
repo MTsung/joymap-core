@@ -45,6 +45,7 @@ class OrderRepository implements RepositoryInterface
                 $query->where('id', '!=', $ignoreId);
             })
             ->whereRowValues($checkCols, '=', $checkValues)
+            ->whereNotIn('status', Order::CANCEL)
             ->exists();
     }
 
