@@ -1,12 +1,11 @@
 <?php
 
-namespace Mtsung\JoymapCore\Listeners\ErrorNotify;
+namespace Mtsung\JoymapCore\Listeners\Notify;
 
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
 use Mtsung\JoymapCore\Facades\Notification\DiscordNotification;
-use Mtsung\JoymapCore\Facades\Notification\LineNotification;
 
 class DiscordListener implements ShouldQueue
 {

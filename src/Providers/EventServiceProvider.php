@@ -17,11 +17,11 @@ use Mtsung\JoymapCore\Events\Order\OrderRemindEvent;
 use Mtsung\JoymapCore\Events\Order\OrderSuccessEvent;
 use Mtsung\JoymapCore\Events\Order\OrderUpdateEvent;
 use Mtsung\JoymapCore\Events\Pay\PaySuccessEvent;
-use Mtsung\JoymapCore\Listeners\ErrorNotify\DiscordListener;
-use Mtsung\JoymapCore\Listeners\ErrorNotify\LineListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreFloor\StoreFloorDeletingListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableCreatedListener;
 use Mtsung\JoymapCore\Listeners\Model\StoreTable\StoreTableDeletingListener;
+use Mtsung\JoymapCore\Listeners\Notify\DiscordListener;
+use Mtsung\JoymapCore\Listeners\Notify\SlackListener;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCancelMailService;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderCommentRemindMailService;
 use Mtsung\JoymapCore\Services\Mail\Order\SendOrderRemindMailService;
@@ -58,6 +58,7 @@ class EventServiceProvider extends ServiceProvider
         // 系統提醒
         SendNotifyEvent::class => [
             DiscordListener::class,
+            SlackListener::class,
         ],
         // 預約成功
         OrderSuccessEvent::class => [

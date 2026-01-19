@@ -1,13 +1,13 @@
 <?php
 
-namespace Mtsung\JoymapCore\Listeners\ErrorNotify;
+namespace Mtsung\JoymapCore\Listeners\Notify;
 
 use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mtsung\JoymapCore\Events\Notify\SendNotifyEvent;
-use Mtsung\JoymapCore\Facades\Notification\LineNotification;
+use Mtsung\JoymapCore\Facades\Notification\SlackNotification;
 
-class LineListener implements ShouldQueue
+class SlackListener implements ShouldQueue
 {
     /**
      * Handle the event.
@@ -18,6 +18,6 @@ class LineListener implements ShouldQueue
      */
     public function handle(SendNotifyEvent $event): void
     {
-        LineNotification::sendMsg($event->message, !isProd());
+        SlackNotification::sendMsg($event->message);
     }
 }
