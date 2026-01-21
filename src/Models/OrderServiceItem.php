@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+
+/**
+ * @property string full_address
+ */
 class OrderServiceItem extends Model
 {
     use HasFactory;
@@ -75,5 +79,29 @@ class OrderServiceItem extends Model
     public function orderDesignatedDriver(): HasOne
     {
         return $this->hasOne(OrderDesignatedDriver::class, 'order_id', 'order_id');
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
+    }
+
+    /**
+     * full_address
+     * 交車地點
+     * @return string
+     */
+    public function getFullAddressAttribute(): string
+    {
+        if (isset($this->city_id, $this->district_id, $this->address)) {
+            return $this->city->name . $this->district->name . $this->address;
+        }
+
+        return '';
     }
 }

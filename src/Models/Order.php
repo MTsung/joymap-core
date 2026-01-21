@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
  * @property ?Collection member_tag_names
  * @property String service_item_text
  * @property String addon_item_text
+ * @property Carbon delivery_at
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -386,6 +387,20 @@ class Order extends Model
         }
 
         return implode('、', $addonTexts) ?: '-';
+    }
+
+    /**
+     * delivery_at
+     * 交車時間
+     * @return Carbon
+     */
+    public function getDeliveryAtAttribute(): Carbon
+    {
+        return $this->reservation_datetime
+            ->copy()
+            ->subSeconds($this->orderServiceItem?->duration ?? 0)
+            ->subMinutes(10) // 緩衝
+            ->floorMinute(5);
     }
 
     /**
