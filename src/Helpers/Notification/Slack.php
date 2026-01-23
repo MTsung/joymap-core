@@ -22,12 +22,15 @@ class Slack
             $client = new Client(['timeout' => 30]);
             $params = [
                 'json' => [
-                    'text' => sprintf(
-                        "```%s```\n> # %s\n> 【%s】",
-                        $message,
-                        env('APP_ENV'),
-                        env('APP_NAME')
-                    ),
+                    'attachments' => [
+                        [
+                            'color' => isProd() ? '#FF0000' : '#858585',
+                            'title' => sprintf('%s 【%s】', env('APP_ENV'), env('APP_NAME')),
+                            'text' => '```' . $message . '```',
+                            'mrkdwn_in' => ['text', 'pretext', 'fields'],
+                            'ts' => time(),
+                        ],
+                    ],
                 ],
             ];
             $client->post($webhookUrl, $params);
