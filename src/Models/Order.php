@@ -258,7 +258,7 @@ class Order extends Model
             return config('joymap.domain.www') . '/booking-result/' . $this->uuid;
         }
 
-        return config('joymap.domain.www') . '/life_store/#/order_detail/' . $this->uuid;
+        return config('joymap.domain.www') . '/life_store/order_detail/' . $this->uuid;
     }
 
     /**

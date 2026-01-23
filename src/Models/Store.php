@@ -689,7 +689,7 @@ class Store extends Model
             return config('joymap.domain.www') . '/store/' . $this->slug;
         }
 
-        return config('joymap.domain.www') . '/life_store/#/' . $this->slug;
+        return config('joymap.domain.www') . '/life_store/' . $this->slug;
     }
 
     /**
