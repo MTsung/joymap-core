@@ -32,6 +32,7 @@ use Throwable;
  * @property bool has_identity
  * @property string full_phone
  * @property array login_type
+ * @property string|null plate_number
  *
  * @method Builder active()
  */
@@ -603,6 +604,20 @@ class Member extends User implements JWTSubject
         if (!$user instanceof StoreUser) return null;
 
         return $this->storeOrderBlacklist()->where('store_id', $user->store_id)->first()?->created_at;
+    }
+
+    /**
+     * plate_number
+     */
+    public function getPlateNumberAttribute(): ?string
+    {
+        return $this->orderServiceItem()
+            ->where('member_id', $this->id)
+            ->whereNotNull('comment')
+            ->where('comment', '!=', '')
+            ->orderBy('id', 'desc')
+            ->first()
+            ?->comment;
     }
 
     public function scopeLotteryDrawNumByType($query, int $lotteryType): int
