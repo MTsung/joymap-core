@@ -53,6 +53,7 @@ class StoreTableCombinationRepository implements RepositoryInterface
      * @param int $people 人數
      * @param bool $onlyOnline 只找可線上預約的桌位
      * @param int $combinationId 指定桌位
+     * @param int $excludeOrderId 要排除的訂單 ID
      * @return StoreTableCombination|null
      */
     public function getAvailableTable(
@@ -60,7 +61,8 @@ class StoreTableCombinationRepository implements RepositoryInterface
         Carbon $reservationDatetime,
         int    $people,
         bool   $onlyOnline = false,
-        int    $combinationId = 0
+        int    $combinationId = 0,
+        int    $excludeOrderId = 0
     ): StoreTableCombination|null
     {
         // 用餐時間
@@ -81,7 +83,7 @@ class StoreTableCombinationRepository implements RepositoryInterface
             ->when($onlyOnline, function ($query) {
                 $query->where('store_table_combinations.can_book_online', 1);
             })
-            ->whereNotExists(function ($query) use ($store, $beginTime, $endTime, $checkOrderTime) {
+            ->whereNotExists(function ($query) use ($store, $beginTime, $endTime, $checkOrderTime, $excludeOrderId) {
                 $query->from('orders')
                     ->where('orders.store_id', $store->id)
                     ->whereIn('orders.status', Order::TABLE_USING)
@@ -89,6 +91,9 @@ class StoreTableCombinationRepository implements RepositoryInterface
                     ->where('orders.begin_time', '>', $checkOrderTime)
                     ->where('orders.begin_time', '<', $endTime)
                     ->where('orders.end_time', '>', $beginTime)
+                    ->when($excludeOrderId > 0, function ($query) use ($excludeOrderId) {
+                        $query->where('orders.id', '!=', $excludeOrderId);
+                    })
                     ->whereRaw('JSON_CONTAINS(
                         store_table_combinations.relation_ids,
                         CONVERT(orders.store_table_combination_id,CHAR),

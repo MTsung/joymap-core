@@ -139,6 +139,8 @@ class WriteStoreFloorTableCombinationService
                     Carbon::parse($order->begin_time),
                     $people,
                     $order->from_source != Order::FROM_SOURCE_RESTAURANT_BOOKING,
+                    0,
+                    $order->id,
                 );
 
                 Log::info(__METHOD__ . ' 找不同名 table:', [$table]);
