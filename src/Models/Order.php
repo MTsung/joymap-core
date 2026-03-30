@@ -258,6 +258,10 @@ class Order extends Model
             return config('joymap.domain.www') . '/booking-result/' . $this->uuid;
         }
 
+        if ($this->from_source == self::FROM_SOURCE_GOOGLE_BOOKING) {
+            return config('joymap.domain.www') . '/life_store/map/order_detail/' . $this->uuid;
+        }
+
         return config('joymap.domain.www') . '/life_store/order_detail/' . $this->uuid;
     }
 
