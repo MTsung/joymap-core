@@ -108,21 +108,39 @@ class GetStoreCanOrderTimeService
         $specialDate = $this->specialBusinessTimesSetting->pluck('special_date');
         $res = $res->whereNotIn('date', $specialDate);
 
-        // 加上特殊營業日時間
+        // 加上特殊營業日時間（需與原本可預約時段取交集）
         $specialOpenDate = $this->specialBusinessTimesSetting->where('is_open', 1);
         foreach ($specialOpenDate as $specialBusinessTime) {
-            $beginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->begin_time);
-            $endTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->end_time);
-            if ($beginTime > $endTime) $endTime->addDay();
+            $specialBeginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->begin_time);
+            $specialEndTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->end_time);
+            if ($specialBeginTime > $specialEndTime) $specialEndTime->addDay();
 
-            for ($now = $beginTime->copy(); $now <= $endTime; $now->addMinutes($this->orderSetting->order_unit_minute)) {
-                $res[] = [
-                    'store_id' => $this->store->id,
-                    'date' => $specialBusinessTime->special_date,
-                    'week' => $specialBusinessTime->week,
-                    'begin_time' => $now->toDateTimeString(),
-                    'end_time' => $now->copy()->addMinutes($this->restrictionMin)->toDateTimeString(),
-                ];
+            // 取得該天對應星期的預約時段設定
+            $ohs = $this->orderHourSettings->where('week', $specialBusinessTime->week);
+
+            foreach ($ohs as $orderHourSetting) {
+                $ohBeginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->begin_time);
+                $ohEndTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->end_time);
+                if ($ohBeginTime > $ohEndTime) $ohEndTime->addDay();
+
+                // 取交集：取兩者較晚的開始時間與較早的結束時間
+                $intersectBegin = $specialBeginTime->copy()->max($ohBeginTime);
+                $intersectEnd = $specialEndTime->copy()->min($ohEndTime);
+
+                // 無交集則跳過
+                if ($intersectBegin > $intersectEnd) {
+                    continue;
+                }
+
+                for ($now = $intersectBegin->copy(); $now <= $intersectEnd; $now->addMinutes($this->orderSetting->order_unit_minute)) {
+                    $res[] = [
+                        'store_id' => $this->store->id,
+                        'date' => $specialBusinessTime->special_date,
+                        'week' => $specialBusinessTime->week,
+                        'begin_time' => $now->toDateTimeString(),
+                        'end_time' => $now->copy()->addMinutes($this->restrictionMin)->toDateTimeString(),
+                    ];
+                }
             }
         }
 
