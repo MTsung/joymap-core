@@ -16,6 +16,11 @@ class ServiceType extends Model
 
     protected $guarded = ['id'];
 
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
+    }
+
     public function mainFoodType(): BelongsTo
     {
         return $this->belongsTo(MainFoodType::class);

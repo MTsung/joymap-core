@@ -412,6 +412,11 @@ class Store extends Model
         return $this->hasMany(ServiceCategory::class);
     }
 
+    public function serviceTypes(): HasMany
+    {
+        return $this->hasMany(ServiceType::class);
+    }
+
     public function storeStatus(): HasOne
     {
         return $this->hasOne(StoreStatus::class);
