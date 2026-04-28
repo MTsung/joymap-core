@@ -108,31 +108,16 @@ class GetStoreCanOrderTimeService
         $specialDate = $this->specialBusinessTimesSetting->pluck('special_date');
         $res = $res->whereNotIn('date', $specialDate);
 
-        // 加上特殊營業日時間（需與原本可預約時段取交集）
+        // 加上特殊營業日時間
         $specialOpenDate = $this->specialBusinessTimesSetting->where('is_open', 1);
         foreach ($specialOpenDate as $specialBusinessTime) {
             $specialBeginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->begin_time);
             $specialEndTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $specialBusinessTime->end_time);
             if ($specialBeginTime > $specialEndTime) $specialEndTime->addDay();
 
-            // 取得該天對應星期的預約時段設定
-            $ohs = $this->orderHourSettings->where('week', $specialBusinessTime->week);
-
-            foreach ($ohs as $orderHourSetting) {
-                $ohBeginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->begin_time);
-                $ohEndTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->end_time);
-                if ($ohBeginTime > $ohEndTime) $ohEndTime->addDay();
-
-                // 取交集：取兩者較晚的開始時間與較早的結束時間
-                $intersectBegin = $specialBeginTime->copy()->max($ohBeginTime);
-                $intersectEnd = $specialEndTime->copy()->min($ohEndTime);
-
-                // 無交集則跳過
-                if ($intersectBegin > $intersectEnd) {
-                    continue;
-                }
-
-                for ($now = $intersectBegin->copy(); $now <= $intersectEnd; $now->addMinutes($this->orderSetting->order_unit_minute)) {
+            if ($specialBusinessTime->override_bookable_time) {
+                // 覆蓋模式：直接用特殊營業時間作為可訂位時間
+                for ($now = $specialBeginTime->copy(); $now <= $specialEndTime; $now->addMinutes($this->orderSetting->order_unit_minute)) {
                     $res[] = [
                         'store_id' => $this->store->id,
                         'date' => $specialBusinessTime->special_date,
@@ -140,6 +125,33 @@ class GetStoreCanOrderTimeService
                         'begin_time' => $now->toDateTimeString(),
                         'end_time' => $now->copy()->addMinutes($this->restrictionMin)->toDateTimeString(),
                     ];
+                }
+            } else {
+                // 非覆蓋模式：與原本可預約時段取交集，僅能縮減不能擴張
+                $ohs = $this->orderHourSettings->where('week', $specialBusinessTime->week);
+
+                foreach ($ohs as $orderHourSetting) {
+                    $ohBeginTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->begin_time);
+                    $ohEndTime = Carbon::parse($specialBusinessTime->special_date . ' ' . $orderHourSetting->end_time);
+                    if ($ohBeginTime > $ohEndTime) $ohEndTime->addDay();
+
+                    // 取交集：取兩者較晚的開始時間與較早的結束時間
+                    $intersectBegin = $specialBeginTime->copy()->max($ohBeginTime);
+                    $intersectEnd = $specialEndTime->copy()->min($ohEndTime);
+
+                    if ($intersectBegin > $intersectEnd) {
+                        continue;
+                    }
+
+                    for ($now = $intersectBegin->copy(); $now <= $intersectEnd; $now->addMinutes($this->orderSetting->order_unit_minute)) {
+                        $res[] = [
+                            'store_id' => $this->store->id,
+                            'date' => $specialBusinessTime->special_date,
+                            'week' => $specialBusinessTime->week,
+                            'begin_time' => $now->toDateTimeString(),
+                            'end_time' => $now->copy()->addMinutes($this->restrictionMin)->toDateTimeString(),
+                        ];
+                    }
                 }
             }
         }
