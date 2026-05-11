@@ -12,6 +12,7 @@ return [
             'success_to_store' => [
                 'by_user' => '您有一筆新的預約',
                 'by_store' => '您建立一筆新預約',
+                'by_motodomo' => '您有一筆來自愛車管家的新預約',
             ],
             'update' => '您在 :store_name 的預約已被修改!',
             'cancel' => [

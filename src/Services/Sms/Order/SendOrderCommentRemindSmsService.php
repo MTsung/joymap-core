@@ -36,6 +36,10 @@ class SendOrderCommentRemindSmsService extends SmsAbstract
      */
     public function asListener(OrderCommentRemindEvent $event): bool
     {
+        if ($event->order->from_source == Order::FROM_SOURCE_MOTODOMO) {
+            return true;
+        }
+
         return self::run($event->order->member?->phone, $event->order);
     }
 }

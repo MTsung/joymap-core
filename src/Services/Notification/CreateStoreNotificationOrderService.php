@@ -53,7 +53,9 @@ class CreateStoreNotificationOrderService
             $event instanceof OrderSuccessEvent =>
             $order->from_source == Order::FROM_SOURCE_RESTAURANT_BOOKING ?
                 __('joymap::notification.order.title.success_to_store.by_store') :
-                __('joymap::notification.order.title.success_to_store.by_user'),
+                ($order->from_source == Order::FROM_SOURCE_MOTODOMO ?
+                    __('joymap::notification.order.title.success_to_store.by_motodomo') :
+                    __('joymap::notification.order.title.success_to_store.by_user')),
             $event instanceof OrderCancelEvent =>
             $order->status == Order::STATUS_CANCEL_BY_STORE ?
                 __('joymap::notification.order.title.cancel_to_store.by_store') :

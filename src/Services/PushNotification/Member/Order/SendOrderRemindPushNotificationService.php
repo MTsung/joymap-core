@@ -29,6 +29,10 @@ class SendOrderRemindPushNotificationService extends OrderAbstract
      */
     public function asListener(OrderRemindEvent $event): bool
     {
+        if ($event->order->from_source == Order::FROM_SOURCE_MOTODOMO) {
+            return true;
+        }
+
         if ($event->order->store->main_food_type_id == MainFoodType::ID_SERVICE) {
             return true;
         }

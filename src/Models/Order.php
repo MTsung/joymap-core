@@ -78,6 +78,8 @@ class Order extends Model
     public const FROM_SOURCE_TW_AUTHORIZATION = 5;
     // Google預約
     public const FROM_SOURCE_GOOGLE_BOOKING = 6;
+    // 愛車管家 motodomo
+    public const FROM_SOURCE_MOTODOMO = 7;
 
     // 預約成功
     public const SUCCESS_BOOKING = [

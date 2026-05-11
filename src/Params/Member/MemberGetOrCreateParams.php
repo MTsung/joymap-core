@@ -33,6 +33,7 @@ class MemberGetOrCreateParams extends Validation
                     Member::FROM_SOURCE_JOYMAP_APP,
                     Member::FROM_SOURCE_TW_AUTHORIZATION,
                     Member::FROM_SOURCE_GOOGLE_BOOKING,
+                    Member::FROM_SOURCE_MOTODOMO,
                 ]),
             ],
             'email' => 'nullable|email',

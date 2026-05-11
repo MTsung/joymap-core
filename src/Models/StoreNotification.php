@@ -38,6 +38,8 @@ class StoreNotification extends Model
     public const STATUS_PAY = 7;
     // Google 預約
     public const STATUS_ORDER_FROM_GOOGLE = 8;
+    // 愛車管家 motodomo 預約
+    public const STATUS_ORDER_FROM_MOTODOMO = 9;
 
     public function store(): BelongsTo
     {

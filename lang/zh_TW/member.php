@@ -28,6 +28,7 @@ return [
         Member::FROM_SOURCE_JOYMAP_APP => 'Joymap_APP',
         Member::FROM_SOURCE_TW_AUTHORIZATION => 'TW 授權',
         Member::FROM_SOURCE_GOOGLE_BOOKING => 'Google預約',
+        Member::FROM_SOURCE_MOTODOMO => '愛車管家 motodomo',
     ],
     'is_foreigner' => [
         Member::IS_FOREIGNER_LOCAL => '本國人',

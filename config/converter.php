@@ -13,6 +13,7 @@ return [
                 Order::FROM_SOURCE_RESTAURANT_BOOKING => StoreNotification::STATUS_ORDER_FROM_STORE,
                 Order::FROM_SOURCE_JOYMAP_APP => StoreNotification::STATUS_ORDER_FROM_JOYMAP,
                 Order::FROM_SOURCE_GOOGLE_BOOKING => StoreNotification::STATUS_ORDER_FROM_GOOGLE,
+                Order::FROM_SOURCE_MOTODOMO => StoreNotification::STATUS_ORDER_FROM_MOTODOMO,
             ],
         ],
     ],

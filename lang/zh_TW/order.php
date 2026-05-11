@@ -21,6 +21,7 @@ return [
         Order::FROM_SOURCE_JOYMAP_APP => 'Joymap_APP',
         Order::FROM_SOURCE_TW_AUTHORIZATION => 'TW 授權',
         Order::FROM_SOURCE_GOOGLE_BOOKING => 'Google預約',
+        Order::FROM_SOURCE_MOTODOMO => '愛車管家 motodomo',
     ],
     'type' => [
         Order::TYPE_RESERVE => '預約',
