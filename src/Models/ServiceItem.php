@@ -28,6 +28,9 @@ class ServiceItem extends Model
     // 狀態
     public const STATUS_DISABLED = 0; // 停用
     public const STATUS_ENABLED = 1;  // 啟用
+    
+    // 來源（對應 Order::FROM_SOURCE_*）
+    public const SOURCE_MOTODOMO = 7; // 愛車管家
 
     public function serviceCategory(): BelongsTo
     {
