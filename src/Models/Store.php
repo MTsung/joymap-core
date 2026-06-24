@@ -499,7 +499,7 @@ class Store extends Model
      */
     public function getBannerUrlAttribute(): string
     {
-        $image = $this->images->where('type', StoreImage::TYPE_HOME)->first();
+        $image = $this->images->where('type', StoreImage::TYPE_HOME)->sortBy('sort')->first();
 
         return $image?->url ?? '';
     }
