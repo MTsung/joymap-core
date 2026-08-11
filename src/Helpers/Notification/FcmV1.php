@@ -131,6 +131,7 @@ class FcmV1 implements NotificationInterface
                         'android' => [
                             'notification' => [
                                 'notification_count' => $badge,
+                                'sound' => 'default',
                             ]
                         ],
                         // iOS
@@ -138,6 +139,7 @@ class FcmV1 implements NotificationInterface
                             'payload' => [
                                 'aps' => [
                                     'badge' => $badge,
+                                    'sound' => 'default',
                                 ],
                             ],
                         ],
