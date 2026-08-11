@@ -18,6 +18,7 @@ use Mtsung\JoymapCore\Repositories\Store\CanOrderTimeRepository;
 use Mtsung\JoymapCore\Repositories\Store\StoreTableCombinationRepository;
 use Mtsung\JoymapCore\Services\Member\MemberGetOrCreateService;
 use Mtsung\JoymapCore\Services\Order\CreateBy\ByMember;
+use Mtsung\JoymapCore\Services\Order\CreateBy\ByMotodomo;
 use Mtsung\JoymapCore\Services\Order\CreateBy\ByStore;
 use Mtsung\JoymapCore\Services\Order\CreateBy\CreateOrderInterface;
 
@@ -103,6 +104,7 @@ class CreateOrderService
 
         $this->byService = match ($fromSource) {
             Order::FROM_SOURCE_RESTAURANT_BOOKING => app(ByStore::class),
+            Order::FROM_SOURCE_MOTODOMO => app(ByMotodomo::class),
             default => app(ByMember::class),
         };
 
