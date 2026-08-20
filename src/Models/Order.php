@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\DB;
  * @property String service_item_text
  * @property String addon_item_text
  * @property Carbon delivery_at
+ * @property Carbon late_check_in_deadline
+ * @property bool can_late_check_in
+ * @property bool can_edit_service
  *
  * @method  Builder addReservationDatetime()
  * @method  Builder addPeopleNum()
@@ -120,6 +123,9 @@ class Order extends Model
         self::STATUS_SEATED,
         self::STATUS_NO_SHOW,
     ];
+
+    // 補登記到店 / 服務內容可異動的期限（小時），以預約時間起算
+    public const LATE_CHECK_IN_HOURS = 48;
 
     // 組合預約日期時間 RAW SQL
     public const RAW_RESERVATION_DATETIME = 'CONCAT(orders.reservation_date, " ", orders.reservation_time)';
@@ -312,6 +318,46 @@ class Order extends Model
         }
 
         return Carbon::now()->greaterThan($reservationDatetime);
+    }
+
+    /**
+     * 補登記到店 / 服務內容異動的截止時間
+     * late_check_in_deadline
+     */
+    public function getLateCheckInDeadlineAttribute(): Carbon
+    {
+        return $this->reservation_datetime->addHours(self::LATE_CHECK_IN_HOURS);
+    }
+
+    /**
+     * 是否可補登記到店
+     * 未到店，且在預約時間起算 LATE_CHECK_IN_HOURS 小時內
+     * 注意：尚在遲到入座期間（is_late）時前端仍應優先顯示遲到入座，此處不做排除以免產生 store 關聯查詢
+     * can_late_check_in
+     */
+    public function getCanLateCheckInAttribute(): bool
+    {
+        return $this->status == self::STATUS_NO_SHOW &&
+            Carbon::now()->lessThanOrEqualTo($this->late_check_in_deadline);
+    }
+
+    /**
+     * 是否可異動服務內容
+     * 已取消、已完成不可異動；未到店限預約時間起算 LATE_CHECK_IN_HOURS 小時內
+     * can_edit_service
+     */
+    public function getCanEditServiceAttribute(): bool
+    {
+        if ($this->status == self::STATUS_NO_SHOW) {
+            return $this->can_late_check_in;
+        }
+
+        return in_array($this->status, [
+            self::STATUS_SUCCESS_BOOKING_BY_USER,
+            self::STATUS_SUCCESS_BOOKING_BY_STORE,
+            self::STATUS_RESERVED_SEAT,
+            self::STATUS_SEATED,
+        ]);
     }
 
     /**

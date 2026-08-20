@@ -2,6 +2,7 @@
 
 namespace Mtsung\JoymapCore\Services\Order;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -62,9 +63,16 @@ class LeftSeatOrderService
 
         $canSeatedStatus = [
             Order::STATUS_SEATED,
+            // 補登記到店：來不及點擊到店的訂單可由未到店直接轉為已完成
+            Order::STATUS_NO_SHOW,
         ];
         if (!in_array($order->status, $canSeatedStatus)) {
             throw new Exception('該預約狀態不可轉為離席', 422);
+        }
+
+        // 補登記到店限預約時間起算 Order::LATE_CHECK_IN_HOURS 小時內
+        if ($order->status == Order::STATUS_NO_SHOW && Carbon::now()->greaterThan($order->late_check_in_deadline)) {
+            throw new Exception('已超過可補登記到店的時間', 422);
         }
 
         DB::transaction(function () use ($order) {
